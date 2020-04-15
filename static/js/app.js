@@ -1,4 +1,6 @@
-/*COMPONENTES CUSTOM*/
+/*  COMPONENTES CUSTOM  */
+
+/*  LOGIN  */
 $(".i-login input").on("focus",
   function(){
     $(this).addClass("focus");}
@@ -9,4 +11,5 @@ $(".i-login input").on("blur",
   if($(this).val() == "")
     $(this).removeClass("focus");}
   );
+
 

@@ -1,0 +1,20 @@
+<header>
+    <div class="inner-width">
+        <a href="" class="logo">
+            <img src="../../static/images/logo-hor.jpeg" alt="" srcset=""></a>
+    </div>
+    <i class="menu-toggle-btn fas fa-bars"></i>
+    <nav class="navigation-menu bg-nav ">
+        <a href=""> <i class="fas fa-home home"></i> Home </a>
+        <a href=""> <i class="fas fa-align-left about"></i> About </a>
+        <a href=""> <i class="fas fa-briefcase works"></i> Works </a>
+        <a href=""> <i class="fas fa-user team"></i> Teams </a>
+        <a href=""> <i class="fas fa-headset contact"></i> Contact </a>
+    </nav>
+</header>
+<script>
+    $(".menu-toggle-btn").click(function () {
+        $(this).toggleClass("fa-times");
+        $(".navigation-menu").toggleClass("active");
+    });
+</script>

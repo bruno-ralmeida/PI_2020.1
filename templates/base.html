@@ -11,15 +11,16 @@
     <title>Med Consulta</title>
 </head>
 <body>
-    {% include 'partials/_menu.html' %}
-    {% block content %}
-    
-    {% endblock %}
-    {% include 'partials/_footer.html' %}
     <script src="{% static 'js/utils/jquery-3.4.1.js' %}"></script>
     <script src="{% static 'js/utils/popper.min.js' %}"></script>
     <script src="{% static 'js/utils/bootstrap.js' %}"></script>
     <script src="{% static 'js/utils/fontawsome.js' %}"></script>
+    
+    {% block content %}{% endblock %}
+    
+    
     <script src="{% static 'js/app.js' %}"></script>
+    
+
 </body>
 </html>
