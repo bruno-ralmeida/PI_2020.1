@@ -18,7 +18,7 @@ URL de acesso:
 <code> localhost:8000/admin </code>
 
 
-<p> Se incluir alguma informação em um arquivo <b> models.py </b> é necessário informar no arquivo <b> admin.py </b> para que seja possível visualizar no Django admin. </p>
+<p> Se incluir uma classe em arquivo <b> models.py </b> é necessário informar no arquivo <b> admin.py </b> para que seja possível visualizar no Django admin. </p>
 
 <h1> Estrutura de pastas </h1>
 
