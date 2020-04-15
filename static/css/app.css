@@ -1,0 +1,259 @@
+/* Color Theme Swatches in Hex */
+.color-theme_logo-emp-1-hex { color: #2C2559; }
+.color-theme_logo-emp-2-hex { color: #514C73; }
+.color-theme_logo-emp-3-hex { color: #26A646; }
+.color-theme_logo-emp-4-hex { color: #80BF7E; }
+.color-theme_logo-emp-5-hex { color: #F2F2F2; }
+
+/* Color Theme Swatches in RGBA */
+.color-theme_logo-emp-1-rgba { color: rgba(44, 37, 89, 1); }
+.color-theme_logo-emp-2-rgba { color: rgba(81, 76, 115, 1); }
+.color-theme_logo-emp-3-rgba { color: rgba(38, 166, 70, 1); }
+.color-theme_logo-emp-4-rgba { color: rgba(128, 191, 126, 1); }
+.color-theme_logo-emp-5-rgba { color: rgba(242, 242, 242, 1); }
+
+/* Color Theme Swatches in HSLA */
+.color-theme_logo-emp-1-hsla { color: hsla(248, 41, 24, 1); }
+.color-theme_logo-emp-2-hsla { color: hsla(247, 20, 37, 1); }
+.color-theme_logo-emp-3-hsla { color: hsla(135, 62, 40, 1); }
+.color-theme_logo-emp-4-hsla { color: hsla(118, 33, 62, 1); }
+.color-theme_logo-emp-5-hsla { color: hsla(0, 0, 94, 1); }
+
+/*EFEITO DE CARREGAMENTO*/
+svg#loader-1{
+  width: 100px;
+  height: 100px;
+
+}
+
+rect#loader-2{
+  width: 100px;
+  height: 100px;
+  fill: none;
+  stroke-width: 100px;
+  stroke: #00adff;
+  stroke-dasharray: 100; 
+  stroke-dashoffset: 50%;
+  animation: animate 2s linear infinite;
+}
+
+@keyframes animate{
+  to{
+      stroke-dashoffset: 250%;
+  }
+}
+div#loader{
+position: fixed;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.705);
+background-size: cover;
+}
+
+
+/*DETALHE DE EXAME*/
+.card{
+  width: 100%;
+  background: #f1f1f1;
+  overflow: hidden;
+  font-family: "montserrat", sans-serif;
+
+}
+
+
+.top-section{
+  position: relative;
+
+}
+
+.name{
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+  font-size: 180%;
+  font-weight: 900;
+  opacity: .80;
+  white-space: pre-line;
+  margin-left: 0.5rem;
+}
+
+.name span{
+  text-transform: uppercase;
+  font-weight: 600;   
+  margin-left: 0.5rem;
+}
+
+.info-section{
+  padding: 1% 2% 1% 2% !important;
+  color: #333;
+}
+
+
+.border{
+  width: 30px;
+  height: 3px;
+  background: #778beb;
+  left: 0;
+  bottom: -6px;
+}
+
+p{
+  text-align: justify;
+  font-size: 14px;
+}
+
+.s-m{
+  text-align: center;
+  margin-top: 20px;
+}
+
+.s-m a{
+  text-decoration: none;
+  font-size: 20px;
+  color: #333;
+  padding: 0 14px;
+  transition: .4s;
+}
+
+.s-m a:hover{
+  color: #778beb;
+}
+
+
+body{
+  background-attachment: fixed;
+  background-image: rgba(116, 161, 179, 0.794);/*linear-gradient(155deg,rgba(255, 255, 255, .5), rgba(236, 234, 241, .5), rgba(213, 211, 222, 1.5));*/
+  background-size: cover;
+}
+/*RECEPSIONISTA*/
+.colx{
+  float: left;
+}
+
+.main-doctor{
+  float: left;
+}
+
+/*FOOTER*/
+.f-custom{
+  bottom: 0;
+  position: fixed;
+  width: 100% !important;
+  background-image: linear-gradient(255deg, #C4C2CD,#EBEAEE, #FFFFFF);
+  color: rgb(173, 173, 173);
+  box-shadow:  1px 2px 10px 2px #5c695b88;
+}
+
+/*MENU*/
+.bg-nav{
+  background: linear-gradient(200deg,#C4C2CD,#EBEAEE, #FFFFFF);
+  box-shadow:  1px 2px 10px 5px #5c695b88;
+  position: fixed;
+  width: 100% !important;
+  top: 0;
+  padding: 1% !important;
+}
+
+.bg-nav .btn{
+  padding: 0 !important;
+}
+
+/*LOGIN*/
+.body-login{
+  background-attachment: fixed;
+  background-image: url(../images/medical-utensils.jpg);
+  background-size: cover;
+  
+}
+
+.login-form{
+  background: #ffffffe8;
+  padding: 0px 2px 50px 2px;
+  border-radius: 10px;
+  position: relative;
+  left: 0%;
+  top: 0%;
+  transform: translate(0%,0%);
+}
+
+.i-login{
+  border-bottom: 2px solid #adadad;
+  position: relative;
+  margin: 30px 0;
+}
+
+.i-login input{
+  font-size: 15px;
+  color: #333;
+  border: none;
+  width: 100%;
+  outline: none;
+  background: none;
+  padding: 0 5px;
+  height: 40px;
+}
+
+.i-login span::before{
+  content: attr(data-placeholder);
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: #616161;
+  transform: translateY(-50%);
+  z-index: -1;
+  transition: .5s;
+}
+
+.i-login span::after{
+  content: '';
+  position: absolute;
+  width: 0%;
+  top: 100%;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(200deg,#26A646,#29B34B,#208C3B);
+  transition: .5s;
+}
+
+.focus+span::before{
+  top: -5px;
+}
+.focus+span::after{
+  width: 100%;
+}
+
+.logbtn{  
+  border-radius: 45px;
+  display: block;
+  width: 100%;
+  height: 50px;
+  border: none;
+  background: linear-gradient(200deg,#003a18,#027525b4,#00cf34da);
+  background-size: 200%;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.logbtn:hover{
+  background-position: right;
+}
+
+.rstbtn{  
+  border-radius: 45px;
+  display: inline-block;
+  width: 50%;
+  height: 30px;
+  border: none;
+  background: linear-gradient(200deg,#c8c8c891,#ffffff62,#e4e4e47c);
+  background-size: 200%;
+  color: rgb(0, 0, 0);
+  outline: none;
+  cursor: pointer;
+  transition: .75s;
+}
+
+.rstbtn:hover{
+  background-position: right;
+}

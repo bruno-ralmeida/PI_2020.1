@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<main class="col col-md-4 mt-5 mx-auto login-form">
+
+    <form action="{% url 'login' %}", method="POST">
+        {% csrf_token %}
+        <div class="text-center">
+            <img src="{% static 'images/logo.png' %}" class="rounded" alt="logo-emp">
+            <div class="ml-5 mr-5">
+                <div class="i-login">
+                    <input type="text" id="username" name="username">
+                    <span data-placeholder="Usuário"></span>
+                </div>
+                <div class="i-login">
+                    <input type="password" id="password" name="password">
+                    <span data-placeholder="Senha"></span>
+                </div>
+                <button type="submit" class="logbtn">Login</button>
+                <div class="text-center mt-2">
+                    <a href="#" class="text-secondary">Esqueceu sua senha?</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+
+{% endblock %}
