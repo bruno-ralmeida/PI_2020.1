@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import time
 
 # Create your models here.
 class Atendente(models.Model):
@@ -10,4 +11,4 @@ class Atendente(models.Model):
     cpf = models.CharField(max_length=20, unique=True)
     rg = models.CharField(max_length=20, unique=True)
     email = models.EmailField()
-    foto = models.ImageField(upload_to='fotos/', blank=True)
+    foto = models.ImageField(upload_to=f'fotos/{time.time()}', blank=True)
