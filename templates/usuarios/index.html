@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<section>
+
 <!--Verificação do tipo de usuário para renderizar o layout correto-->
    {% if tipo == 1 %}
 
@@ -10,8 +10,8 @@
         
     {% endif %}
     {% if tipo == 2 %}
-        <h1>Bem vindo atendente</h1>
+       
         {% include 'atendente/main.html' %}
     {% endif %}
-</section>
+
 {% endblock%}

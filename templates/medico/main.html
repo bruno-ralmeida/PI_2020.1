@@ -4,10 +4,35 @@
 {% include 'partials/_menu.html' %}
 {% include 'partials/_sidebar.html' %}
 
+<main class="container-fluid">
+    <section class="container col-10 ml-1">
+        <h3 class="mt-1">Bem vindo Dr(a) {{user.username}} !</h3>
+        <img src="{% static 'images/covid-19.png' %}" class="mt-3 mb-3" alt="" srcset="" style="width: 90%!important; height: 80% !important;">
         
-    <h1>Bem vindo médico!</h1>
         
+        <div class="container col-8 mt-3">
+            
+            <table class="table table-sm table-bordered table-striped agenda p-3 text-center">
+                <thead class="thead-dark ">
+                    <tr>
+                        <th scope="col">Horário</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">9:30</th>
+                        <td>Irineu Jubileu</td>
+                        <td><button class="btn btn-sm btn-block btn-primary"><i class="fas fa-notes-medical"></i></button></td>
+                    </tr>
 
+                </tbody>
+            </table>
+            </table>
+
+        </div>
+    </section>
+</main>
 
 {% endblock%}
-

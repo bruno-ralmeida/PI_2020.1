@@ -1,16 +1,17 @@
 {% load static %}
-<header>
+<header class="fixed-top">
     <div class="inner-width">
         <a href="" class="logo">
-            <img src="{% static  'images/logo-hor.jpeg' %}" alt="" srcset=""></a>
+            <img src="{% static  'images/logo.png' %}" alt="" srcset=""></a>
     </div>
     <i class="menu-toggle-btn fas fa-bars"></i>
     <nav class="navigation-menu bg-nav ">
-        <a href=""> <i class="fas fa-home home"></i> Home </a>
-        <a href=""> <i class="fas fa-align-left about"></i> About </a>
-        <a href=""> <i class="fas fa-briefcase works"></i> Works </a>
-        <a href=""> <i class="fas fa-user team"></i> Teams </a>
-        <a href=""> <i class="fas fa-headset contact"></i> Contact </a>
+        <a href="{% url 'dashboard' %}"> <i class="fas fa-home"></i> Home </a>
+        <a href="#"> <i class="fas fa-align-left"></i> Dados Pessoais </a>
+        <a href="#"> <i class="fas fa-file-medical-alt"></i> Consultas </a>
+        <a href="#"> <i class="fas fa-user-injured"></i> Pacientes </a>
+        <a href="#"> <i class="fas fa-headset"></i> Suporte CodeToth </a>
+        <a href="{% url 'logout' %}"> <i class="fas fa-sign-out-alt"></i> Sair </a>
     </nav>
 </header>
 <script>

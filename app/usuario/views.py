@@ -4,7 +4,8 @@ from django.contrib import auth, messages
 from medico.models import Medico
 from atendente.models import Atendente
 
-# Create your views here.
+
+
 def login(request):
     if request.method == 'POST':
         user = request.POST['username']
@@ -19,17 +20,28 @@ def login(request):
 
     return render(request, 'usuarios/login.html')
 
+def logout(request):
+    auth.logout(request)
+    return redirect('login')
+
 def dashboard(request):
     if request.user.is_authenticated:
-        tipo = {}
+
+        dados = {}
+        usuario = None
         if Medico.objects.filter(usuario=request.user):
-           tipo_usuario = {'tipo':1}
+            
+            usuario = get_object_or_404(Medico, usuario=request.user)
+            dados = { 
+                'tipo':1,
+                'usuario': usuario}
+            
         if Atendente.objects.filter(usuario=request.user):
-            tipo_usuario = {'tipo':2}
-        
-    return render(request, 'usuarios/index.html', tipo_usuario)
+            
+            usuario = get_object_or_404(Atendente, usuario=request.user)
+            dados = { 
+                'tipo':2,
+                'usuario': usuario}
+            
+    return render(request, 'usuarios/index.html', dados)
     
-
-
-
-#Utils
