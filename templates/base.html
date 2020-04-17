@@ -15,9 +15,11 @@
     <script src="{% static 'js/utils/popper.min.js' %}"></script>
     <script src="{% static 'js/utils/bootstrap.js' %}"></script>
     <script src="{% static 'js/utils/fontawsome.js' %}"></script>
-    
+
+    {% include 'partials/_menu.html' %}
+    {% include 'partials/_sidebar.html' %}
+    {% include 'partials/_sidebar.html' %}    
     {% block content %}{% endblock %}
-    
     
     <script src="{% static 'js/app.js' %}"></script>
     

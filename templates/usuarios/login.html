@@ -1,29 +1,47 @@
-{% extends 'base.html' %}
 {% load static %}
-{% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
 
-<main class="col col-md-4 mt-5 mx-auto login-form">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/utils/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utils/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel=" icon" href="{% static 'images/icon/favicon.ico' %}">
+    <title>Med Consulta</title>
+</head>
 
-    <form action="{% url 'login' %}", method="POST">
-        {% csrf_token %}
-        <div class="text-center">
-            <img src="{% static 'images/logo.png' %}" class="rounded" alt="logo-emp">
-            <div class="ml-5 mr-5">
-                <div class="i-login">
-                    <input type="text" id="username" name="username">
-                    <span data-placeholder="Usuário"></span>
-                </div>
-                <div class="i-login">
-                    <input type="password" id="password" name="password">
-                    <span data-placeholder="Senha"></span>
-                </div>
-                <button type="submit" class="logbtn">Login</button>
-                <div class="text-center mt-2">
-                    <a href="#" class="text-secondary">Esqueceu sua senha?</a>
+<body class="body-login">
+
+    <main class="col col-md-4 mt-5 mx-auto login-form">
+
+        <form action="{% url 'login' %}" , method="POST">
+            {% csrf_token %}
+            <div class="text-center">
+                <img src="{% static 'images/logo.png' %}" class="rounded" alt="logo-emp">
+                <div class="ml-5 mr-5">
+                    <div class="i-login">
+                        <input type="text" id="username" name="username">
+                        <span data-placeholder="Usuário"></span>
+                    </div>
+                    <div class="i-login">
+                        <input type="password" id="password" name="password">
+                        <span data-placeholder="Senha"></span>
+                    </div>
+                    <button type="submit" class="logbtn">Login</button>
+                    <div class="text-center mt-2">
+                        <a href="#" class="text-secondary">Esqueceu sua senha?</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
-</main>
+        </form>
+    </main>
+    <script src="{% static 'js/utils/jquery-3.4.1.js' %}"></script>
+    <script src="{% static 'js/utils/popper.min.js' %}"></script>
+    <script src="{% static 'js/utils/bootstrap.js' %}"></script>
+    <script src="{% static 'js/utils/fontawsome.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
 
-{% endblock %}
+</html>
