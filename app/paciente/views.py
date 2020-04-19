@@ -35,7 +35,6 @@ def detalhe(request, paciente_id):
 
 
 def busca(request, paciente_nome):
-    paciente_nome = request.POST['']
     pass
 #---------------------------------------------------------------
 # UTILS 
