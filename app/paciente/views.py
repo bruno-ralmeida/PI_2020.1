@@ -9,7 +9,7 @@ from datetime import date
 
 
 @login_required(login_url='login')
-def listar_paciente(request):
+def listar(request):
     dados =  get_dados(request)
     lst_pacientes = Paciente.objects.all()
     for paciente in lst_pacientes:
@@ -25,7 +25,7 @@ def listar_paciente(request):
     return render(request, 'paciente/lista_pacientes.html', dados)
 
 @login_required(login_url='login')
-def detalhe_paciente(request, paciente_id):
+def detalhe(request, paciente_id):
     paciente = get_object_or_404(Paciente, id=paciente_id)
     exames = get_list_or_404(Exame_Resultado, paciente=paciente)
     dados =  get_dados(request)
@@ -34,6 +34,9 @@ def detalhe_paciente(request, paciente_id):
     return render(request, 'paciente/det_paciente.html', dados)
 
 
+def busca(request, paciente_nome):
+    paciente_nome = request.POST['']
+    pass
 #---------------------------------------------------------------
 # UTILS 
 #---------------------------------------------------------------

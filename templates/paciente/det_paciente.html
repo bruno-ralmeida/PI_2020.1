@@ -60,7 +60,7 @@
                                             {{ exame.data_exame}}
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-block btn-primary"> <i class="far fa-file-pdf"></i></i> </a>
+                                            <a href="#" class="btn btn-sm btn-block btn-primary" data-toggle="modal" data-target="#exame{{exame.id}}"> <i class="far fa-file-pdf"></i></i> </a>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -71,5 +71,57 @@
             </div>
         </div>
     </section>
+
+    <!--Modal de exames-->
+    {% for exame in exames %}
+    <div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="infor-section">
+                    <ul class="list-group list-group-flush mb-3  info">
+                        <li class="list-group-item">Glicose:
+                            <span> {{ exame.glicose }}
+                            </span>
+                        </li>
+                        <li class="list-group-item">LDL:
+                            <span> {{ exame.ldl }}
+                            </span>    
+                        </li>
+                        <li class="list-group-item">HDL:
+                            <span> {{ exame.hdl }}
+                            </span>
+                        </li>
+                        
+                        <li class="list-group-item">Triglicerides:
+                            <span> {{ exame.triglicerides }}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Colesterol:
+                            <span> {{ exame.colesterol }}
+                            </span>
+                        </li>
+                        
+                    </ul>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+            <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
+              <button type="button" class="btn btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i> Exportar PDF</button>
+              <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
 </main>
 {% endblock %}
