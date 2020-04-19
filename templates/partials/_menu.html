@@ -1,10 +1,12 @@
 {% load static %}
 <header class="fixed-top">
     <div class="inner-width">
-        <a href="" class="logo">
+        <a href="{% url 'dashboard' %}" class="logo">
             <img src="{% static  'images/logo.png' %}" alt="" srcset=""></a>
     </div>
-    <i class="menu-toggle-btn fas fa-bars"></i>
+    <button class="menu-toggle-btn btn">
+        <i class=" fas fa-bars" id="icon"></i>
+    </button>
     <nav class="navigation-menu bg-nav ">
         <a href="{% url 'dashboard' %}"> <i class="fas fa-home"></i> Home </a>
         <a href="#"> <i class="fas fa-align-left"></i> Dados Pessoais </a>
@@ -15,8 +17,12 @@
     </nav>
 </header>
 <script>
-    $(".menu-toggle-btn").click(function () {
-        $(this).toggleClass("fa-times");
+    $(".menu-toggle-btn").mousedown(function () {
+        $("#icon").toggleClass("fa-times");
         $(".navigation-menu").toggleClass("active");
+    });
+    $(".bg-nav").mouseleave(function () {
+        $("#icon").toggleClass("fa-bars");
+        $(".navigation-menu").removeClass("active");
     });
 </script>

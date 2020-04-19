@@ -37,9 +37,9 @@
                         <td>{{ paciente.idade }}</td>
                         <td> {{ paciente.carteira_convenio }} </td>
                         <td>{{ paciente.imc }}</td>
-                        <td><button class="btn btn-sm btn-block btn-primary">
-                                <i class="fas fa-notes-medical"></i>
-                            </button></td>
+                        <td>    
+                            <a href="{% url 'det_paciente' paciente.id %}" class="btn btn-sm btn-block btn-primary"> <i class="fas fa-laptop-medical"></i> </a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

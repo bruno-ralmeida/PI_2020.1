@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <section class="container-fluid ">
+        <div class="col-md-10 pb-5">
+            <div class="row">
+                <div class="card middle">
+                    <div class="top-section">
+                        <div class="container">
+                            <div class="name">                        
+                                <span> {{ paciente.nome}} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-section pr-3 mb-3">
+                        <h3> Informações
+                            <div class="border mb-5"></div>
+                        </h3>
+                        <ul class="list-group list-group-flush mb-3  info">
+                            <li class="list-group-item">Data de Nascimento:
+                                <span> {{ paciente.data_nascimento}}
+                                </span>
+                            </li>
+                            <li class="list-group-item">Peso:
+                                <span> {{ paciente.peso}}
+                                </span>    
+                            </li>
+                            <li class="list-group-item">Altura:
+                                <span> {{ paciente.altura}}
+                                </span>
+                            </li>
+                        </ul>
+                        <h3> Contato
+                            <div class="border mb-5"></div>
+                        </h3>
+                        <ul class="list-group list-group-flush info">
+                            <li class="list-group-item">E-mail: </li>
+                            <li class="list-group-item">Telefone:</li>
+                            <li class="list-group-item">Celular: </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="card historico mx-auto">
+                    <div class="info-section pr-3">
+                        <h3> Histórico de exames   <div class="border mb-5"></div>
+                        </h3>
+                            <table class="table table-sm table-bordered table-striped text-center">
+                                <thead class="thead-dark ">
+                                    <tr>
+                                        <th scope="col">Data do exame</th>
+                                        <th scope="col">Opções</th>
+                                </thead>
+                                <tbody>
+                                    {% for exame in exames %}
+                                    <tr>
+                                        <td>
+                                            {{ exame.data_exame}}
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-block btn-primary"> <i class="far fa-file-pdf"></i></i> </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

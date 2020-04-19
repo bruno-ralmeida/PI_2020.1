@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages, sessions
 from usuario.views import get_dados
 from paciente.models import Paciente
+from exames.models import Exame_Resultado
 from datetime import date
 
+
+@login_required(login_url='login')
 def listar_paciente(request):
     dados =  get_dados(request)
     lst_pacientes = Paciente.objects.all()
@@ -20,7 +24,14 @@ def listar_paciente(request):
     
     return render(request, 'paciente/lista_pacientes.html', dados)
 
-
+@login_required(login_url='login')
+def detalhe_paciente(request, paciente_id):
+    paciente = get_object_or_404(Paciente, id=paciente_id)
+    exames = get_list_or_404(Exame_Resultado, paciente=paciente)
+    dados =  get_dados(request)
+    dados['paciente'] = paciente
+    dados['exames'] = exames
+    return render(request, 'paciente/det_paciente.html', dados)
 
 
 #---------------------------------------------------------------
