@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <section class="container-fluid">
+        <div class="col-md-10">
+            <table class="table table-sm table-bordered table-striped mx-auto text-center agenda" >
+                <thead class="thead-dark ">
+                    <tr>
+                        <th scope="col">Data</th>
+                        <th scope="col">Paciente</th>
+                        <th scope="col">Opções</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for consulta in lst_consultas %}
+                    <tr>
+                        <th scope="row">{{ consulta.data }}</th>
+                        <td>{{ consulta.paciente.nome }}</td>
+                
+                        <td>    
+                            <a href="{% url 'det-exame' consulta.paciente.id  %}" class="btn btn-sm btn-block btn-primary"> <i class="fas fa-stethoscope"></i> </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+
+{% endblock %}

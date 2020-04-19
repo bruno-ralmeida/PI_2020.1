@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <section class="container">
+        <canvas class="container p-5" id="paciente"></canvas>
+    </section>
+</main>
+<script>
+    var ctx = document.getElementById('paciente').getContext('2d');
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'radar',
+
+        // The data for our dataset
+        data: {
+            labels: ['Glicose', 'LDL', 'HDL', 'Triglicérides', 'Colesterol Total'],
+            datasets: [{
+                    label: 'Resultado Paciente',
+                    backgroundColor: 'rgba( 81, 76, 115, .1)',
+                    borderColor: 'rgb( 81, 76, 115)',
+                    lineTransition: 3,
+                    borderWidth: 2,
+                    borderJoinStyle: 'rgb( 81, 76, 115)',
+                    
+                    data: [135, 155, 101, 150, 152]
+                },
+                {
+                    label: 'Padrão Referência',
+                    backgroundColor: ' rgba(128, 191, 126, 0.1)',
+                    borderJoinStyle: 'rgba(128, 191, 126, 0.226)',
+                    borderColor: 'rgb(128, 191, 126)',
+                    lineTransition: 3,
+                    borderWidth: 3,
+                    
+                    data: [150, 150, 150, 150, 150]
+                }
+            ],
+
+        },
+
+        // Configuration options go here
+        options: {
+            layout: {
+                padding: {
+                    left: 50,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

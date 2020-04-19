@@ -7,7 +7,7 @@
     <ul>
         <a href="#" style="text-transform: capitalize ;"> <li> {{ request.user}} </li></a>
         <a href="{% url 'dashboard' %}"> <li> <!--<i class="fas fa-home"></i>--> Home </li></a>
-        <a href="#"> <li> <!--<i class="fas fa-file-medical-alt"></i>--> Consultas </li></a>
+        <a href="{% url 'conusultas' %}"> <li> <!--<i class="fas fa-file-medical-alt"></i>--> Consultas </li></a>
         <a href="{% url 'pacientes' %}"> <li> <!--<i class="fas fa-user-injured"></i>--> Pacientes </li></a>
         {% if user.username == 'bruno' %}
         <a href="{% url 'admin:index' %}" target="_blank"><li> <!--<i class="fas fa-user-shield"></i>--> Django Admin </li></a>
