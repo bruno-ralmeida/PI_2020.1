@@ -1,4 +1,8 @@
 from django.contrib import admin
 from atendente.models import *
-# Register your models here.
-admin.site.register(Atendente)
+
+class lista_atendente(admin.ModelAdmin):
+    list_display = ('id', 'nome', 'email', 'foto')
+    list_display_links = ('id', 'nome')
+
+admin.site.register(Atendente,lista_atendente)

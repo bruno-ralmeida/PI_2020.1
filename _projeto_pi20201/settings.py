@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'atendente',
     'paciente',
     'exames',
+    'consulta',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
