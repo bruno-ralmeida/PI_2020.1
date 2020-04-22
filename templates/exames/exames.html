@@ -4,11 +4,16 @@
 
 <main>
     <section class="container">
-        <canvas class="container p-5" id="paciente"></canvas>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-6 mt-5">
+                <canvas id="exame_atual"></canvas>
+            </div>
+        </div>
     </section>
 </main>
 <script>
-    var ctx = document.getElementById('paciente').getContext('2d');
+    var ctx = document.getElementById('exame_atual').getContext('2d');
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'radar',
@@ -18,7 +23,7 @@
             labels: ['Glicose', 'LDL', 'HDL', 'Triglicérides', 'Colesterol Total'],
             datasets: [{
                     label: 'Resultado Paciente',
-                    backgroundColor: 'rgba( 81, 76, 115, .1)',
+                    backgroundColor: 'rgba( 81, 76, 115, .7)',
                     borderColor: 'rgb( 81, 76, 115)',
                     lineTransition: 3,
                     borderWidth: 2,
@@ -27,14 +32,19 @@
                     data: [135, 155, 101, 150, 152]
                 },
                 {
-                    label: 'Padrão Referência',
-                    backgroundColor: ' rgba(128, 191, 126, 0.1)',
-                    borderJoinStyle: 'rgba(128, 191, 126, 0.226)',
+                    label: 'Padrão de Referência',
+                    backgroundColor: ' rgba(128, 191, 126, .7)',
                     borderColor: 'rgb(128, 191, 126)',
                     lineTransition: 3,
                     borderWidth: 3,
-                    
-                    data: [150, 150, 150, 150, 150]
+                    {% for exame in exame_referencia %}
+                    data: [
+                        {{ exame.glicose }},
+                        {{ exame.ldl_max}},
+                        {{ exame.hdl_max }},
+                        {{ exame.triglicerides_max}}, 
+                        {{ exame.colesterol_max }}]
+                    {% endfor%}
                 }
             ],
 
@@ -44,9 +54,9 @@
         options: {
             layout: {
                 padding: {
-                    left: 50,
+                    left: 0,
                     right: 0,
-                    top: 0,
+                    top: 50,
                     bottom: 0
                 }
             }
