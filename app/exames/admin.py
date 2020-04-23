@@ -6,7 +6,7 @@ class lista_exame_result(admin.ModelAdmin):
     list_display_links = ('data_exame', 'paciente') 
 
 class lista_exame_ref(admin.ModelAdmin):
-    list_display = ('id' ,'glicose', 'ldl_max', 'hdl_max', 'triglicerides_max', 'colesterol_max','idade')
+    list_display = ('id' ,'glicose', 'ldl_max', 'hdl_max', 'triglicerides_max', 'colesterol_max','idade_min', 'idade_max')
 
 
 

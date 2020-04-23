@@ -18,4 +18,5 @@ class Exame_Referencia(models.Model):
     hdl_max = models.CharField(max_length=15)
     triglicerides_max = models.CharField(max_length=15)
     colesterol_max = models.CharField(max_length=15)
-    idade = models.IntegerField()
+    idade_min = models.IntegerField()
+    idade_max = models.IntegerField()

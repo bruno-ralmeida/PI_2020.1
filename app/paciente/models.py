@@ -11,5 +11,5 @@ class Paciente(models.Model):
     peso = models.FloatField()
     altura = models.FloatField()
     imc = models.CharField(max_length=100)
-    idade = models.CharField(max_length=100)
+    
     

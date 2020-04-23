@@ -18,7 +18,7 @@ def listar(request):
         paciente.imc = imc
         
         idade = calculo_idade(paciente.data_nascimento)
-        paciente.idade = idade
+        
 
     dados['lst_pacientes'] = lst_pacientes
     
