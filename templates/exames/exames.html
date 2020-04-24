@@ -3,14 +3,43 @@
 {% block content %}
 
 <main>
-    <section class="container">
-        <div class="row">
-            <div class="col-4"></div>
-            <div class="col-6 mt-5">
+    <section class="container-fluid">
+        <div class="row" style="background-color: rgba(246, 245, 245, 0.856);">
+            <div class="col-5  mt-x" >
+
+                <canvas id="myChart"></canvas>
+
+            </div>
+            <div class="col-5 mt-y">
                 <canvas id="exame_atual"></canvas>
             </div>
         </div>
     </section>
+    <div class="card historico mx-auto">
+        <div class="info-section">
+            <h3> Histórico de exames   <div class="border mb-5"></div>
+            </h3>
+                <table class="table table-sm table-bordered table-striped text-center">
+                    <thead class="thead-dark ">
+                        <tr>
+                            <th scope="col">Data do exame</th>
+                            <th scope="col">Opções</th>
+                    </thead>
+                    <tbody>
+                        {% for exame in exames %}
+                        <tr>
+                            <td>
+                                {{ exame.data_exame}}
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-block btn-primary" data-toggle="modal" data-target="#exame{{exame.id}}"> <i class="far fa-file-pdf"></i></i> </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+    </div>
 </main>
 <script>
     var ctx = document.getElementById('exame_atual').getContext('2d');
@@ -20,7 +49,7 @@
 
         // The data for our dataset
         data: {
-            labels: ['Glicose', 'LDL', 'HDL', 'Triglicérides', 'Colesterol Total'],
+            labels: ['Glicose Max.', 'LDL Max.', 'HDL Min.', 'Triglicérides Max.', 'Colesterol Max.'],
             datasets: [{
                     label: 'Resultado Paciente',
                     backgroundColor: 'rgba( 81, 76, 115, .7)',
@@ -41,7 +70,7 @@
                     data: [
                         {{ exame.glicose }},
                         {{ exame.ldl_max}},
-                        {{ exame.hdl_max }},
+                        {{ exame.hdl_min }},
                         {{ exame.triglicerides_max}}, 
                         {{ exame.colesterol_max }}]
                     {% endfor%}
@@ -62,5 +91,40 @@
             }
         }
     });
+
+    var ctx1 = document.getElementById('myChart').getContext('2d');
+    var myChart1 = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Evolução de colesterol total',
+                data: [175, 180, 150, 130, 140, 40],
+                fill: false,
+                borderColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                ],
+
+               
+            },{
+                    label: 'Valor Tolerancia',
+                    fill: false,
+					borderColor: [
+                    'rgba(42, 145, 71, .7)',
+                    
+                ],
+					data: [190, 190, 190, 190, 190, 190],
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+});
 </script>
 {% endblock %}

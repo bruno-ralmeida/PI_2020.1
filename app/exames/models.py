@@ -15,7 +15,7 @@ class Exame_Resultado(models.Model):
 class Exame_Referencia(models.Model):
     glicose = models.CharField(max_length=15)
     ldl_max = models.CharField(max_length=15)
-    hdl_max = models.CharField(max_length=15)
+    hdl_min = models.CharField(max_length=15)
     triglicerides_max = models.CharField(max_length=15)
     colesterol_max = models.CharField(max_length=15)
     idade_min = models.IntegerField()

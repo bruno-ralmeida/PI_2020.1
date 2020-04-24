@@ -15,6 +15,15 @@ body{
   background-image: linear-gradient(100deg,rgba(255, 255, 255, .5), rgba(236, 234, 241, .5), rgba(213, 211, 222, 1.5));
   
 }
+
+.mt-x {
+  margin-top: 5rem !important;
+}
+
+.mt-y{
+  margin-top: 2rem !important;
+}
+
 .btn{
   background-color: #102c4b !important;
   
