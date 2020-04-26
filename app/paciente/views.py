@@ -5,7 +5,7 @@ from django.contrib import auth, messages, sessions
 from usuario.views import get_dados
 from paciente.models import Paciente
 from exames.models import Exame_Resultado
-from datetime import date
+from datetime import date, datetime
 
 
 @login_required(login_url='login')
@@ -33,6 +33,30 @@ def detalhe(request, paciente_id):
     dados['exames'] = exames
     return render(request, 'paciente/det_paciente.html', dados)
 
+
+@login_required(login_url='login')
+def alterar(request, paciente_id):
+    paciente = get_object_or_404(Paciente, id=paciente_id)
+    dados =  get_dados(request)
+    dados['paciente'] = paciente
+    return render(request, 'paciente/altera_paciente.html', dados)
+
+@login_required(login_url='login')
+def atualiza_paciente(request):
+    if request.method == 'POST':
+        paciente_id = request.POST['paciente_id']
+        paciente = get_object_or_404(Paciente, id=paciente_id)
+        paciente.nome = request.POST['nome']
+        paciente.cpf = request.POST['cpf']
+        paciente.rg = request.POST['rg']
+        paciente.carteira_convenio = request.POST['carteira_convenio']
+        paciente.sexo = request.POST['sexo']
+        paciente.peso = float(request.POST['peso'].replace(',','.')) 
+        paciente.altura = float(request.POST['altura'].replace(',','.'))
+        paciente.data_nascimento = datetime.strptime(request.POST['data_nascimento'], '%d/%m/%Y').date()
+        
+        paciente.save() #Em django para atualizar os dados utilizamos o método save()
+    return redirect('pacientes')
 
 def busca(request, paciente_nome):
     pass
