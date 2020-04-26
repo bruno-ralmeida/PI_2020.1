@@ -1,7 +1,7 @@
 import os
 import re
 from dateutil.relativedelta import relativedelta
-from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
+from django.shortcuts import render, redirect,reverse, get_list_or_404, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from usuario.views import get_dados
@@ -60,8 +60,7 @@ def importar_exame(request):
         exame = Exame_Resultado.objects.create(paciente=paciente, data_exame=datetime.now(), glicose=0, ldl=0, hdl=0, triglicerides=0, colesterol=0, pdf=arquivo)
         exame.save()
         salvar_pdf(exame.id)
-    return redirect('dashboard')
-
+    return redirect(reverse('det-exame', kwargs={'paciente_id': paciente_id}))
 
 def salvar_pdf(exame_id):
     exame = get_object_or_404(Exame_Resultado, id=exame_id)
