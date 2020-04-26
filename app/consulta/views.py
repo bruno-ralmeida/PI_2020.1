@@ -6,7 +6,6 @@ from consulta.models import *
 
 def listar(request):
     dados = get_dados(request)
-    lst_consultas = Consulta.objects.all()
+    lst_consultas = Consulta.objects.filter(medico=dados['usuario'])
     dados['lst_consultas'] = lst_consultas
-
     return render(request, 'consulta/consultas.html', dados)

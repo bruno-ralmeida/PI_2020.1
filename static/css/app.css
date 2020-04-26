@@ -9,6 +9,8 @@
 .color-theme_logo-emp-4-hsla { color: hsla(128, 54, 48, 1); }
 .color-theme_logo-emp-5-hsla { color: hsla(0, 0, 94, 1); }
 
+
+
 body{
   background-attachment: fixed;
   background-size: cover;
@@ -51,6 +53,61 @@ body{
 .close>span:hover{
   color: brown !important;
 }
+
+/*EXAME*/
+
+.arquivo {
+  display: none;
+}
+.file {
+  line-height: 30px;
+  height: 30px;
+  border: 1px solid rgb(255, 255, 255, .1);
+  box-sizing: border-box;
+  border-radius: .25rem;
+  font-size: 15px;
+  padding: 5px;
+  vertical-align: middle;
+  width: 250px;
+}
+.btn-ipdf {
+  height: 32px;
+  font-size: 15px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  border: none;
+  background: linear-gradient(200deg,#086b31,#027525b4,#0b942dda);
+  background-size: 200%;
+  color: #fff;
+  padding: 5px;
+  outline: none;
+  cursor: pointer;
+  transition: .5s;
+  border-top-left-radius: .5rem;
+  border-bottom-left-radius: .5rem;
+}
+
+.btn-ipdf:hover{
+  background-position: right;
+}
+
+.btn-import{
+  background-color: #214b7c !important;
+  color: #fff;
+  vertical-align: middle;
+  padding: 5px;
+  height: 32px;
+  font-size: 15px;
+  
+}
+
+.btn-import:hover{
+  transform: scale(1.1);
+  transition: 0.2s all;
+  color: #fff;
+  background: linear-gradient(150deg, #13568d, #214b7c);
+}
+
 
 /*DETALHE DO PACIENTE*/
 .card{
@@ -201,7 +258,7 @@ p{
   width: 100%;
 }
 
-.logbtn{  
+.btnGreen{  
   border-radius: 45px;
   display: block;
   width: 100%;
@@ -215,7 +272,7 @@ p{
   transition: .5s;
 }
 
-.logbtn:hover{
+.btnGreen:hover{
   background-position: right;
 }
 

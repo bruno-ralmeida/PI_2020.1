@@ -4,24 +4,80 @@
 
 <main>
     <section class="container-fluid">
-        <div class="row" style="background-color: rgba(246, 245, 245, 0.856);">
-            <div class="col-5  mt-x" >
-
-                <canvas id="myChart"></canvas>
-
+        <div class="row mt-x" style="background-color: rgba(246, 245, 245, 0.856);">
+            <div class="col-6 " >
+                <canvas id="chart"></canvas>
             </div>
-            <div class="col-5 mt-y">
-                <canvas id="exame_atual"></canvas>
+            <div class="col-4 pr-5 mt-y">
+                <table class="table table-sm table-bordered table-striped mx-auto text-center" >
+                    <thead class="thead-dark ">
+                        <tr>
+                            <th scope="col">Exame</th>
+                            <th scope="col">Valor Ref.</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exame in exame_referencia %}
+                        <tr>
+                            <th scope="row">Glicose Máx:</th>
+                            <td>{{ exame.glicose}}</td>
+                            
+                        </tr>
+                        <tr>
+                            <th scope="row">LDL Máx:</th>
+                            <td>{{ exame.ldl_max}}</td>
+                            
+                        </tr>
+                        <tr>
+                            <th scope="row">HDL Máx:</th>
+                            <td>{{ exame.hdl_min}}</td>
+                            
+                        </tr>
+                        <tr>
+                            <th scope="row">Triglicerides Máx</th>
+                            <td>{{ exame.triglicerides_max}}</td>
+                            
+                        </tr>
+                        <tr>
+                            <th scope="row">Colesterol Máx</th>
+                            <td>{{ exame.colesterol_max}}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-    </section>
-    <div class="card historico mx-auto">
-        <div class="info-section">
-            <h3> Histórico de exames   <div class="border mb-5"></div>
-            </h3>
+        <div class="row mt-y">
+            <div class="col-5">
+               
+            </div>
+            <div class="col-5 mb-5" >
+                
+                <form action="{% url 'importar'%}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="paciente" value="{{ paciente.id }}">
+                    <div class="pr-5" style="float: right !important">
+                    <input type="button" class="btn-ipdf" value="Selecionar">
+                    <input type="file" name="arquivo" id="arquivo" class="arquivo">
+                    <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
+                    <button type="submit" class="btn btn-import">Importar</button>
+                </form>
+            </div>
+            </div>
+            
+        </div>
+        
+
+        <div class="col-10 pr-5">
+            <div class="info-section">
+                <h3> Histórico<div class="border mb-5"></div>
+                </h3>
                 <table class="table table-sm table-bordered table-striped text-center">
                     <thead class="thead-dark ">
                         <tr>
+                            <th scope="col">Paciente</th>
                             <th scope="col">Data do exame</th>
                             <th scope="col">Opções</th>
                     </thead>
@@ -29,21 +85,199 @@
                         {% for exame in exames %}
                         <tr>
                             <td>
+                                {{ exame.paciente.nome}}
+                            </td>
+                            <td>
                                 {{ exame.data_exame}}
                             </td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-block btn-primary" data-toggle="modal" data-target="#exame{{exame.id}}"> <i class="far fa-file-pdf"></i></i> </a>
+                                <a href="#" class="btn btn-sm btn-block btn-primary" data-toggle="modal"
+                                    data-target="#exame{{exame.id}}"> <i class="far fa-file-pdf"></i></i> </a>
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+        </div>
+        
+
+    </section>
+</main>  
+
+  <!--Modal de exames-->
+{% for exame in exames %}
+<div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            
+            <div class="infor-section">
+                <ul class="list-group list-group-flush mb-3  info">
+                    <li class="list-group-item">Glicose:
+                        <span> {{ exame.glicose }}
+                        </span>
+                    </li>
+                    <li class="list-group-item">LDL:
+                        <span> {{ exame.ldl }}
+                        </span>    
+                    </li>
+                    <li class="list-group-item">HDL:
+                        <span> {{ exame.hdl }}
+                        </span>
+                    </li>
+                    
+                    <li class="list-group-item">Triglicerides:
+                        <span> {{ exame.triglicerides }}
+                        </span>
+                    </li>
+                    <li class="list-group-item">Colesterol:
+                        <span> {{ exame.colesterol }}
+                        </span>
+                    </li>
+                    
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+        <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
+        <button type="button" class="btn btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i> Exportar PDF</button>
+        <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
         </div>
     </div>
-</main>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
 <script>
-    var ctx = document.getElementById('exame_atual').getContext('2d');
+    
+    $('.btn-ipdf').on('click', function() {
+        $('.arquivo').trigger('click');
+    });
+
+    $('.arquivo').on('change', function() {
+        var fileName = $(this)[0].files[0].name;
+        $('#file').val(fileName);
+    });
+
+</script>
+<!--CartJs-->
+<script>        
+    var ctx = document.getElementById('chart').getContext('2d');
     var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            
+                
+            labels: [ 
+            {% for exame in exames %}
+                '{{ exame.data_exame }}', 
+            {% endfor %}
+            ],
+                
+            
+            datasets: [{
+                label: 'Colesterol',
+                
+                data: [
+                {% for exame in exames %}
+                '{{ exame.colesterol }}', 
+                {% endfor %}
+                ],
+
+                fill: false,
+                borderColor: [
+                    'rgba(255, 0, 0, 0.5)',
+                ],
+
+               
+            },{
+                    label: 'Glicose',
+                    fill: false,
+					borderColor: [
+                    'rgba(42, 145, 171, .5)',
+                    
+                ],
+                data: [
+                {% for exame in exames %}
+                '{{ exame.glicose }}', 
+                {% endfor %}
+                ],
+            },
+            {
+                    label: 'HDL',
+                    fill: false,
+					borderColor: [
+                    'rgba(142, 145, 71, .5)',
+                    
+                ],
+                data: [
+                {% for exame in exames %}
+                '{{ exame.hdl }}', 
+                {% endfor %}
+                ],
+            },
+            {
+                    label: 'LDL',
+                    fill: false,
+					borderColor: [
+                    'rgba(42, 45, 71, .5)',
+                    
+                ],
+                data: [
+                {% for exame in exames %}
+                '{{ exame.ldl }}', 
+                {% endfor %}
+                ],
+            },
+            {
+                    label: 'Triglicerides',
+                    fill: false,
+					borderColor: [
+                    'rgba(42, 145, 71, .5)',
+                    
+                ],
+                data: [
+                {% for exame in exames %}
+                '{{ exame.triglicerides }}', 
+                {% endfor %}
+                ],
+            },
+           ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 50,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+        }
+});
+
+
+var ctx1 = document.getElementById('exame_atual').getContext('2d');
+    var chart1 = new Chart(ctx1, {
         // The type of chart we want to create
         type: 'radar',
 
@@ -92,39 +326,7 @@
         }
     });
 
-    var ctx1 = document.getElementById('myChart').getContext('2d');
-    var myChart1 = new Chart(ctx1, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
-            datasets: [{
-                label: 'Evolução de colesterol total',
-                data: [175, 180, 150, 130, 140, 40],
-                fill: false,
-                borderColor: [
-                    'rgba(255, 99, 132, 0.7)',
-                ],
 
-               
-            },{
-                    label: 'Valor Tolerancia',
-                    fill: false,
-					borderColor: [
-                    'rgba(42, 145, 71, .7)',
-                    
-                ],
-					data: [190, 190, 190, 190, 190, 190],
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-});
+
 </script>
 {% endblock %}

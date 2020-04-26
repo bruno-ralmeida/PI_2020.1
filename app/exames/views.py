@@ -6,6 +6,12 @@ from consulta.models import *
 from exames.models import *
 from paciente.models import *
 from paciente.views import calculo_idade
+from datetime import datetime
+
+from datetime import date
+from dateutil.relativedelta import relativedelta
+
+
 
 def listar(request):
     dados = get_dados(request)
@@ -15,13 +21,14 @@ def listar(request):
     return render(request, 'exames/exames.html', dados)
 
 def detalhes(request, paciente_id):
-    
     dados = get_dados(request)
+
+    data_atual = datetime.now()
+    data_inicial = data_atual
+    data_inicial = data_inicial + relativedelta(months=-12)
+
     paciente = get_object_or_404(Paciente, id=paciente_id)
-    
-
     pac_idade = calculo_idade(paciente.data_nascimento)
-
     if pac_idade <= 9:
         start_age = 0
         end_age = 9
@@ -31,9 +38,22 @@ def detalhes(request, paciente_id):
     if pac_idade >= 20:
         start_age = 20
         end_age = 150
+
+    exames = Exame_Resultado.objects.filter(paciente=paciente, data_exame__range=(data_inicial, data_atual))
+    exame_ref = Exame_Referencia.objects.filter(idade_min=start_age, idade_max=end_age)
+    
+    dados['paciente'] = paciente
+    dados['exames'] = exames
+    dados['exame_referencia'] = exame_ref
+
+
     
 
-    exame_ref = Exame_Referencia.objects.filter(idade_min=start_age, idade_max=end_age)
-    dados['paciente'] = paciente
-    dados['exame_referencia'] = exame_ref
     return render(request, 'exames/exames.html', dados)
+
+def importar_exame(request):
+    if request.method == 'POST':
+        paciente_id = request.POST['paciente']
+        arquivo = request.FILES['file']
+        
+    return redirect('dashboard')
