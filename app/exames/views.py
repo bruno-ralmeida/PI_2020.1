@@ -1,16 +1,18 @@
+import os
+import re
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from usuario.views import get_dados
+from media.pdf.leitor_pdf import *
 from consulta.models import *
 from exames.models import *
 from paciente.models import *
 from paciente.views import calculo_idade
-from datetime import datetime
-from datetime import date
-from dateutil.relativedelta import relativedelta
-from media.pdf.leitor_pdf import *
-import os
+from datetime import datetime, date
+
+
 
 def listar(request):
     dados = get_dados(request)
@@ -63,10 +65,38 @@ def importar_exame(request):
 
 def salvar_pdf(exame_id):
     exame = get_object_or_404(Exame_Resultado, id=exame_id)
-    print(exame.pdf)
-    teste = str(exame.pdf)
+    texto_conv = str(exame.pdf)
     
+    texto = ler_pdf(texto_conv)
+    linha = []
+    #Tratamento de informações
+    for letra in texto:   
+        if(letra != '\n'):
+            linha.append(letra)
+    aux = str(''.join(linha))  
 
-    dados = ler_pdf(teste)
-   
-    print(f'Dados1: {dados[1]}')
+    dado_aux = aux.split(':')
+    regex_syntax = r'\D'
+    #Informações do PDF
+    nome = dado_aux[1].strip()
+    data_nasc = dado_aux[3].strip()
+    convenio = dado_aux[5].strip()
+    idade = dado_aux[7].strip()
+    data_exame = dado_aux[9].strip()
+    glicose = int(re.sub(regex_syntax, '', dado_aux[11]))
+    ldl = int(re.sub(regex_syntax, '', dado_aux[13]))
+    hdl = int(re.sub(regex_syntax, '', dado_aux[15]))
+    triglicerides = int(re.sub(regex_syntax, '', dado_aux[17]))
+    colesterol = int(re.sub(regex_syntax, '', dado_aux[19]))
+    #Atualizando os dados no banco
+    exame.data_exame = datetime.strptime(data_exame, "%d/%m/%Y")
+    exame.glicose = glicose
+    exame.ldl = ldl
+    exame.hdl = hdl
+    exame.triglicerides = triglicerides
+    exame.colesterol = colesterol
+    exame.pdf = exame.pdf
+
+    exame.save()
+
+    
