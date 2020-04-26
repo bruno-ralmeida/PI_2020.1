@@ -7,6 +7,9 @@
 *É necessário instalar o Django.
 
 <code> pip install Django </code>
+
+*É necessário instalar o PDFMINER.
+<code> pip install pdfminer </code>
 <p> - Abrir o projeto no terminal e inserir o seguinte comando: </p>
 <code> python manage.py runserver </code>
 
