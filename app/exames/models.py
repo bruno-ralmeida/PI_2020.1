@@ -9,7 +9,7 @@ class Exame_Resultado(models.Model):
     hdl = models.CharField(max_length=15)
     triglicerides = models.CharField(max_length=15)
     colesterol = models.CharField(max_length=15)
-    pdf = models.FileField(upload_to='pdf/', blank=True)
+    pdf = models.FileField(upload_to=f'pdf/', blank=True)
 
 
 class Exame_Referencia(models.Model):

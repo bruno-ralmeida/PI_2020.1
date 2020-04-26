@@ -7,11 +7,10 @@ from exames.models import *
 from paciente.models import *
 from paciente.views import calculo_idade
 from datetime import datetime
-
 from datetime import date
 from dateutil.relativedelta import relativedelta
-
-
+from media.pdf.leitor_pdf import *
+import os
 
 def listar(request):
     dados = get_dados(request)
@@ -54,6 +53,20 @@ def detalhes(request, paciente_id):
 def importar_exame(request):
     if request.method == 'POST':
         paciente_id = request.POST['paciente']
-        arquivo = request.FILES['file']
-        
+        arquivo = request.FILES['pdf']
+        paciente = get_object_or_404(Paciente, id=paciente_id)
+        exame = Exame_Resultado.objects.create(paciente=paciente, data_exame=datetime.now(), glicose=0, ldl=0, hdl=0, triglicerides=0, colesterol=0, pdf=arquivo)
+        exame.save()
+        salvar_pdf(exame.id)
     return redirect('dashboard')
+
+
+def salvar_pdf(exame_id):
+    exame = get_object_or_404(Exame_Resultado, id=exame_id)
+    print(exame.pdf)
+    teste = str(exame.pdf)
+    
+
+    dados = ler_pdf(teste)
+   
+    print(f'Dados1: {dados[1]}')

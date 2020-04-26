@@ -55,16 +55,15 @@
             </div>
             <div class="col-5 mb-5" >
                 
-                <form action="{% url 'importar'%}" enctype="multipart/form-data">
+                <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" name="paciente" value="{{ paciente.id }}">
-                    <div class="pr-5" style="float: right !important">
+                    <input type="hidden" name="paciente" value="{{ paciente.id }}">      
                     <input type="button" class="btn-ipdf" value="Selecionar">
-                    <input type="file" name="arquivo" id="arquivo" class="arquivo">
+                    <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf">
                     <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
                     <button type="submit" class="btn btn-import">Importar</button>
                 </form>
-            </div>
+            
             </div>
             
         </div>
