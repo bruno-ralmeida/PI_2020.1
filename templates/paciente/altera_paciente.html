@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <section class="container-fluid ">
+        <div class="col-md-10 pb-5">
+            <div class="row">
+                <div class="card middle">
+                    <div class="info-section pr-3 mb-3">
+                        <h3> Informações
+                            <div class="border mb-5"></div>
+                        </h3>
+                        <form action="{% url 'atualiza_paciente'%}" enctype="multipart/form-data" method="post" id="pacienteform">
+                            {% csrf_token %}
+                            <ul class="list-group list-group-flush mb-3  info">
+                                <input type="hidden" name="paciente_id" value="{{paciente.id}}" />
+                                <li class="list-group-item">Nome
+                                    <input type="text" name="nome" value="{{paciente.nome}}" > 
+                                    </input>
+                                </li>
+                                <li class="list-group-item">CPF
+                                    <input type="text" name="cpf" value="{{paciente.cpf}}" > 
+                                    </input>
+                                </li>
+                                <li class="list-group-item">RG
+                                    <input type="text" name="rg" value="{{paciente.rg}}" > 
+                                    </input>
+                                </li>
+                                <li class="list-group-item">Carteira Convenio
+                                    <input type="text" name="carteira_convenio" value="{{paciente.carteira_convenio}}" > 
+                                    </input>
+                                </li>
+                                <li class="list-group-item">Sexo
+                                    <select id="sexo" name="sexo" form="pacienteform">
+                                        <option value="M" {% if paciente.sexo == "M" %}selected="selected"{% endif %}>Masculino</option>
+                                        <option value="F" {% if paciente.sexo == "F" %}selected="selected"{% endif %}>Feminino</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">Data de Nascimento:
+                                    <input type="text" name="data_nascimento" value="{{paciente.data_nascimento|date:"d/m/Y"}}" > 
+                                    </input>
+                                </li>
+                                <li class="list-group-item">Peso:
+                                    <input type="text" name="peso" value="{{paciente.peso}}"> 
+                                    </input>    
+                                </li>
+                                <li class="list-group-item">Altura:
+                                    <input type="text" name="altura" value="{{paciente.altura}}" > 
+                                    </input>
+                                </li>
+                                <li class="list-group-item">
+                                    <input type="submit" value="Salvar" > 
+                                    </input>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Modal de exames-->
+    {% for exame in exames %}
+    <div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="infor-section">
+                    <ul class="list-group list-group-flush mb-3  info">
+                        <li class="list-group-item">Glicose:
+                            <span> {{ exame.glicose }}
+                            </span>
+                        </li>
+                        <li class="list-group-item">LDL:
+                            <span> {{ exame.ldl }}
+                            </span>    
+                        </li>
+                        <li class="list-group-item">HDL:
+                            <span> {{ exame.hdl }}
+                            </span>
+                        </li>
+                        
+                        <li class="list-group-item">Triglicerides:
+                            <span> {{ exame.triglicerides }}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Colesterol:
+                            <span> {{ exame.colesterol }}
+                            </span>
+                        </li>
+                        
+                    </ul>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+            <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
+              <button type="button" class="btn btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i> Exportar PDF</button>
+              <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</main>
+{% endblock %}

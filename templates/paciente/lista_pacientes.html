@@ -26,6 +26,7 @@
                         <th scope="col">Convenio</th>
                         <th scope="col">IMC</th>
                         <th scope="col">Detalhes</th>
+                        <th scope="col">Editar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,6 +38,9 @@
                         <td>{{ paciente.imc }}</td>
                         <td>    
                             <a href="{% url 'det_paciente' paciente.id %}" class="btn btn-sm btn-block btn-primary"> <i class="fas fa-laptop-medical"></i> </a>
+                        </td>
+                        <td>    
+                            <a href="{% url 'paciente' paciente.id %}" class="btn btn-sm btn-block btn-primary"> <i class="fas fa-pencil-alt"></i> </a>
                         </td>
                     </tr>
                     {% endfor %}
