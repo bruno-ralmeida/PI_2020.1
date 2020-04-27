@@ -40,15 +40,12 @@ def detalhes(request, paciente_id):
         start_age = 20
         end_age = 150
 
-    exames = Exame_Resultado.objects.filter(paciente=paciente, data_exame__range=(data_inicial, data_atual))
+    exames = Exame_Resultado.objects.filter(paciente=paciente, data_exame__range=(data_inicial, data_atual)).order_by('data_exame')
     exame_ref = Exame_Referencia.objects.filter(idade_min=start_age, idade_max=end_age)
     
     dados['paciente'] = paciente
     dados['exames'] = exames
-    dados['exame_referencia'] = exame_ref
-
-
-    
+    dados['exame_referencia'] = exame_ref    
 
     return render(request, 'exames/exames.html', dados)
 
