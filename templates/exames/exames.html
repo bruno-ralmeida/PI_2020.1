@@ -5,9 +5,11 @@
 <main>
     <section class="container-fluid">
         <div class="row mt-x" style="background-color: rgba(246, 245, 245, 0.856);">
+            <!--Grafico Historico de exames-->
             <div class="col-6 " >
                 <canvas id="chart"></canvas>
             </div>
+            <!--Tabela de referencia-->
             <div class="col-4 pr-5 mt-y">
                 <table class="table table-sm table-bordered table-striped mx-auto text-center" >
                     <thead class="thead-dark ">
@@ -49,31 +51,30 @@
                 </table>
             </div>
         </div>
-        <div class="row mt-y">
-            <div class="col-5">
-               
-            </div>
-            <div class="col-5 mb-5" >
-                
-                <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" name="paciente" value="{{ paciente.id }}">      
-                    <input type="button" class="btn-ipdf" value="Selecionar">
-                    <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf">
-                    <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
-                    <button type="submit" class="btn btn-import">Importar</button>
-                </form>
-            
-            </div>
-            
-        </div>
         
-
-        <div class="col-10 pr-5">
-            <div class="info-section">
-                <h3> Histórico<div class="border mb-5"></div>
-                </h3>
-                <table class="table table-sm table-bordered table-striped text-center">
+        <div class="container mt-4">
+            <div class="col-10">
+                <div class="row mb-3">
+                    <div class="mx-auto">
+                        {% include 'partials/_alertas.html' %}
+                    </div>
+                    <!--Importador de PDF-->
+                    <div style="float: right!important;">
+                        
+                        <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="paciente" value="{{ paciente.id }}">      
+                            <input type="button" class="btn-ipdf" value="Selecionar">
+                            <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
+                            <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly" >
+                            <button type="submit" class="btn btn-import">Importar</button>
+                        </form>
+                    
+                    </div>
+                </div>
+                <!--Histórico de exames-->
+                <table class="table table-sm table-bordered table-striped text-center" id=exames>
+                    
                     <thead class="thead-dark ">
                         <tr>
                             <th scope="col">Paciente</th>
@@ -81,7 +82,8 @@
                             <th scope="col">Opções</th>
                     </thead>
                     <tbody>
-                        {% for exame in exames %}
+                    
+                        {% for exame in exames_det %}
                         <tr>
                             <td>
                                 {{ exame.paciente.nome}}
@@ -90,8 +92,10 @@
                                 {{ exame.data_exame}}
                             </td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-block btn-primary" data-toggle="modal"
-                                    data-target="#exame{{exame.id}}"> <i class="far fa-file-pdf"></i></i> </a>
+                                <a href="#" class="btn btnCustom btn-sm " data-toggle="modal"
+                                    data-target="#exame{{exame.id}}" style="color: white!important;"> <i class="far fa-file-pdf"></i></i> </a>
+                            
+                                <a href="{% url 'del-exame' exame.id  %}" class="btn btn-danger btn-sm "> <i class="fas fa-minus"></i> </a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -99,68 +103,101 @@
                 </table>
             </div>
         </div>
-        
-
     </section>
 </main>  
 
-  <!--Modal de exames-->
+
+<!--Modal de exames-->
 {% for exame in exames %}
-<div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        <div class="modal-body">
-            
-            <div class="infor-section">
-                <ul class="list-group list-group-flush mb-3  info">
-                    <li class="list-group-item">Glicose:
-                        <span> {{ exame.glicose }}
-                        </span>
-                    </li>
-                    <li class="list-group-item">LDL:
-                        <span> {{ exame.ldl }}
-                        </span>    
-                    </li>
-                    <li class="list-group-item">HDL:
-                        <span> {{ exame.hdl }}
-                        </span>
-                    </li>
-                    
-                    <li class="list-group-item">Triglicerides:
-                        <span> {{ exame.triglicerides }}
-                        </span>
-                    </li>
-                    <li class="list-group-item">Colesterol:
-                        <span> {{ exame.colesterol }}
-                        </span>
-                    </li>
-                    
-                </ul>
+    <div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             </div>
-
-
+            <div class="modal-body">
+                
+                <div class="infor-section">
+                    <ul class="list-group list-group-flush mb-3  info">
+                        <li class="list-group-item">Glicose:
+                            <span> {{ exame.glicose }}
+                            </span>
+                        </li>
+                        <li class="list-group-item">LDL:
+                            <span> {{ exame.ldl }}
+                            </span>    
+                        </li>
+                        <li class="list-group-item">HDL:
+                            <span> {{ exame.hdl }}
+                            </span>
+                        </li>
+                        
+                        <li class="list-group-item">Triglicerides:
+                            <span> {{ exame.triglicerides }}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Colesterol:
+                            <span> {{ exame.colesterol }}
+                            </span>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
+            <button type="button" class="btn btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i> Exportar PDF</button>
+            <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
+            </div>
         </div>
-        <div class="modal-footer">
-        <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
-        <button type="button" class="btn btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i> Exportar PDF</button>
-        <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
         </div>
     </div>
-    </div>
-</div>
 {% endfor %}
 
+<!--Paginação-->
+<div class="col-10">
+    <nav aria-label="Page navigation example">
+        {% if exames_det.has_other_pages %}
+        <ul class="pagination justify-content-center">
+        
+            {% if exames_det.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ exames_det.previous_page_number }}#exames" >&laquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">&laquo;</a>
+            </li>
+            {% endif %}
+            {% for pagina in exames_det.paginator.page_range %}
+                {% if exames_det.number == pagina %}
+                <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
+                {% else %}
+                <li class="page-item">
+                    <a href="?page={{ pagina }}#exames" class="page-link">{{ pagina }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            {% if exames_det.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ exames_det.next_page_number }}#exames" class="page-link">&raquo;</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                </li>
+            {% endif %}
+        
+        </ul>
+        {% endif %}
+    </nav>
+</div>
 
-
-
+<!--Input FILE custom-->
 <script>
-    
     $('.btn-ipdf').on('click', function() {
         $('.arquivo').trigger('click');
     });
@@ -173,157 +210,106 @@
 </script>
 <!--CartJs-->
 <script>        
-    var ctx = document.getElementById('chart').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            
+        var ctx = document.getElementById('chart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
                 
-            labels: [ 
-            {% for exame in exames %}
-                '{{ exame.data_exame }}', 
-            {% endfor %}
-            ],
+                    
+                labels: [ 
+                {% for exame in exames %}
+                    '{{ exame.data_exame }}', 
+                {% endfor %}
+                ],
+                    
                 
-            
-            datasets: [{
-                label: 'Colesterol',
+                datasets: [{
+                    label: 'Colesterol',
+                    
+                    data: [
+                    {% for exame in exames %}
+                    '{{ exame.colesterol }}', 
+                    {% endfor %}
+                    ],
+
+                    fill: false,
+                    borderColor: [
+                        'rgba(255, 0, 0, 0.5)',
+                    ],
+
                 
-                data: [
-                {% for exame in exames %}
-                '{{ exame.colesterol }}', 
-                {% endfor %}
-                ],
-
-                fill: false,
-                borderColor: [
-                    'rgba(255, 0, 0, 0.5)',
-                ],
-
-               
-            },{
-                    label: 'Glicose',
-                    fill: false,
-					borderColor: [
-                    'rgba(42, 145, 171, .5)',
-                    
-                ],
-                data: [
-                {% for exame in exames %}
-                '{{ exame.glicose }}', 
-                {% endfor %}
-                ],
-            },
-            {
-                    label: 'HDL',
-                    fill: false,
-					borderColor: [
-                    'rgba(142, 145, 71, .5)',
-                    
-                ],
-                data: [
-                {% for exame in exames %}
-                '{{ exame.hdl }}', 
-                {% endfor %}
-                ],
-            },
-            {
-                    label: 'LDL',
-                    fill: false,
-					borderColor: [
-                    'rgba(42, 45, 71, .5)',
-                    
-                ],
-                data: [
-                {% for exame in exames %}
-                '{{ exame.ldl }}', 
-                {% endfor %}
-                ],
-            },
-            {
-                    label: 'Triglicerides',
-                    fill: false,
-					borderColor: [
-                    'rgba(42, 145, 71, .5)',
-                    
-                ],
-                data: [
-                {% for exame in exames %}
-                '{{ exame.triglicerides }}', 
-                {% endfor %}
-                ],
-            },
-           ]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            },
-            layout: {
-                padding: {
-                    left: 50,
-                    right: 0,
-                    top: 0,
-                    bottom: 0
-                }
-            }
-        }
-});
-
-
-var ctx1 = document.getElementById('exame_atual').getContext('2d');
-    var chart1 = new Chart(ctx1, {
-        // The type of chart we want to create
-        type: 'radar',
-
-        // The data for our dataset
-        data: {
-            labels: ['Glicose Max.', 'LDL Max.', 'HDL Min.', 'Triglicérides Max.', 'Colesterol Max.'],
-            datasets: [{
-                    label: 'Resultado Paciente',
-                    backgroundColor: 'rgba( 81, 76, 115, .7)',
-                    borderColor: 'rgb( 81, 76, 115)',
-                    lineTransition: 3,
-                    borderWidth: 2,
-                    borderJoinStyle: 'rgb( 81, 76, 115)',
-                    
-                    data: [135, 155, 101, 150, 152]
+                },{
+                        label: 'Glicose',
+                        fill: false,
+                        borderColor: [
+                        'rgba(42, 145, 171, .5)',
+                        
+                    ],
+                    data: [
+                    {% for exame in exames %}
+                    '{{ exame.glicose }}', 
+                    {% endfor %}
+                    ],
                 },
                 {
-                    label: 'Padrão de Referência',
-                    backgroundColor: ' rgba(128, 191, 126, .7)',
-                    borderColor: 'rgb(128, 191, 126)',
-                    lineTransition: 3,
-                    borderWidth: 3,
-                    {% for exame in exame_referencia %}
+                        label: 'HDL',
+                        fill: false,
+                        borderColor: [
+                        'rgba(142, 145, 71, .5)',
+                        
+                    ],
                     data: [
-                        {{ exame.glicose }},
-                        {{ exame.ldl_max}},
-                        {{ exame.hdl_min }},
-                        {{ exame.triglicerides_max}}, 
-                        {{ exame.colesterol_max }}]
-                    {% endfor%}
-                }
-            ],
-
-        },
-
-        // Configuration options go here
-        options: {
-            layout: {
-                padding: {
-                    left: 0,
-                    right: 0,
-                    top: 50,
-                    bottom: 0
+                    {% for exame in exames %}
+                    '{{ exame.hdl }}', 
+                    {% endfor %}
+                    ],
+                },
+                {
+                        label: 'LDL',
+                        fill: false,
+                        borderColor: [
+                        'rgba(42, 45, 71, .5)',
+                        
+                    ],
+                    data: [
+                    {% for exame in exames %}
+                    '{{ exame.ldl }}', 
+                    {% endfor %}
+                    ],
+                },
+                {
+                        label: 'Triglicerides',
+                        fill: false,
+                        borderColor: [
+                        'rgba(42, 145, 71, .5)',
+                        
+                    ],
+                    data: [
+                    {% for exame in exames %}
+                    '{{ exame.triglicerides }}', 
+                    {% endfor %}
+                    ],
+                },
+            ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                layout: {
+                    padding: {
+                        left: 50,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
                 }
             }
-        }
-    });
+        });
 
 
 

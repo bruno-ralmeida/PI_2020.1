@@ -20,7 +20,11 @@
             {% csrf_token %}
             <div class="text-center">
                 <img src="{% static 'images/logo.png' %}" class="rounded" alt="logo-emp">
+                
                 <div class="ml-5 mr-5">
+                    <div class="mx-auto">
+                        {% include 'partials/_alertas.html' %}
+                    </div>
                     <div class="i-login">
                         <input type="text" id="username" name="username">
                         <span data-placeholder="Usuário"></span>

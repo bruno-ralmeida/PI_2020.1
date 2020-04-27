@@ -2591,7 +2591,7 @@ fieldset:disabled a.btn {
 
 .btn-danger {
   color: #fff;
-  background-color: #dc3545;
+  background-color: #dc3545 ;
   border-color: #dc3545;
 }
 
@@ -5126,7 +5126,8 @@ a.badge-dark:focus, a.badge-dark.focus {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0.75rem 1.25rem;
+  margin-top: 0rem !important;
+  margin-right: 0.25rem !important;
   color: inherit;
 }
 

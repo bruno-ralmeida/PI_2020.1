@@ -135,3 +135,12 @@ MEDIA_URL = '/media/'
 #DIRETÓRIO DE APLICATIVOS
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT,'../app'))
+
+#MENSAGENS
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    messages.SUCCESS: 'success',
+    messages.INFO: 'primary',
+ 
+}

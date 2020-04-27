@@ -26,15 +26,16 @@ body{
   margin-top: 2rem !important;
 }
 
-.btn{
-  background-color: #102c4b !important;
-  
+.btnCustom{
+  background: linear-gradient(150deg, #4b73a1, #214b7c, #203d5f) ;
+  transition: 0.1s all;
+  color: #fff;
 }
 
 .btn:hover{
   transform: scale(1.1);
-  transition: 0.2s all;
-  background: linear-gradient(150deg, #102c4b, #214b7c);
+  background-position: right;
+  color: #f2f2f2;
 }
 
 .btn-modal{

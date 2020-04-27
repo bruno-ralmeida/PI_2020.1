@@ -12,7 +12,7 @@
         {% if user.username == 'bruno' %}
         <a href="{% url 'admin:index' %}" target="_blank"><li> <!--<i class="fas fa-user-shield"></i>--> Django Admin </li></a>
         {% endif %}
-        <a href="{% url 'login' %}"><li><i class="fas fa-sign-out-alt"></i> </li></a>
+        <a href="{% url 'logout' %}"><li><i class="fas fa-sign-out-alt"></i> </li></a>
         
     </ul>
     <div class="text-center pb-3" style="font-weight: bolder;width: 100%;color: #C4C2CD;font-family: 'Play', sans-serif; ">

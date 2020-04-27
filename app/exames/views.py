@@ -1,7 +1,8 @@
 import os
 import re
 from dateutil.relativedelta import relativedelta
-from django.shortcuts import render, redirect,reverse, get_list_or_404, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_list_or_404, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from usuario.views import get_dados
@@ -13,17 +14,7 @@ from paciente.views import calculo_idade
 from datetime import datetime, date
 
 
-
-def listar(request):
-    dados = get_dados(request)
-    lst_consultas = Consulta.objects.all()
-    dados['lst_consultas'] = lst_consultas
-
-    return render(request, 'exames/exames.html', dados)
-
 def detalhes(request, paciente_id):
-    dados = get_dados(request)
-
     data_atual = datetime.now()
     data_inicial = data_atual
     data_inicial = data_inicial + relativedelta(months=-12)
@@ -40,14 +31,26 @@ def detalhes(request, paciente_id):
         start_age = 20
         end_age = 150
 
-    exames = Exame_Resultado.objects.filter(paciente=paciente, data_exame__range=(data_inicial, data_atual)).order_by('data_exame')
     exame_ref = Exame_Referencia.objects.filter(idade_min=start_age, idade_max=end_age)
-    
+    exames = Exame_Resultado.objects.filter(paciente=paciente, data_exame__range=(data_inicial, data_atual)).order_by('data_exame')
+
+    paginator = Paginator(exames.reverse(),6)  
+    page = request.GET.get('page')
+    exames_por_pagina = paginator.get_page(page)
+
+    dados = get_dados(request)
     dados['paciente'] = paciente
-    dados['exames'] = exames
+    dados['exames_det'] = exames_por_pagina
     dados['exame_referencia'] = exame_ref    
+    dados['exames'] = exames
+    
 
     return render(request, 'exames/exames.html', dados)
+
+
+def excluir_exame(request, exame_id):
+    pass
+
 
 def importar_exame(request):
     if request.method == 'POST':
@@ -57,6 +60,8 @@ def importar_exame(request):
         exame = Exame_Resultado.objects.create(paciente=paciente, data_exame=datetime.now(), glicose=0, ldl=0, hdl=0, triglicerides=0, colesterol=0, pdf=arquivo)
         exame.save()
         salvar_pdf(exame.id)
+        messages.success(request, 'Dados importados com sucesso.')
+
     return redirect(reverse('det-exame', kwargs={'paciente_id': paciente_id}))
 
 def salvar_pdf(exame_id):
@@ -92,7 +97,6 @@ def salvar_pdf(exame_id):
     exame.triglicerides = triglicerides
     exame.colesterol = colesterol
     exame.pdf = exame.pdf
-
     exame.save()
 
     

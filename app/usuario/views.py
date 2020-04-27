@@ -16,11 +16,16 @@ def login(request):
                 auth.login(request, user)
                 print('Login realizado com sucesso.')
                 return redirect('dashboard')
-
+        else:
+            messages.error(request, 'Usuário ou senha inválidos.')
+            return render(request, 'usuarios/login.html')
+    
+    
     return render(request, 'usuarios/login.html')
 
+
 def logout(request):
-    auth.logout(request.user)   
+    auth.logout(request)   
     return redirect('login')
 
 def dashboard(request):
