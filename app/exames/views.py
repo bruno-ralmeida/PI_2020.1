@@ -13,7 +13,7 @@ from paciente.models import *
 from paciente.views import calculo_idade
 from datetime import datetime, date
 
-
+#CRUD 
 def detalhes(request, paciente_id):
     data_atual = datetime.now()
     data_inicial = data_atual
@@ -47,12 +47,33 @@ def detalhes(request, paciente_id):
 
     return render(request, 'exames/exames.html', dados)
 
+def cad_exame(request):
+    if request.method == 'POST':
+        paciente_id = request.POST['paciente']
+        data = request.POST['data']
+        glicose = request.POST['glicose']
+        ldl = request.POST['ldl']
+        hdl = request.POST['hdl']
+        triglicerides = request.POST['triglicerides']
+        colesterol = request.POST['colesterol']
+
+    paciente = get_object_or_404(Paciente, id=paciente_id)
+
+    exame = Exame_Resultado.objects.create(paciente=paciente, data_exame=data, glicose=glicose, ldl=ldl, hdl=hdl, triglicerides=triglicerides, colesterol=colesterol, pdf=None)
+    exame.save()
+
+    return redirect(reverse('det-exame', kwargs={'paciente_id': paciente_id}))
 
 def excluir_exame(request, exame_id):
-    pass
+    exame =  get_object_or_404(Exame_Resultado, id= exame_id)
+    exame.delete()
+    return redirect(reverse('det-exame', kwargs={'paciente_id': exame.paciente.id}))
 
-
+#IMPORTAÇÃO DE PDF
 def importar_exame(request):
+    """
+    Função para importar exames no formato de arquivo PDF.
+    """
     if request.method == 'POST':
         paciente_id = request.POST['paciente']
         arquivo = request.FILES['pdf']
@@ -65,6 +86,9 @@ def importar_exame(request):
     return redirect(reverse('det-exame', kwargs={'paciente_id': paciente_id}))
 
 def salvar_pdf(exame_id):
+    """
+    Função para salvar informações corretas após leitura do arquivo PDF.
+    """
     exame = get_object_or_404(Exame_Resultado, id=exame_id)
     texto_conv = str(exame.pdf)
     

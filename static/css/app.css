@@ -71,6 +71,7 @@ body{
   vertical-align: middle;
   width: 250px;
 }
+
 .btn-ipdf {
   height: 32px;
   font-size: 15px;
@@ -83,9 +84,7 @@ body{
   padding: 5px;
   outline: none;
   cursor: pointer;
-  transition: .5s;
-  border-top-left-radius: .5rem;
-  border-bottom-left-radius: .5rem;
+  transition: .2s;
 }
 
 .btn-ipdf:hover{

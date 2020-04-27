@@ -3,6 +3,7 @@ from exames.views import *
 
 urlpatterns = [
     path('detalhes/<int:paciente_id>', detalhes, name='det-exame'),
+    path('cadastro/', cad_exame, name='cadastro'),
     path('excluir/<int:exame_id>', excluir_exame, name='del-exame'),
     path('importar/', importar_exame, name='importar')
 

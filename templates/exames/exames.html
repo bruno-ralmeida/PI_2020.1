@@ -51,26 +51,32 @@
                 </table>
             </div>
         </div>
-        
         <div class="container mt-4">
             <div class="col-10">
+                 
                 <div class="row mb-3">
+                    
                     <div class="mx-auto">
                         {% include 'partials/_alertas.html' %}
                     </div>
-                    <!--Importador de PDF-->
-                    <div style="float: right!important;">
-                        
-                        <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <input type="hidden" name="paciente" value="{{ paciente.id }}">      
-                            <input type="button" class="btn-ipdf" value="Selecionar">
-                            <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
-                            <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly" >
-                            <button type="submit" class="btn btn-import">Importar</button>
-                        </form>
                     
-                    </div>
+                    <!--Importador de PDF-->
+                    <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="paciente" value="{{ paciente.id }}">      
+                        <input type="button" class="btn btn-sm btn-secondary" value="Selecionar">
+                        <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
+                        <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly" >
+                        <button type="submit" class="btn btn-ipdf">Importar</button>
+                    </form>
+                    
+                    
+                </div>
+                <div class="mb-3" style="float: right !important;">
+                    <!-- Botão Cadastro de exame-->
+                    <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
+                        Novo Exame
+                    </button>
                 </div>
                 <!--Histórico de exames-->
                 <table class="table table-sm table-bordered table-striped text-center" id=exames>
@@ -106,8 +112,94 @@
     </section>
 </main>  
 
+<!--Paginação-->
+<div class="col-10">
+    <nav aria-label="Page navigation example">
+        {% if exames_det.has_other_pages %}
+        <ul class="pagination justify-content-center">
+        
+            {% if exames_det.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ exames_det.previous_page_number }}#exames" >&laquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">&laquo;</a>
+            </li>
+            {% endif %}
+            {% for pagina in exames_det.paginator.page_range %}
+                {% if exames_det.number == pagina %}
+                <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
+                {% else %}
+                <li class="page-item">
+                    <a href="?page={{ pagina }}#exames" class="page-link">{{ pagina }}</a>
+                </li>
+                {% endif %}
+            {% endfor %}
+            {% if exames_det.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ exames_det.next_page_number }}#exames" class="page-link">&raquo;</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                </li>
+            {% endif %}
+        
+        </ul>
+        {% endif %}
+    </nav>
+</div>
 
-<!--Modal de exames-->
+<!-- Modal Cadastro de exame-->
+<div class="modal fade" id="Cadastro" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">Cadasto de Exame</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'cadastro' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="paciente" value="{{ paciente.id }}">    
+                <div class="form-group">
+                    <label for="data">Data</label>
+                    <input type="date" class="form-control" id="data" name="data">
+                </div>
+                <div class="form-group">
+                    <label for="glicose">Glicose</label>
+                    <input type="number" class="form-control" id="glicose" name="glicose">
+                </div>
+                <div class="form-group">
+                    <label for="ldl">LDL</label>
+                    <input type="number" class="form-control" id="ldl" name="ldl">
+                </div>
+                <div class="form-group">
+                    <label for="hdl">HDL</label>
+                    <input type="number" class="form-control" id="hdl" name="hdl">
+                </div>
+                <div class="form-group">
+                    <label for="triglicerides">Triglicerides</label>
+                    <input type="number" class="form-control" id="triglicerides" name="triglicerides">
+                </div>
+                <div class="form-group">
+                    <label for="colesterol">Colesterol </label>
+                    <input type="number" class="form-control" id="colesterol" name="colesterol">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </div>
+            
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Exame detalhes-->
 {% for exame in exames %}
     <div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -156,45 +248,6 @@
         </div>
     </div>
 {% endfor %}
-
-<!--Paginação-->
-<div class="col-10">
-    <nav aria-label="Page navigation example">
-        {% if exames_det.has_other_pages %}
-        <ul class="pagination justify-content-center">
-        
-            {% if exames_det.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ exames_det.previous_page_number }}#exames" >&laquo;</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link">&laquo;</a>
-            </li>
-            {% endif %}
-            {% for pagina in exames_det.paginator.page_range %}
-                {% if exames_det.number == pagina %}
-                <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
-                {% else %}
-                <li class="page-item">
-                    <a href="?page={{ pagina }}#exames" class="page-link">{{ pagina }}</a>
-                </li>
-                {% endif %}
-            {% endfor %}
-            {% if exames_det.has_next %}
-                <li class="page-item">
-                    <a href="?page={{ exames_det.next_page_number }}#exames" class="page-link">&raquo;</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link">&raquo;</a>
-                </li>
-            {% endif %}
-        
-        </ul>
-        {% endif %}
-    </nav>
-</div>
 
 <!--Input FILE custom-->
 <script>
