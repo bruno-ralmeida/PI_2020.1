@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages, sessions
@@ -12,8 +13,15 @@ from datetime import date, datetime
 def listar(request):
     dados =  get_dados(request)
     lst_pacientes = Paciente.objects.all()
-    dados['lst_pacientes'] = lst_pacientes
     
+    
+    paginator = Paginator(lst_pacientes,5)  
+    page = request.GET.get('page')
+    pacientes_por_pagina = paginator.get_page(page)    
+    dados['lst_pacientes'] = pacientes_por_pagina
+    
+
+
     return render(request, 'paciente/lista_pacientes.html', dados)
 
 @login_required(login_url='login')
@@ -23,8 +31,13 @@ def detalhe(request, paciente_id):
     paciente.imc = imc
     exames = get_list_or_404(Exame_Resultado, paciente=paciente)
     dados =  get_dados(request)
+    exames.reverse()
+    paginator = Paginator(exames,5)  
+    page = request.GET.get('page')
+    exames_por_pagina = paginator.get_page(page)    
+
     dados['paciente'] = paciente
-    dados['exames'] = exames
+    dados['exames'] = exames_por_pagina
     return render(request, 'paciente/det_paciente.html', dados)
 
 

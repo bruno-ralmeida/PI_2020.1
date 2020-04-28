@@ -83,35 +83,7 @@
                     </button>
                 </div>
 
-                <!--Histórico de exames-->
-                <table class="table table-sm table-bordered table-striped text-center " id=exames>
-                    
-                    <thead class="colorCustom ">
-                        <tr>
-                            <th scope="col">Paciente</th>
-                            <th scope="col">Data</th>
-                            <th scope="col">Opções</th>
-                    </thead>
-                    <tbody>
-                    
-                        {% for exame in exames_det %}
-                        <tr>
-                            <td>
-                                {{ exame.paciente.nome}}
-                            </td>
-                            <td>
-                                {{ exame.data_exame|date:"d/m/Y"}}
-                            </td>
-                            <td>
-                                <a href="#" class="btn btnCustom btn-sm " data-toggle="modal"
-                                    data-target="#exame{{exame.id}}" style="color: white!important;"> <i class="far fa-file-pdf"></i></i> </a>
-                            
-                                <a href="{% url 'del-exame' exame.id  %}" class="btn btn-danger btn-sm "> <i class="fas fa-minus"></i> </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {% include 'partials/_det_paciente.html' %}
             </div>
         </div>
     </section>

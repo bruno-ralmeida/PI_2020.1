@@ -129,15 +129,6 @@ body{
   margin-bottom: 2%;
 }
 
-
-.top-section{
-  position: relative;
-  background: linear-gradient(200deg, #2d4d72f8, #2e69adcc, #203d5fa9) ;
-  color: #fff;
-  height: 8rem !important;
-}
-
-
 .name span{
   text-transform: capitalize;
   font-weight: 700;   
@@ -364,7 +355,7 @@ header{
 }
 .agenda{
   margin-top: 5rem !important;
-  margin-bottom: 3.5rem !important;
+  margin-bottom: 1.5rem !important;
   
 }
 

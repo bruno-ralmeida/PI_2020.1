@@ -4,8 +4,9 @@
 
 
 <main>
+    {% include 'partials/_campanha.html' %}
     <section class="container">
-        {% include 'partials/_campanha.html' %}
+        
         <div class="col-10">   
             <!--Campo de busca de pacientes-->
             <div class="rowCustom mb-3">
@@ -17,7 +18,7 @@
                 </div>
             </div>
             <!--Tabela de Paciente-->
-            <table class="table table-sm table-bordered table-striped text-center mx-auto agenda" >
+            <table class="table table-sm table-bordered table-striped text-center mx-auto" id="pacientes">
                 <thead class="colorCustom">
                     <tr>
                         <th scope="col">Nome Completo</th>
@@ -33,10 +34,10 @@
                     {% for paciente in lst_pacientes %}
                     <tr>
                         <th scope="row">{{ paciente.nome }}</th>
-                        <td>{{ paciente.data_nascimento }}</td>
+                        <td>{{ paciente.data_nascimento|date:"d/m/Y" }}</td>
                         <td> {{ paciente.carteira_convenio }} </td>
-                        <td> {{ paciente.carteira_convenio }} </td>
-                        <td> {{ paciente.carteira_convenio }} </td>
+                        <td> {{ paciente.cpf }} </td>
+                        <td> {{ paciente.rg }} </td>
                         
                         <td>    
                             <a href="{% url 'det_paciente' paciente.id %}" class="btn btnCustom btn-sm"> <i class="fas fa-laptop-medical"></i> </a>
@@ -48,6 +49,44 @@
                 </tbody>
             </table>
         </div>
+        <div class="col-10">
+            <nav aria-label="Page navigation example">
+                {% if lst_pacientes.has_other_pages %}
+                <ul class="pagination justify-content-center">
+                
+                    {% if lst_pacientes.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ lst_pacientes.previous_page_number }}#pacientes" >&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&laquo;</a>
+                    </li>
+                    {% endif %}
+                    {% for pagina in lst_pacientes.paginator.page_range %}
+                        {% if lst_pacientes.number == pagina %}
+                        <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
+                        {% else %}
+                        <li class="page-item">
+                            <a href="?page={{ pagina }}#pacientes" class="page-link">{{ pagina }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if lst_pacientes.has_next %}
+                        <li class="page-item">
+                            <a href="?page={{ lst_pacientes.next_page_number }}#pacientes" class="page-link">&raquo;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link">&raquo;</a>
+                        </li>
+                    {% endif %}
+                
+                </ul>
+                {% endif %}
+            </nav>
+        </div>
+        
     </section>
 </main>
 
