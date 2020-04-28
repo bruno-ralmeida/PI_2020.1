@@ -12,14 +12,6 @@ from datetime import date, datetime
 def listar(request):
     dados =  get_dados(request)
     lst_pacientes = Paciente.objects.all()
-    for paciente in lst_pacientes:
-       
-        imc = calculo_imc(paciente.peso, paciente.altura)
-        paciente.imc = imc
-        
-        idade = calculo_idade(paciente.data_nascimento)
-        
-
     dados['lst_pacientes'] = lst_pacientes
     
     return render(request, 'paciente/lista_pacientes.html', dados)
@@ -27,6 +19,8 @@ def listar(request):
 @login_required(login_url='login')
 def detalhe(request, paciente_id):
     paciente = get_object_or_404(Paciente, id=paciente_id)
+    imc = calculo_imc(paciente.peso, paciente.altura)
+    paciente.imc = imc
     exames = get_list_or_404(Exame_Resultado, paciente=paciente)
     dados =  get_dados(request)
     dados['paciente'] = paciente

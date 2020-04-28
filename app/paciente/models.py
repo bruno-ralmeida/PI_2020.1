@@ -10,6 +10,9 @@ class Paciente(models.Model):
     carteira_convenio = models.CharField(max_length=30, unique=True)
     peso = models.FloatField()
     altura = models.FloatField()
-    imc = models.CharField(max_length=100)
-    
-    
+    endereco = models.CharField(max_length=250)
+    end_num = models.IntegerField(max_length=10)
+    complemento = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
+    telefone = models.CharField(max_length=14)    
+    celular = models.CharField(max_length=15)    
