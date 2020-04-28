@@ -2,29 +2,12 @@
 {% block content %}
 
 
-<main>
-    <section class="container-fluid">
-        <div class="col-md-10">
-            {% include 'partials/_campanha.html' %}
-            <table class="table table-sm table-bordered table-striped mx-auto text-center agenda">
-                <thead class="thead-dark ">
-                    <tr>
-                        <th scope="col">Horário</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Detalhes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">9:30</th>
-                        <td>Irineu Jubileu</td>
-                        <td><button class="btn btnCustom btn-sm btn-block">
-                                <i class="fas fa-notes-medical"></i>
-                            </button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<main class="container-fluid">
+    <section class="mx-auto">
+        
+        {% include 'partials/_campanha.html' %}
+        {% include 'consulta/consultas.html' %}
+         
     </section>
 </main>
 

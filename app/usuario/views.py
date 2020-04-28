@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from medico.models import Medico
 from atendente.models import Atendente
-
+from consulta.models import Consulta
+from datetime import datetime, date
 
 def login(request):
     if request.method == 'POST':
@@ -30,7 +31,10 @@ def logout(request):
 
 def dashboard(request):
     if request.user.is_authenticated:
-      dados =  get_dados(request)
+        dados =  get_dados(request)
+        lst_consultas = Consulta.objects.filter(medico=dados['usuario'])
+        lst_consultas = separa_data_hr(lst_consultas)
+        dados['lst_consultas'] = lst_consultas
     return render(request, 'usuarios/index.html', dados)
 
 
@@ -60,3 +64,13 @@ def get_usuario(request):
 def get_dados(request):
     dados = {'usuario': get_usuario(request),'tipo': verifica_usuario(request)}   
     return dados
+
+def separa_data_hr(lst_consultas):
+    #Separando data e hora.
+    for consulta in lst_consultas:
+        hora = datetime.strftime(consulta.data, '%H:%M')
+        data = datetime.strftime(consulta.data, '%d/%m/%Y')
+        consulta.data = data
+        consulta.hora = hora
+        
+    return lst_consultas
