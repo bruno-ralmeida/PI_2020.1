@@ -12,7 +12,7 @@
             <!--Tabela de referencia-->
             <div class="col-4 pr-5 mt-y">
                 <table class="table table-sm table-bordered table-striped mx-auto text-center" >
-                    <thead class="thead-dark ">
+                    <thead class="colorCustom">
                         <tr>
                             <th scope="col">Exame</th>
                             <th scope="col">Valor Ref.</th>
@@ -55,7 +55,6 @@
             <div class="col-10">
                  
                 <div class="row mb-3">
-                    
                     <div class="mx-auto">
                         {% include 'partials/_alertas.html' %}
                     </div>
@@ -68,20 +67,20 @@
                         <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
                         <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly" >
                         <button type="submit" class="btn btn-ipdf">Importar</button>
-                    </form>
-                    
-                    
+                    </form>         
                 </div>
+
                 <div class="mb-3" style="float: right !important;">
                     <!-- Botão Cadastro de exame-->
                     <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
                         Novo Exame
                     </button>
                 </div>
+
                 <!--Histórico de exames-->
-                <table class="table table-sm table-bordered table-striped text-center" id=exames>
+                <table class="table table-sm table-bordered table-striped text-center " id=exames>
                     
-                    <thead class="thead-dark ">
+                    <thead class="colorCustom ">
                         <tr>
                             <th scope="col">Paciente</th>
                             <th scope="col">Data do exame</th>
@@ -165,32 +164,39 @@
             <form action="{% url 'cadastro' %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="paciente" value="{{ paciente.id }}">    
-                <div class="form-group">
-                    <label for="data">Data</label>
-                    <input type="date" class="form-control" id="data" name="data">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="data">Data</label>
+                        <input type="date" class="form-control" id="data" name="data">
+                    </div>
+                
+                    <div class="form-group col-md-6">
+                        <label for="glicose">Glicose</label>
+                        <input type="number" class="form-control" id="glicose" name="glicose">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="glicose">Glicose</label>
-                    <input type="number" class="form-control" id="glicose" name="glicose">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="ldl">LDL</label>
+                        <input type="number" class="form-control" id="ldl" name="ldl">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="hdl">HDL</label>
+                        <input type="number" class="form-control" id="hdl" name="hdl">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="ldl">LDL</label>
-                    <input type="number" class="form-control" id="ldl" name="ldl">
-                </div>
-                <div class="form-group">
-                    <label for="hdl">HDL</label>
-                    <input type="number" class="form-control" id="hdl" name="hdl">
-                </div>
-                <div class="form-group">
-                    <label for="triglicerides">Triglicerides</label>
-                    <input type="number" class="form-control" id="triglicerides" name="triglicerides">
-                </div>
-                <div class="form-group">
-                    <label for="colesterol">Colesterol </label>
-                    <input type="number" class="form-control" id="colesterol" name="colesterol">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="triglicerides">Triglicerides</label>
+                        <input type="number" class="form-control" id="triglicerides" name="triglicerides">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="colesterol">Colesterol </label>
+                        <input type="number" class="form-control" id="colesterol" name="colesterol">
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Salvar</button>
+                    <button type="submit" class="btn btn-block btn-success">Salvar</button>
                 </div>
             
             </form>
