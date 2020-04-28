@@ -4,13 +4,13 @@
 
 <main>
     <section class="container-fluid">
-        <div class="row mt-x" style="background-color: rgba(246, 245, 245, 0.856);">
+        <section class="container row  mt-x">
             <!--Grafico Historico de exames-->
-            <div class="col-6 " >
+            <div class="col"  style="height: 400px !important; padding-bottom: 2%;">
                 <canvas id="chart"></canvas>
             </div>
             <!--Tabela de referencia-->
-            <div class="col-4 pr-5 mt-y">
+            <div class="col-4 mt-y">
                 {% for exame in exame_referencia %}
                 <table class="table table-sm table-bordered table-striped mx-auto text-center" >
                     <thead class="colorCustom">
@@ -56,34 +56,40 @@
                 </div>
                 {% endfor %}
             </div>
-        </div>
-        <div class="container mt-4">
-            <div class="col-10">
-                <!--Importador de PDF-->
-                <div class="row mb-3">
-                    <!--Mensagem de Importação-->
-                    <div class="mx-auto">
-                        {% include 'partials/_alertas.html' %}
+        </section>
+        <div class="container">
+         
+            <div class="col-lg-10">
+                        
+                <div class="mx-auto">
+                    <!--Importador de PDF-->
+                    <div class="row mb-3">
+                        <!--Mensagem de Importação-->
+                        <div class="mx-auto">
+                            {% include 'partials/_alertas.html' %}
+                        </div>
+                        <!--Formuladrio para importação-->
+                        <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="paciente" value="{{ paciente.id }}">      
+                            <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
+                            <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
+                            <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly" >
+                            <button type="submit" class="btn btn-ipdf">Importar</button>
+                        </form>         
                     </div>
-                    <!--Formuladrio para importação-->
-                    <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="hidden" name="paciente" value="{{ paciente.id }}">      
-                        <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
-                        <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
-                        <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly" >
-                        <button type="submit" class="btn btn-ipdf">Importar</button>
-                    </form>         
-                </div>
-                <!-- Botão Cadastro de exame-->
-                <div class="mb-3" style="float: right !important;">
+                    <!-- Botão Cadastro de exame-->
+                    <div class="mb-3" style="float: right !important;">
+                        
+                        <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
+                            Novo Exame
+                        </button>
+                        
+                    </div>
                     
-                    <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
-                        Novo Exame
-                    </button>
+                    {% include 'partials/_det_paciente.html' %}
+                    
                 </div>
-
-                {% include 'partials/_det_paciente.html' %}
             </div>
         </div>
     </section>
@@ -239,6 +245,7 @@
             ]
             },
             options: {
+                maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -248,7 +255,7 @@
                 },
                 layout: {
                     padding: {
-                        left: 50,
+                        left: 0,
                         right: 0,
                         top: 0,
                         bottom: 0
