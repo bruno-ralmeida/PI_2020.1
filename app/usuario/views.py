@@ -16,8 +16,10 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
                 return redirect('dashboard')
+            else:
+                messages.error(request, 'Senha inválida.')
         else:
-            messages.error(request, 'Usuário ou senha inválidos.')
+            messages.error(request, 'Usuário/Senha inválidos.')
             return render(request, 'usuarios/login.html')
     
     
