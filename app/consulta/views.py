@@ -6,7 +6,16 @@ from consulta.models import *
 
 def listar(request):
     dados = get_dados(request)
-    lst_consultas = Consulta.objects.filter(medico=dados['usuario'])
-    lst_consultas = separa_data_hr(lst_consultas)
-    dados['lst_consultas'] = lst_consultas
-    return render(request, 'consulta/consultas.html', dados)
+    if dados['tipo'] == 1:
+        lst_consultas = Consulta.objects.filter(medico=dados['usuario'])
+        lst_consultas = separa_data_hr(lst_consultas)
+        dados['lst_consultas'] = lst_consultas
+        return render(request, 'consulta/consultas_medico.html', dados)
+    else:
+        lst_consultas = Consulta.objects.order_by('medico')
+        lst_consultas = separa_data_hr(lst_consultas)
+        dados['lst_consultas'] = lst_consultas
+        for i in lst_consultas:
+            print(i)
+        return render(request, 'consulta/consultas_atendente.html', dados)
+    
