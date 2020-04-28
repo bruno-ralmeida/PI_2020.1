@@ -43,7 +43,6 @@ def detalhes(request, paciente_id):
     dados['exames_det'] = exames_por_pagina
     dados['exame_referencia'] = exame_ref    
     dados['exames'] = exames
-    
 
     return render(request, 'exames/exames.html', dados)
 
@@ -58,6 +57,7 @@ def cad_exame(request):
         colesterol = request.POST['colesterol']
 
     paciente = get_object_or_404(Paciente, id=paciente_id)
+    messages.success(request, 'Dados cadastrados com sucesso.')
 
     exame = Exame_Resultado.objects.create(paciente=paciente, data_exame=data, glicose=glicose, ldl=ldl, hdl=hdl, triglicerides=triglicerides, colesterol=colesterol, pdf=None)
     exame.save()

@@ -11,6 +11,7 @@
             </div>
             <!--Tabela de referencia-->
             <div class="col-4 pr-5 mt-y">
+                {% for exame in exame_referencia %}
                 <table class="table table-sm table-bordered table-striped mx-auto text-center" >
                     <thead class="colorCustom">
                         <tr>
@@ -20,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for exame in exame_referencia %}
+                        
                         <tr>
                             <th scope="row">Glicose Máx:</th>
                             <td>{{ exame.glicose}}</td>
@@ -46,16 +47,21 @@
                             <td>{{ exame.colesterol_max}}</td>
                             
                         </tr>
-                        {% endfor %}
+                        
                     </tbody>
                 </table>
+                <!--Mensagem com observação de Idade-->
+                <div class="mx-auto">
+                    <p style="color: #00004d;"> ** Tabela de referência para pacientes entre {{exame.idade_min}} a {{exame.idade_max}}. </p>
+                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="container mt-4">
             <div class="col-10">
                 <!--Importador de PDF-->
                 <div class="row mb-3">
-                    <!--Mensagem-->
+                    <!--Mensagem de Importação-->
                     <div class="mx-auto">
                         {% include 'partials/_alertas.html' %}
                     </div>

@@ -15,7 +15,6 @@ def login(request):
             user = auth.authenticate(request, username=user, password=password)
             if user is not None:
                 auth.login(request, user)
-                print('Login realizado com sucesso.')
                 return redirect('dashboard')
         else:
             messages.error(request, 'Usuário ou senha inválidos.')
@@ -32,9 +31,10 @@ def logout(request):
 def dashboard(request):
     if request.user.is_authenticated:
         dados =  get_dados(request)
-        lst_consultas = Consulta.objects.filter(medico=dados['usuario'])
-        lst_consultas = separa_data_hr(lst_consultas)
-        dados['lst_consultas'] = lst_consultas
+        if dados['tipo'] == 1:
+            lst_consultas = Consulta.objects.filter(medico=dados['usuario'])
+            lst_consultas = separa_data_hr(lst_consultas)
+            dados['lst_consultas'] = lst_consultas
     return render(request, 'usuarios/index.html', dados)
 
 
