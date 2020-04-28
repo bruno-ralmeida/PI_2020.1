@@ -2,84 +2,9 @@
 {% load static %}
 
 {% block content %}
-<div class="card">
-   
-    <div class="info-section">
-        <h3> Dados Pessoais
-            <div class="border"></div>
-        </h3>
-        <ul class="list-group list-group-flush mb-3  info">
-            <li class="list-group-item">Nome:
-                <span style="font-weight: 700;"> {{ paciente.nome}}
-                </span>
-            </li>
-            <li class="list-group-item">Sexo:
-                <span> {{ paciente.sexo}}
-                </span>
-            </li>
-            <li class="list-group-item">Data de Nascimento:
-                <span> {{ paciente.data_nascimento}}
-                </span>
-            </li>
-            <li class="list-group-item">CPF:
-                <span> {{ paciente.cpf}}
-                </span>
-            </li>
-            <li class="list-group-item">RG:
-                <span> {{ paciente.rg}}
-                </span>
-            </li>
-            <li class="list-group-item">Convênio:
-                <span> {{ paciente.carteira_convenio}}
-                </span>
-            </li>
-
-        </ul>
-        <h3> Contato
-            <div class="border"></div>
-        </h3>
-        <ul class="list-group list-group-flush info">
-            <li class="list-group-item">E-mail:
-                <span> {{ paciente.email}}
-                </span>
-            </li>
-            <li class="list-group-item">Telefone:
-                <span> {{ paciente.telefone}}
-                </span>
-            </li>
-            <li class="list-group-item">Celular:
-                <span> {{ paciente.celular}}
-                </span>
-            </li>
-        </ul>
-        <h3> Endereço
-            <div class="border"></div>
-        </h3>
-        <ul class="list-group list-group-flush info">
-            <li class="list-group-item">Endereço:
-                <span> {{ paciente.endereco}}
-                </span>
-            </li>
-            <li class="list-group-item">Número:
-                <span> {{ paciente.end_num}}
-                </span>
-            </li>
-            <li class="list-group-item">Complemento:
-                <span> {{ paciente.complemento}}
-                </span>
-            </li>
-        </ul>
-        <ul class="list-group list-group-flush info" style="float: right!important; margin-top: 2rem;">
-            <li>
-                <button class="btn btn-info">Imprimir</button>
-            </li>
-        </ul>
-    </div>
-
-</div>
 {% if tipo == 1 %}
 <div class="card">
-    <div class="info-section pr-3" id="exames">
+    <div class="info-section pr-3">
         <h3> Histórico de exames <div class="border mb-5"></div>
         </h3>
         <table class="table table-sm table-bordered table-striped text-center">
@@ -97,16 +22,18 @@
                     <td>
                         <a href="#" class="btn btn-sm btnCustom" data-toggle="modal" data-target="#exame{{exame.id}}">
                             <i class="far fa-file-pdf"></i></i> </a>
+                        
+                        <a href="{% url 'del-exame' exame.id  %}" class="btn btn-danger btn-sm "> <i class="fas fa-minus"></i> </a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <nav aria-label="Page navigation example">
+    <nav>
         {% if exames.has_other_pages %}
         <ul class="pagination justify-content-center">
-
+    
             {% if exames.has_previous %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ exames.previous_page_number }}#exames">&laquo;</a>
@@ -134,13 +61,111 @@
                 <a class="page-link">&raquo;</a>
             </li>
             {% endif %}
-
+    
         </ul>
         {% endif %}
     </nav>
-
+      
 </div>
 {% endif%}
+
+
+<div class="card">
+   
+    <div class="info-section">
+        <h3> Dados Pessoais
+            <div class="border"></div>
+        </h3>
+        <ul class="list-group list-group-flush mb-3  info">
+            <li class="list-group-item">Nome:
+                <span style="font-weight: 700;"> {{ paciente.nome}}
+                </span>
+            </li>
+            <li class="list-group-item">Sexo:
+                <span> {{ paciente.sexo}}
+                </span>
+            </li>
+            <li class="list-group-item">Data de Nascimento:
+                <span> {{ paciente.data_nascimento}}
+                </span>
+            </li>
+            <li class="list-group-item">Idade:
+                <span> {{ paciente.idade}} anos.
+                </span>
+            </li>
+            <li class="list-group-item">CPF:
+                <span> {{ paciente.cpf}}
+                </span>
+            </li>
+            <li class="list-group-item">RG:
+                <span> {{ paciente.rg}}
+                </span>
+            </li>
+            <li class="list-group-item">Convênio:
+                <span> {{ paciente.carteira_convenio}}
+                </span>
+            </li>
+        </ul>
+        {% if tipo == 1 %}
+        <h3> Informações adicionais (Resultados)
+            <div class="border"></div>
+        </h3>
+        <ul class="list-group list-group-flush info">
+            <li class="list-group-item">IMC:
+                <span> {{ paciente.imc}}
+                </span>
+            </li>
+            <li class="list-group-item">Previsão de acordo com histórico:
+                <span> {{ paciente.complemento}}
+                </span>
+            </li>
+        </ul>
+        {% endif %}
+        <h3> Contato
+            <div class="border"></div>
+        </h3>
+        <ul class="list-group list-group-flush info">
+            <li class="list-group-item">E-mail:
+                <span> {{ paciente.email}}
+                </span>
+            </li>
+            <li class="list-group-item">Telefone:
+                <span> {{ paciente.telefone}}
+                </span>
+            </li>
+            <li class="list-group-item">Celular:
+                <span> {{ paciente.celular}}
+                </span>
+            </li>
+        </ul>
+        {% if tipo == 2 %}
+        <h3> Endereço
+            <div class="border"></div>
+        </h3>
+        <ul class="list-group list-group-flush info">
+            <li class="list-group-item">Endereço:
+                <span> {{ paciente.endereco}}
+                </span>
+            </li>
+            <li class="list-group-item">Número:
+                <span> {{ paciente.end_num}}
+                </span>
+            </li>
+            <li class="list-group-item">Complemento:
+                <span> {{ paciente.complemento}}
+                </span>
+            </li>
+        </ul>
+        {% endif %}
+        <ul class="list-group list-group-flush info" style="float: right!important; margin-top: 2rem;">
+            <li>
+                <button class="btn btn-info">Imprimir</button>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
 <!--Modal de exames-->
 {% for exame in exames %}
 <div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
@@ -185,7 +210,7 @@
             </div>
             <div class="modal-footer">
                 <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
-                <button type="button" class="btn btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i>
+                <button type="button" class="btn btn-secondary btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i>
                     Exportar PDF</button>
                 <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
             </div>

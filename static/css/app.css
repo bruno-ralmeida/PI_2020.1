@@ -129,19 +129,6 @@ body{
   margin-bottom: 2%;
 }
 
-.name span{
-  text-transform: capitalize;
-  font-weight: 700;   
-  position: absolute;
-  bottom: 20%;
-  left: 2%;
-  font-size: 200%;
-  font-weight: 900;
-  opacity: .90;
-  white-space: pre-line;
-  float: right;
-}
-
 .info-section{
   color: #333;
   background-color: #ffff;

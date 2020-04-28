@@ -10,7 +10,7 @@ from media.pdf.leitor_pdf import *
 from consulta.models import *
 from exames.models import *
 from paciente.models import *
-from paciente.views import calculo_idade
+from paciente.views import calculo_idade, calculo_imc
 from datetime import datetime, date
 
 #CRUD 
@@ -21,6 +21,10 @@ def detalhes(request, paciente_id):
 
     paciente = get_object_or_404(Paciente, id=paciente_id)
     pac_idade = calculo_idade(paciente.data_nascimento)
+    imc = calculo_imc(paciente.peso, paciente.altura)
+    paciente.imc = imc
+    paciente.idade = pac_idade
+    
     if pac_idade <= 9:
         start_age = 0
         end_age = 9
@@ -38,11 +42,13 @@ def detalhes(request, paciente_id):
     page = request.GET.get('page')
     exames_por_pagina = paginator.get_page(page)
 
+    
+
     dados = get_dados(request)
     dados['paciente'] = paciente
-    dados['exames_det'] = exames_por_pagina
+    dados['exames'] = exames_por_pagina
     dados['exame_referencia'] = exame_ref    
-    dados['exames'] = exames
+    dados['exames_grafico'] = exames
 
     return render(request, 'exames/exames.html', dados)
 

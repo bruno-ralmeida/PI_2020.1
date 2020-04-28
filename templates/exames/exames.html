@@ -88,46 +88,6 @@
         </div>
     </section>
 </main>  
-
-<!--Paginação-->
-<div class="col-10">
-    <nav aria-label="Page navigation example">
-        {% if exames_det.has_other_pages %}
-        <ul class="pagination justify-content-center">
-        
-            {% if exames_det.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ exames_det.previous_page_number }}#exames" >&laquo;</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link">&laquo;</a>
-            </li>
-            {% endif %}
-            {% for pagina in exames_det.paginator.page_range %}
-                {% if exames_det.number == pagina %}
-                <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
-                {% else %}
-                <li class="page-item">
-                    <a href="?page={{ pagina }}#exames" class="page-link">{{ pagina }}</a>
-                </li>
-                {% endif %}
-            {% endfor %}
-            {% if exames_det.has_next %}
-                <li class="page-item">
-                    <a href="?page={{ exames_det.next_page_number }}#exames" class="page-link">&raquo;</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link">&raquo;</a>
-                </li>
-            {% endif %}
-        
-        </ul>
-        {% endif %}
-    </nav>
-</div>
-
 <!-- Modal Cadastro de exame-->
 <div class="modal fade" id="Cadastro" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -182,57 +142,6 @@
         </div>
     </div>
 </div>
-
-<!--Modal Exame detalhes-->
-{% for exame in exames %}
-    <div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                
-                <div class="infor-section">
-                    <ul class="list-group list-group-flush mb-3  info">
-                        <li class="list-group-item">Glicose:
-                            <span> {{ exame.glicose }}
-                            </span>
-                        </li>
-                        <li class="list-group-item">LDL:
-                            <span> {{ exame.ldl }}
-                            </span>    
-                        </li>
-                        <li class="list-group-item">HDL:
-                            <span> {{ exame.hdl }}
-                            </span>
-                        </li>
-                        
-                        <li class="list-group-item">Triglicerides:
-                            <span> {{ exame.triglicerides }}
-                            </span>
-                        </li>
-                        <li class="list-group-item">Colesterol:
-                            <span> {{ exame.colesterol }}
-                            </span>
-                        </li>
-                        
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-            <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
-            <button type="button" class="btn btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i> Exportar PDF</button>
-            <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
-            </div>
-        </div>
-        </div>
-    </div>
-{% endfor %}
-
 <!--Input FILE custom-->
 <script>
     $('#btn-ipdf').on('click', function() {
@@ -254,7 +163,7 @@
                 
                     
                 labels: [ 
-                {% for exame in exames %}
+                {% for exame in exames_grafico %}
                     '{{ exame.data_exame }}', 
                 {% endfor %}
                 ],
@@ -264,7 +173,7 @@
                     label: 'Colesterol',
                     
                     data: [
-                    {% for exame in exames %}
+                    {% for exame in exames_grafico %}
                     '{{ exame.colesterol }}', 
                     {% endfor %}
                     ],
@@ -283,7 +192,7 @@
                         
                     ],
                     data: [
-                    {% for exame in exames %}
+                    {% for exame in exames_grafico %}
                     '{{ exame.glicose }}', 
                     {% endfor %}
                     ],
@@ -296,7 +205,7 @@
                         
                     ],
                     data: [
-                    {% for exame in exames %}
+                    {% for exame in exames_grafico %}
                     '{{ exame.hdl }}', 
                     {% endfor %}
                     ],
@@ -309,7 +218,7 @@
                         
                     ],
                     data: [
-                    {% for exame in exames %}
+                    {% for exame in exames_grafico %}
                     '{{ exame.ldl }}', 
                     {% endfor %}
                     ],
@@ -322,7 +231,7 @@
                         
                     ],
                     data: [
-                    {% for exame in exames %}
+                    {% for exame in exames_grafico %}
                     '{{ exame.triglicerides }}', 
                     {% endfor %}
                     ],
@@ -352,3 +261,5 @@
 
 </script>
 {% endblock %}
+
+
