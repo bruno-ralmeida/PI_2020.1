@@ -12,7 +12,7 @@ class Paciente(models.Model):
     altura = models.FloatField()
     endereco = models.CharField(max_length=250)
     end_num = models.IntegerField(max_length=10)
-    complemento = models.CharField(max_length=50)
+    complemento = models.CharField(max_length=50, blank=True)
     email = models.CharField(max_length=50)
     telefone = models.CharField(max_length=14)    
     celular = models.CharField(max_length=15)    

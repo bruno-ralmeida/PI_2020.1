@@ -4,73 +4,110 @@
 {% block content %}
 <main>
     <section class="container-fluid ">
-        <div class="col-md-10 pb-5">
-            <div class="row">
-                <div class="card middle">
-                    <div class="top-section">
-                        <div class="container">
-                            <div class="name">                        
-                                <span> {{ paciente.nome}} </span>
-                            </div>
+        <div class="col-10 pr-5 mt-x">
+
+            <div class="card">
+                <div class="top-section">
+                    <div class="container">
+                        <div class="name">
+                            <span> {{ paciente.nome}} </span>
                         </div>
                     </div>
-                    <div class="info-section pr-3 mb-3">
-                        <h3> Informações
-                            <div class="border mb-5"></div>
-                        </h3>
-                        <ul class="list-group list-group-flush mb-3  info">
-                            <li class="list-group-item">Data de Nascimento:
-                                <span> {{ paciente.data_nascimento}}
-                                </span>
-                            </li>
-                            <li class="list-group-item">IMC:
-                                <span> {{ paciente.imc}}
-                                </span>
-                            </li>
-                            <li class="list-group-item">Peso:
-                                <span> {{ paciente.peso}}
-                                </span>    
-                            </li>
-                            <li class="list-group-item">Altura:
-                                <span> {{ paciente.altura}}
-                                </span>
-                            </li>
-                        </ul>
-                        <h3> Contato
-                            <div class="border mb-5"></div>
-                        </h3>
-                        <ul class="list-group list-group-flush info">
-                            <li class="list-group-item">E-mail: </li>
-                            <li class="list-group-item">Telefone:</li>
-                            <li class="list-group-item">Celular: </li>
-                        </ul>
-                    </div>
-
                 </div>
-                <div class="card historico mx-auto">
-                    <div class="info-section pr-3">
-                        <h3> Histórico de exames   <div class="border mb-5"></div>
-                        </h3>
-                            <table class="table table-sm table-bordered table-striped text-center">
-                                <thead class="thead-dark ">
-                                    <tr>
-                                        <th scope="col">Data do exame</th>
-                                        <th scope="col">Opções</th>
-                                </thead>
-                                <tbody>
-                                    {% for exame in exames %}
-                                    <tr>
-                                        <td>
-                                            {{ exame.data_exame}}
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-sm btn-block btnCustom" data-toggle="modal" data-target="#exame{{exame.id}}"> <i class="far fa-file-pdf"></i></i> </a>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                    </div>
+                <div class="info-section">
+                    <h3> Dados Pessoais
+                        <div class="border"></div>
+                    </h3>
+                    <ul class="list-group list-group-flush mb-3  info">
+                        <li class="list-group-item">Sexo:
+                            <span> {{ paciente.sexo}}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Data de Nascimento:
+                            <span> {{ paciente.data_nascimento}}
+                            </span>
+                        </li>
+                        <li class="list-group-item">CPF:
+                            <span> {{ paciente.cpf}}
+                            </span>
+                        </li>
+                        <li class="list-group-item">RG:
+                            <span> {{ paciente.rg}}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Convênio:
+                            <span> {{ paciente.carteira_convenio}}
+                            </span>
+                        </li>
+ 
+                    </ul>
+                    <h3> Contato
+                        <div class="border"></div>
+                    </h3>
+                    <ul class="list-group list-group-flush info">
+                        <li class="list-group-item">E-mail: 
+                            <span> {{ paciente.email}}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Telefone: 
+                            <span> {{ paciente.telefone}}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Celular: 
+                            <span> {{ paciente.celular}}
+                            </span>
+                        </li>
+                    </ul>
+                    <h3> Endereço
+                        <div class="border"></div>
+                    </h3>
+                    <ul class="list-group list-group-flush info">
+                        <li class="list-group-item">Endereço: 
+                            <span> {{ paciente.endereco}}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Número: 
+                            <span> {{ paciente.end_num}}
+                            </span>
+                        </li>
+                        <li class="list-group-item">Complemento: 
+                            <span> {{ paciente.complemento}}
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="list-group list-group-flush info" style="float: right!important; margin-top: 2rem;">
+                        <li>
+                            <button class="btn btn-info">Imprimir</button>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="info-section pr-3">
+                    <h3> Histórico de exames <div class="border mb-5"></div>
+                    </h3>
+                    <table class="table table-sm table-bordered table-striped text-center">
+                        <thead class="thead-dark ">
+                            <tr>
+                                <th scope="col">Data do exame</th>
+                                <th scope="col">Opções</th>
+                        </thead>
+                        <tbody>
+                            {% for exame in exames %}
+                            <tr>
+                                <td>
+                                    {{ exame.data_exame}}
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-block btnCustom" data-toggle="modal"
+                                        data-target="#exame{{exame.id}}"> <i class="far fa-file-pdf"></i></i> </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -80,52 +117,53 @@
     {% for exame in exames %}
     <div class="modal" id="exame{{exame.id}}" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                
-                <div class="infor-section">
-                    <ul class="list-group list-group-flush mb-3  info">
-                        <li class="list-group-item">Glicose:
-                            <span> {{ exame.glicose }}
-                            </span>
-                        </li>
-                        <li class="list-group-item">LDL:
-                            <span> {{ exame.ldl }}
-                            </span>    
-                        </li>
-                        <li class="list-group-item">HDL:
-                            <span> {{ exame.hdl }}
-                            </span>
-                        </li>
-                        
-                        <li class="list-group-item">Triglicerides:
-                            <span> {{ exame.triglicerides }}
-                            </span>
-                        </li>
-                        <li class="list-group-item">Colesterol:
-                            <span> {{ exame.colesterol }}
-                            </span>
-                        </li>
-                        
-                    </ul>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <div class="modal-body">
+
+                    <div class="infor-section">
+                        <ul class="list-group list-group-flush mb-3  info">
+                            <li class="list-group-item">Glicose:
+                                <span> {{ exame.glicose }}
+                                </span>
+                            </li>
+                            <li class="list-group-item">LDL:
+                                <span> {{ exame.ldl }}
+                                </span>
+                            </li>
+                            <li class="list-group-item">HDL:
+                                <span> {{ exame.hdl }}
+                                </span>
+                            </li>
+
+                            <li class="list-group-item">Triglicerides:
+                                <span> {{ exame.triglicerides }}
+                                </span>
+                            </li>
+                            <li class="list-group-item">Colesterol:
+                                <span> {{ exame.colesterol }}
+                                </span>
+                            </li>
+
+                        </ul>
+                    </div>
 
 
+                </div>
+                <div class="modal-footer">
+                    <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
+                    <button type="button" class="btn btn-modal" data-dismiss="modal"> <i
+                            class="far fa-file-pdf"></i></i> Exportar PDF</button>
+                    <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
+                </div>
             </div>
-            <div class="modal-footer">
-            <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
-              <button type="button" class="btn btn-modal" data-dismiss="modal"> <i class="far fa-file-pdf"></i></i> Exportar PDF</button>
-              <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
     {% endfor %}
 </main>
 {% endblock %}

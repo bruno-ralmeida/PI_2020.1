@@ -123,29 +123,24 @@ body{
 /*DETALHE DO PACIENTE*/
 .card{
   width: 100%;
-  max-width: 600px;
-  background: #f1f1f1;
   overflow: auto;
   font-family: "montserrat", sans-serif;
-  margin-top: 5rem !important;
+  padding-bottom: 5%;
+  margin-bottom: 2%;
 }
 
-.historico {
-    -ms-flex: 0 0 33.666667%;
-    flex: 0 0 33.666667%;
-    max-width: 28.666667%
-}
 
 .top-section{
   position: relative;
-  background-image: linear-gradient(200deg,#404040, #BFBFBF, #E6E6E6);
+  background: linear-gradient(200deg, #2d4d72f8, #2e69adcc, #203d5fa9) ;
+  color: #fff;
   height: 8rem !important;
 }
 
 
 .name span{
-  text-transform: uppercase;
-  font-weight: 600;   
+  text-transform: capitalize;
+  font-weight: 700;   
   position: absolute;
   bottom: 20%;
   left: 2%;
@@ -153,26 +148,33 @@ body{
   font-weight: 900;
   opacity: .90;
   white-space: pre-line;
-
+  float: right;
 }
 
 .info-section{
-  margin-top: 1rem !important;
-  margin-left: 1rem !important;
-
   color: #333;
+  background-color: #ffff;
+  padding: 0% 3% 0% 3%;  
 }
+
+.info-section > h3{
+  margin: 4% 0% 2% 0%;  
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
 
 .info {
-  text-transform: capitalize;
-  font-weight: 600;   
+  
+  font-weight: 600; 
 }
+
+
 .info span{
   font-weight: 500;   
   float: right!important;
-  margin-right: 1rem;
-}
 
+}
 
 .border{
   width: 30px;
@@ -429,17 +431,9 @@ header{
   
   .card{
     width: 100% !important;
-    max-width: 1000px !important;
-    
   }
 
-  .historico{
-    width: 800px !important;
-    max-width: 100% !important;
-    
-    flex: 0 0 100%;
-    
-  }
+  
 }
 
 
