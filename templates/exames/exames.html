@@ -33,7 +33,7 @@
                             
                         </tr>
                         <tr>
-                            <th scope="row">HDL Máx:</th>
+                            <th scope="row">HDL Min:</th>
                             <td>{{ exame.hdl_min}}</td>
                             
                         </tr>
@@ -111,18 +111,18 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="data">Data</label>
-                        <input type="date" class="form-control" id="data" name="data">
+                        <input type="date" class="form-control" id="data" name="data" required="required">
                     </div>
                 
                     <div class="form-group col-md-6">
                         <label for="glicose">Glicose</label>
-                        <input type="number" class="form-control" id="glicose" name="glicose">
+                        <input type="number" class="form-control" id="glicose" name="glicose" required="required">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="ldl">LDL</label>
-                        <input type="number" class="form-control" id="ldl" name="ldl">
+                        <input type="number" class="form-control" id="ldl" name="ldl" required="required">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="hdl">HDL</label>
@@ -132,11 +132,11 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="triglicerides">Triglicerides</label>
-                        <input type="number" class="form-control" id="triglicerides" name="triglicerides">
+                        <input type="number" class="form-control" id="triglicerides" name="triglicerides" required="required"> 
                     </div>
                     <div class="form-group col-md-6">
                         <label for="colesterol">Colesterol </label>
-                        <input type="number" class="form-control" id="colesterol" name="colesterol">
+                        <input type="number" class="form-control" id="colesterol" name="colesterol" required="required">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -162,6 +162,7 @@
 </script>
 <!--CartJs-->
 <script>        
+    {% for ref in exame_referencia %}
         var ctx = document.getElementById('chart').getContext('2d');
         var chart = new Chart(ctx, {
             type: 'line',
@@ -185,43 +186,65 @@
                     ],
 
                     fill: false,
+                  
                     borderColor: [
-                        'rgba(255, 0, 0, 0.5)',
+                    {% for exame in exames_grafico %}
+                        {% if exame.colesterol >=  ref.colesterol_max %}
+                        'rgba(255, 51, 0, .6)',
+                        {% else %}
+                            'rgba(255, 204, 102, .5)',
+                        {% endif %}
+                    {% endfor %}
                     ],
-
+            
                 
                 },{
-                        label: 'Glicose',
-                        fill: false,
-                        borderColor: [
+                    label: 'Glicose',
+                    fill: false,
+                    borderColor: [
+                        {% for exame in exames_grafico %}
+                            {% if exame.glicose >=  ref.glicose %}
+                        'rgba(255, 51, 0, .6)',
+                            {% else %}
                         'rgba(42, 145, 171, .5)',
-                        
+                            {% endif %}
+                        {% endfor %}
                     ],
                     data: [
-                    {% for exame in exames_grafico %}
-                    '{{ exame.glicose }}', 
-                    {% endfor %}
+                        {% for exame in exames_grafico %}
+                        '{{ exame.glicose }}', 
+                        {% endfor %}
                     ],
                 },
                 {
-                        label: 'HDL',
-                        fill: false,
-                        borderColor: [
-                        'rgba(142, 145, 71, .5)',
-                        
+                    label: 'HDL',
+                    fill: false,
+                    borderColor: [
+                    {% for exame in exames_grafico %}
+                            {% if exame.hdl <=  ref.hdl_min %}
+                                'rgba(255, 51, 0, .6)',
+                            {% else %}
+                                'rgba(142, 145, 71, .5)', 
+                        {% endif %}
+                    {% endfor %}  
                     ],
                     data: [
-                    {% for exame in exames_grafico %}
-                    '{{ exame.hdl }}', 
-                    {% endfor %}
+                        {% for exame in exames_grafico %}
+                        '{{ exame.hdl }}', 
+                        {% endfor %}
                     ],
                 },
                 {
                         label: 'LDL',
                         fill: false,
                         borderColor: [
-                        'rgba(42, 45, 71, .5)',
-                        
+                        {% for exame in exames_grafico %}
+                            {% if exame.ldl >=  ref.ldl_max %}
+                                'rgba(255, 51, 0, .6)',
+                            {% else %}
+                                'rgba(42, 45, 71, .5)',
+                            {% endif %}
+                        {% endfor %}  
                     ],
                     data: [
                     {% for exame in exames_grafico %}
@@ -233,8 +256,13 @@
                         label: 'Triglicerides',
                         fill: false,
                         borderColor: [
-                        'rgba(42, 145, 71, .5)',
-                        
+                        {% for exame in exames_grafico %}
+                            {% if exame.ldl >=  ref.triglicerides_max %}
+                                'rgba(255, 51, 0, .6)',
+                            {% else %}
+                            'rgba(42, 145, 71, .5)',
+                            {% endif %}
+                        {% endfor %}  
                     ],
                     data: [
                     {% for exame in exames_grafico %}
@@ -246,6 +274,7 @@
             },
             options: {
                 maintainAspectRatio: false,
+            
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -263,6 +292,8 @@
                 }
             }
         });
+    {% endfor %}
+    
 
 
 
