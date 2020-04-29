@@ -54,13 +54,22 @@ def atualiza_paciente(request):
         paciente_id = request.POST['paciente_id']
         paciente = get_object_or_404(Paciente, id=paciente_id)
         paciente.nome = request.POST['nome']
+        paciente.sexo = request.POST['sexo']
+        paciente.data_nascimento = datetime.strptime(request.POST['data_nascimento'], '%d/%m/%Y').date()
+        paciente.carteira_convenio = request.POST['convenio']
         paciente.cpf = request.POST['cpf']
         paciente.rg = request.POST['rg']
-        paciente.carteira_convenio = request.POST['carteira_convenio']
-        paciente.sexo = request.POST['sexo']
-        paciente.peso = float(request.POST['peso'].replace(',','.')) 
-        paciente.altura = float(request.POST['altura'].replace(',','.'))
-        paciente.data_nascimento = datetime.strptime(request.POST['data_nascimento'], '%d/%m/%Y').date()
+        paciente.email = request.POST['email']
+        paciente.telefone = request.POST['telefone']
+        paciente.celular = request.POST['celular']
+        paciente.endereco = request.POST['endereco']
+        paciente.end_num = request.POST['end_num']
+        paciente.complemento = request.POST['complemento']
+        
+        #Liberar apenas para o médico
+        #paciente.peso = float(request.POST['peso'].replace(',','.')) 
+        #paciente.altura = float(request.POST['altura'].replace(',','.'))
+        
         
         paciente.save() #Em django para atualizar os dados utilizamos o método save()
     return redirect('pacientes')
