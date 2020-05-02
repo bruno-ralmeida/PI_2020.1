@@ -13,10 +13,10 @@ class Exame_Resultado(models.Model):
 
 
 class Exame_Referencia(models.Model):
-    glicose = models.IntegerField(max_length=15)
-    ldl_max = models.IntegerField(max_length=15)
-    hdl_min = models.IntegerField(max_length=15)
-    triglicerides_max = models.IntegerField(max_length=15)
-    colesterol_max = models.IntegerField(max_length=15)
+    glicose = models.IntegerField()
+    ldl_max = models.IntegerField()
+    hdl_min = models.IntegerField()
+    triglicerides_max = models.IntegerField()
+    colesterol_max = models.IntegerField()
     idade_min = models.IntegerField()
     idade_max = models.IntegerField()
