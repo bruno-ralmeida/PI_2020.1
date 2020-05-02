@@ -3,303 +3,280 @@
 {% block content %}
 
 <main>
-    <section class="container-fluid">
-        <!--Gráficos e Tabela Referência-->
-        <section class="container row  mt-x">
-            <!--Grafico Historico de exames-->
-            <div class="col"  style="height: 400px !important; padding-bottom: 2%;">
-                <canvas id="chart"></canvas>
-            </div>
-            <!--Tabela de referencia-->
-            <div class="col-4 mt-y">
-                {% for exame in exame_referencia %}
-                <table class="table table-sm table-bordered table-striped mx-auto text-center" >
-                    <thead class="colorCustom">
-                        <tr>
-                            <th scope="col">Exame</th>
-                            <th scope="col">Valor Ref.</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        <tr>
-                            <th scope="row">Glicose Máx:</th>
-                            <td>{{ exame.glicose}}</td>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="row">LDL Máx:</th>
-                            <td>{{ exame.ldl_max}}</td>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="row">HDL Min:</th>
-                            <td>{{ exame.hdl_min}}</td>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="row">Triglicerides Máx</th>
-                            <td>{{ exame.triglicerides_max}}</td>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="row">Colesterol Máx</th>
-                            <td>{{ exame.colesterol_max}}</td>
-                            
-                        </tr>
-                        
-                    </tbody>
-                </table>
-                <!--Mensagem com observação de Idade-->
-                <div class="mx-auto">
-                    <p style="color: #00004d;"> ** Tabela de ref. para pacientes com idade entre {{exame.idade_min}} a {{exame.idade_max}}. </p>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        <!--Novos Exames-->
-        <div class="container">
-         
-            <div class="col-lg-10">
-                        
-                <div class="mx-auto">
-                    <!--Importador de PDF-->
-                    <div class="row mb-3">
-                        <!--Mensagem de Importação-->
-                        <div class="mx-auto">
-                            {% include 'partials/_alertas.html' %}
-                        </div>
-                        <!--Formuladrio para importação-->
-                        <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <input type="hidden" name="paciente" value="{{ paciente.id }}">      
-                            <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
-                            <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
-                            <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly" >
-                            <button type="submit" class="btn btn-ipdf">Importar</button>
-                        </form>         
-                    </div>
-                    <!-- Botão Cadastro de exame-->
-                    <div class="mb-3" style="float: right !important;">
-                        
-                        <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
-                            Novo Exame
-                        </button>
-                        
-                    </div>
-                    
-                    {% include 'partials/_det_paciente.html' %}
-                    
-                </div>
-            </div>
+  <section class="col-lg-10">
+    <!--Gráficos e Tabela Referência-->
+    <section class=" container__resultados">
+      <!--Grafico Historico de exames-->
+      <div class="container__resultados__grafico">
+        <canvas id="chart" style="width: 100%; height: 100%; padding: 0 .325rem;"></canvas>
+      </div>
+      <!--Tabela de referencia-->
+      <div class="container__resultados__referencia">
+        {% for exame in exame_referencia %}
+        <table class="table table-sm table-bordered table-striped text-center">
+          <thead class="colorCustom">
+            <tr>
+              <th scope="col">Exame</th>
+              <th scope="col">Valor Ref.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Glicose Máx:</th>
+              <td>{{ exame.glicose}}</td>
+            </tr>
+            <tr>
+              <th scope="row">LDL Máx:</th>
+              <td>{{ exame.ldl_max}}</td>
+            </tr>
+            <tr>
+              <th scope="row">HDL Min:</th>
+              <td>{{ exame.hdl_min}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Triglicerides Máx</th>
+              <td>{{ exame.triglicerides_max}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Colesterol Máx</th>
+              <td>{{ exame.colesterol_max}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <!--Mensagem com observação de Idade-->
+        <div class="mx-auto">
+          <p style="color: #00004d;  font-size: 14px;"> ** Tabela de ref. para pacientes com idade entre {{exame.idade_min}} a
+            {{exame.idade_max}}. </p>
         </div>
+        {% endfor %}
+      </div>
     </section>
-</main>  
+    <!--Novos Exames-->
+    <section class="col-lg-10 mx-auto">      
+        <!--Importador de PDF-->
+        <div class="row mb-3">
+          <!--Mensagem de Importação-->
+          <div class="mx-auto">
+            {% include 'partials/_alertas.html' %}
+          </div>
+          <!--Formuladrio para importação-->
+          <form class="formImportacao" action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="paciente" value="{{ paciente.id }}">
+            <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
+            <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
+            <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
+            <button type="submit" class="btn btn-ipdf">Importar</button>
+          </form>
+        </div>
+        <!-- Botão Cadastro de exame-->
+        <div class="mb-3" style="float: right !important;">
+          <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
+            Novo Exame
+          </button>
+        </div>
+        {% include 'partials/_det_paciente.html' %}
+    </section>
+  </section>
+</main>
 <!-- Modal Cadastro de exame-->
 <div class="modal fade" id="Cadastro" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modalTitle">Cadasto de Exame</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form action="{% url 'cadastro' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="paciente" value="{{ paciente.id }}">    
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="data">Data</label>
-                        <input type="date" class="form-control" id="data" name="data" required="required">
-                    </div>
-                
-                    <div class="form-group col-md-6">
-                        <label for="glicose">Glicose</label>
-                        <input type="number" class="form-control" id="glicose" name="glicose" required="required">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="ldl">LDL</label>
-                        <input type="number" class="form-control" id="ldl" name="ldl" required="required">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="hdl">HDL</label>
-                        <input type="number" class="form-control" id="hdl" name="hdl">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="triglicerides">Triglicerides</label>
-                        <input type="number" class="form-control" id="triglicerides" name="triglicerides" required="required"> 
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="colesterol">Colesterol </label>
-                        <input type="number" class="form-control" id="colesterol" name="colesterol" required="required">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-block btn-success">Salvar</button>
-                </div>
-            
-            </form>
-        </div>
-        </div>
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Cadasto de Exame</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'cadastro' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="paciente" value="{{ paciente.id }}">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="data">Data</label>
+              <input type="date" class="form-control" id="data" name="data" required="required">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="glicose">Glicose</label>
+              <input type="number" class="form-control" id="glicose" name="glicose" required="required">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="ldl">LDL</label>
+              <input type="number" class="form-control" id="ldl" name="ldl" required="required">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="hdl">HDL</label>
+              <input type="number" class="form-control" id="hdl" name="hdl">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="triglicerides">Triglicerides</label>
+              <input type="number" class="form-control" id="triglicerides" name="triglicerides" required="required">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="colesterol">Colesterol </label>
+              <input type="number" class="form-control" id="colesterol" name="colesterol" required="required">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-block btn-success">Salvar</button>
+          </div>
+
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 <!--Input FILE custom-->
 <script>
-    $('#btn-ipdf').on('click', function() {
-        $('.arquivo').trigger('click');
-    });
+  $('#btn-ipdf').on('click', function () {
+    $('.arquivo').trigger('click');
+  });
 
-    $('.arquivo').on('change', function() {
-        var fileName = $(this)[0].files[0].name;
-        $('#file').val(fileName);
-    });
-
+  $('.arquivo').on('change', function () {
+    var fileName = $(this)[0].files[0].name;
+    $('#file').val(fileName);
+  });
 </script>
 <!--CartJs-->
-<script>        
-    {% for ref in exame_referencia %}
-        var ctx = document.getElementById('chart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                
-                    
-                labels: [ 
-                {% for exame in exames_grafico %}
-                    '{{ exame.data_exame }}', 
-                {% endfor %}
-                ],
-                    
-                
-                datasets: [{
-                    label: 'Colesterol',
-                    
-                    data: [
-                    {% for exame in exames_grafico %}
-                    '{{ exame.colesterol }}', 
-                    {% endfor %}
-                    ],
-
-                    fill: false,
-                  
-                    borderColor: [
-                    {% for exame in exames_grafico %}
-                        {% if exame.colesterol >=  ref.colesterol_max %}
-                        'rgba(255, 51, 0, .6)',
-                        {% else %}
-                            'rgba(255, 204, 102, .5)',
-                        {% endif %}
-                    {% endfor %}
-                    ],
-            
-                
-                },{
-                    label: 'Glicose',
-                    fill: false,
-                    borderColor: [
-                        {% for exame in exames_grafico %}
-                            {% if exame.glicose >=  ref.glicose %}
-                        'rgba(255, 51, 0, .6)',
-                            {% else %}
-                        'rgba(42, 145, 171, .5)',
-                            {% endif %}
-                        {% endfor %}
-                    ],
-                    data: [
-                        {% for exame in exames_grafico %}
-                        '{{ exame.glicose }}', 
-                        {% endfor %}
-                    ],
-                },
-                {
-                    label: 'HDL',
-                    fill: false,
-                    borderColor: [
-                    {% for exame in exames_grafico %}
-                            {% if exame.hdl <=  ref.hdl_min %}
-                                'rgba(255, 51, 0, .6)',
-                            {% else %}
-                                'rgba(142, 145, 71, .5)', 
-                        {% endif %}
-                    {% endfor %}  
-                    ],
-                    data: [
-                        {% for exame in exames_grafico %}
-                        '{{ exame.hdl }}', 
-                        {% endfor %}
-                    ],
-                },
-                {
-                        label: 'LDL',
-                        fill: false,
-                        borderColor: [
-                        {% for exame in exames_grafico %}
-                            {% if exame.ldl >=  ref.ldl_max %}
-                                'rgba(255, 51, 0, .6)',
-                            {% else %}
-                                'rgba(42, 45, 71, .5)',
-                            {% endif %}
-                        {% endfor %}  
-                    ],
-                    data: [
-                    {% for exame in exames_grafico %}
-                    '{{ exame.ldl }}', 
-                    {% endfor %}
-                    ],
-                },
-                {
-                        label: 'Triglicerides',
-                        fill: false,
-                        borderColor: [
-                        {% for exame in exames_grafico %}
-                            {% if exame.ldl >=  ref.triglicerides_max %}
-                                'rgba(255, 51, 0, .6)',
-                            {% else %}
-                            'rgba(42, 145, 71, .5)',
-                            {% endif %}
-                        {% endfor %}  
-                    ],
-                    data: [
-                    {% for exame in exames_grafico %}
-                    '{{ exame.triglicerides }}', 
-                    {% endfor %}
-                    ],
-                },
-            ]
-            },
-            options: {
-                maintainAspectRatio: false,
-            
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                },
-                layout: {
-                    padding: {
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        bottom: 0
-                    }
-                }
-            }
-        });
-    {% endfor %}
-    
+<script>
+  
+var ctx = document.getElementById('chart').getContext('2d');
+{%for ref in exame_referencia %}
+var chart = new Chart(ctx, {
+  type: 'line',
+  data: {
 
 
+    labels: [
+      {% for exame in exames_grafico %}
+      '{{ exame.data_exame }}',
+      {% endfor %}
+    ],
 
+
+    datasets: [{
+        label: 'Colesterol',
+
+        data: [
+          {% for exame in exames_grafico %}
+          '{{ exame.colesterol }}',
+          {% endfor %}
+        ],
+
+        fill: false,
+
+        borderColor: [
+          {% for exame in exames_grafico %} 
+            {% if exame.colesterol >= ref.colesterol_max %}
+          'rgba(255, 51, 0, .6)',
+          {% else %}
+          'rgba(255, 204, 102, .5)',
+            {% endif %} 
+          {% endfor %}
+        ],
+
+
+      }, {
+        label: 'Glicose',
+        fill: false,
+        borderColor: [
+          {% for exame in exames_grafico %} 
+            {% if exame.glicose >= ref.glicose %}
+          'rgba(255, 51, 0, .6)',
+          {% else %}
+          'rgba(42, 145, 171, .5)',
+            {% endif %} 
+          {% endfor %}
+        ],
+        data: [
+          {% for exame in exames_grafico %}
+          '{{ exame.glicose }}',
+          {% endfor %}
+        ],
+      },
+      {
+        label: 'HDL',
+        fill: false,
+        borderColor: [
+          {% for exame in exames_grafico %} 
+            {% if exame.hdl <= ref.hdl_min %}
+          'rgba(255, 51, 0, .6)',
+            {% else %}
+          'rgba(142, 145, 71, .5)',
+            {% endif %} 
+          {% endfor %}
+        ],
+        data: [
+          {% for exame in exames_grafico %}
+          '{{ exame.hdl }}',
+          {% endfor %}
+        ],
+      },
+      {
+        label: 'LDL',
+        fill: false,
+        borderColor: [
+          {% for exame in exames_grafico %} 
+            {% if exame.ldl >= ref.ldl_max %}
+          'rgba(255, 51, 0, .6)',
+            {% else %}
+          'rgba(42, 45, 71, .5)',
+            {% endif %} 
+          {% endfor %}
+        ],
+        data: [
+          {% for exame in exames_grafico %}
+          '{{ exame.ldl }}',
+          {% endfor %}
+        ],
+      },
+      {
+        label: 'Triglicerides',
+        fill: false,
+        borderColor: [
+          {% for exame in exames_grafico %} 
+            {% if exame.ldl >= ref.triglicerides_max %}
+          'rgba(255, 51, 0, .6)',
+            {% else %}
+          'rgba(42, 145, 71, .5)',
+            {% endif %} 
+          {% endfor %}
+        ],
+        data: [
+          {% for exame in exames_grafico %}
+          '{{ exame.triglicerides }}',
+          {% endfor %}
+        ],
+      },
+    ]
+  },
+  options: {
+    maintainAspectRatio: false,
+
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: false
+        }
+      }]
+    },
+    layout: {
+      padding: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
+      }
+    }
+  }
+}); 
+{% endfor %}
 </script>
 {% endblock %}
-
-

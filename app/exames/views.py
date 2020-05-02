@@ -15,54 +15,23 @@ from datetime import datetime, date
 
 #CRUD 
 def detalhes(request, paciente_id):
-    data_atual = datetime.now()
-    data_inicial = data_atual
-    data_inicial = data_inicial + relativedelta(months=-12)
-
+    dados = get_dados(request)
     paciente = get_object_or_404(Paciente, id=paciente_id)
-    pac_idade = calculo_idade(paciente.data_nascimento)
-    imc = calculo_imc(paciente.peso, paciente.altura)
-    paciente.imc = imc
-    paciente.idade = pac_idade
+    paciente.idade = calculo_idade(paciente.data_nascimento)
+    paciente.imc  = calculo_imc(paciente.peso, paciente.altura)
 
-    if pac_idade <= 9:
-        start_age = 0
-        end_age = 9
-    if pac_idade > 9 and pac_idade <= 19:
-        start_age = 10
-        end_age = 19
-    if pac_idade >= 20:
-        start_age = 20
-        end_age = 150
-
-    exame_ref = Exame_Referencia.objects.filter(idade_min=start_age, idade_max=end_age)
-    exames = Exame_Resultado.objects.filter(paciente=paciente, data_exame__range=(data_inicial, data_atual)).order_by('data_exame')
-
+    
+    #Paginação
+    exames = Exame_Resultado.objects.filter(paciente=paciente).order_by('data_exame')
     paginator = Paginator(exames.reverse(),6)  
     page = request.GET.get('page')
     exames_por_pagina = paginator.get_page(page)
 
-  
-
-
-    dados = get_dados(request)
     dados['paciente'] = paciente
     dados['exames'] = exames_por_pagina
-    dados['exame_referencia'] = exame_ref  
-    dados['exames_grafico'] = tratamento_grafico( exames)
+    dados['exame_referencia'] = exame_referencia(paciente.idade)
+    dados['exames_grafico'] = grafico(paciente)
     return render(request, 'exames/exames.html', dados)
-
-def tratamento_grafico(lst_exames):
-    for exame in lst_exames:
-        exame.glicose = int(exame.glicose)
-        exame.ldl = int(exame.ldl)
-        exame.hdl = int(exame.hdl)
-        exame.triglicerides = int(exame.triglicerides)
-        exame.colesterol = int(exame.colesterol)
-
-
-
-    return lst_exames
 
 def cad_exame(request):
     if request.method == 'POST':
@@ -141,4 +110,40 @@ def salvar_pdf(exame_id):
     exame.pdf = exame.pdf
     exame.save()
 
+#EXAME REFERENCIA E GRAFICO
+def exame_referencia(idade_paciente):
+    """
+    Função para buscar os exames de referencia de acordo com a idade do paciente.
+    """
+    range_idade = []
+
+    if idade_paciente <= 9:
+        range_idade.append(0)
+        range_idade.append(9)
+
+    if idade_paciente > 9 and idade_paciente <= 19:
+        range_idade.append(10)
+        range_idade.append(19)
+
+    if idade_paciente >= 20:
+        range_idade.append(20)
+        range_idade.append(150)
     
+    return  Exame_Referencia.objects.filter(idade_min=range_idade[0], idade_max=range_idade[1])
+
+def grafico(paciente):
+    """Para inserir as informações no gráfico é necessário que sejam tipos inteiros"""
+    data_atual = datetime.now()
+    data_inicial = data_atual
+    data_inicial = data_inicial + relativedelta(months=-6)
+
+    lst_exames = Exame_Resultado.objects.filter(paciente=paciente, data_exame__range=(data_inicial, data_atual)).order_by('data_exame')
+
+    for exame in lst_exames:
+        exame.glicose = int(exame.glicose)
+        exame.ldl = int(exame.ldl)
+        exame.hdl = int(exame.hdl)
+        exame.triglicerides = int(exame.triglicerides)
+        exame.colesterol = int(exame.colesterol)
+
+    return lst_exames

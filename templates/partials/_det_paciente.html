@@ -3,75 +3,76 @@
 
 {% block content %}
 {% if tipo == 1 %}
-<div class="card">
-    <div class="info-section pr-3">
-        <h3> Histórico de exames <div class="border mb-5"></div>
-        </h3>
-        <table class="table table-sm table-bordered table-striped text-center">
-            <thead class="colorCustom ">
-                <tr>
-                    <th scope="col">Data do exame</th>
-                    <th scope="col">Opções</th>
-            </thead>
-            <tbody>
-                {% for exame in exames %}
-                <tr>
-                    <td>
-                        {{ exame.data_exame|date:'d/m/Y'}}
-                    </td>
-                    <td>
-                        <a href="#" class="btn btn-sm btnCustom" data-toggle="modal" data-target="#exame{{exame.id}}">
-                            <i class="far fa-file-pdf"></i></i> </a>
-                        
-                        <a href="{% url 'del-exame' exame.id  %}" class="btn btn-danger btn-sm "> <i class="fas fa-minus"></i> </a>
-                    </td>
-                </tr>
+<section id="exames">
+    <div class="card">
+        <div class="info-section pr-3" >
+            <h3> Histórico de exames <div class="border mb-5"></div>
+            </h3>
+            <table class="table table-sm table-bordered table-striped text-center" >
+                <thead class="colorCustom ">
+                    <tr>
+                        <th scope="col">Data do exame</th>
+                        <th scope="col">Opções</th>
+                </thead>
+                <tbody>
+                    {% for exame in exames %}
+                    <tr>
+                        <td>
+                            {{ exame.data_exame|date:'d/m/Y'}}
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btnCustom" data-toggle="modal" data-target="#exame{{exame.id}}">
+                                <i class="far fa-file-pdf"></i></i> </a>
+                            
+                            <a href="{% url 'del-exame' exame.id  %}" class="btn btn-danger btn-sm "> <i class="fas fa-minus"></i> </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <nav>
+            {% if exames.has_other_pages %}
+            <ul class="pagination justify-content-center">
+        
+                {% if exames.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ exames.previous_page_number }}#exames">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for pagina in exames.paginator.page_range %}
+                {% if exames.number == pagina %}
+                <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
+                {% else %}
+                <li class="page-item">
+                    <a href="?page={{ pagina }}#exames" class="page-link">{{ pagina }}</a>
+                </li>
+                {% endif %}
                 {% endfor %}
-            </tbody>
-        </table>
+                {% if exames.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ exames.next_page_number }}#exames" class="page-link">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                </li>
+                {% endif %}
+        
+            </ul>
+            {% endif %}
+        </nav>
+        
     </div>
-    <nav>
-        {% if exames.has_other_pages %}
-        <ul class="pagination justify-content-center">
-    
-            {% if exames.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ exames.previous_page_number }}#exames">&laquo;</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link">&laquo;</a>
-            </li>
-            {% endif %}
-            {% for pagina in exames.paginator.page_range %}
-            {% if exames.number == pagina %}
-            <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
-            {% else %}
-            <li class="page-item">
-                <a href="?page={{ pagina }}#exames" class="page-link">{{ pagina }}</a>
-            </li>
-            {% endif %}
-            {% endfor %}
-            {% if exames.has_next %}
-            <li class="page-item">
-                <a href="?page={{ exames.next_page_number }}#exames" class="page-link">&raquo;</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link">&raquo;</a>
-            </li>
-            {% endif %}
-    
-        </ul>
-        {% endif %}
-    </nav>
-      
-</div>
+</section>
 {% endif%}
 
 
 <div class="card">
-   
     <div class="info-section">
         <h3> Dados Pessoais
             <div class="border"></div>
