@@ -74,7 +74,7 @@
             {% csrf_token %}
             <input type="hidden" name="paciente" value="{{ paciente.id }}">
             <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
-            <input type="file" name="pdf" id="arquivo" class="arquivo" accept=".pdf" required="required">
+            <input type="file" name="pdf" id="arquivo" class="iptArquivo" accept=".pdf" required="required">
             <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
             <button type="submit" class="btn btn-ipdf">Importar</button>
           </form>
@@ -146,10 +146,10 @@
 <!--Input FILE custom-->
 <script>
   $('#btn-ipdf').on('click', function () {
-    $('.arquivo').trigger('click');
+    $('.iptArquivo').trigger('click');
   });
 
-  $('.arquivo').on('change', function () {
+  $('.iptArquivo').on('change', function () {
     var fileName = $(this)[0].files[0].name;
     $('#file').val(fileName);
   });
