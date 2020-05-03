@@ -8,9 +8,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from usuario.views import get_dados
-from media.pdf.leitor_pdf import *
 from consulta.models import *
 from exames.models import *
+from exames.leitor_pdf import *
 from paciente.models import *
 from paciente.views import calculo_idade, calculo_imc
 from datetime import datetime, date

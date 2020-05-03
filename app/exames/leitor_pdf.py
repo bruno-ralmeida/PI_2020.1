@@ -14,8 +14,9 @@ def ler_pdf(arquivo):
     @Params Informar o nome do arquivo.
     @Return Retorna uma string com todos os dados do pdf
     """
-    BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    path = f'{BASE}\{arquivo}'
+    BASE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(arquivo))), 'media') 
+    path =  os.path.join(BASE, arquivo)
+
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     laparams = LAParams()
