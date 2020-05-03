@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from medico.models import Medico
@@ -30,6 +31,7 @@ def logout(request):
     auth.logout(request)   
     return redirect('login')
 
+@login_required(login_url='login')
 def dashboard(request):
     if request.user.is_authenticated:
         dados =  get_dados(request)

@@ -12,43 +12,53 @@
       </div>
       <!--Tabela de referencia-->
       <div class="container__resultados__referencia">
-        {% for exame in exame_referencia %}
+        
         <table class="table table-sm table-bordered table-striped text-center">
           <thead class="colorCustom">
             <tr>
               <th scope="col">Exame</th>
-              <th scope="col">Valor Ref.</th>
+              <th scope="col" colspan="2">Valor Ref.</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <th scope="row">Glicose Máx:</th>
-              <td>{{ exame.glicose}}</td>
+              <td>{{ exame_referencia.glicose_min}}</td>
+              <td>{{ exame_referencia.glicose_max}}</td>
             </tr>
             <tr>
               <th scope="row">LDL Máx:</th>
-              <td>{{ exame.ldl_max}}</td>
+              <td>{{ exame_referencia.ldl_min}}</td>
+              <td>{{ exame_referencia.ldl_max}}</td>
             </tr>
             <tr>
               <th scope="row">HDL Min:</th>
-              <td>{{ exame.hdl_min}}</td>
+              <td>{{ exame_referencia.hdl_min}}</td>
+              <td>{{ exame_referencia.hdl_max}}</td>
             </tr>
             <tr>
               <th scope="row">Triglicerides Máx</th>
-              <td>{{ exame.triglicerides_max}}</td>
+              <td>{{ exame_referencia.triglicerides_min}}</td>
+              <td>{{ exame_referencia.triglicerides_max}}</td>
             </tr>
             <tr>
               <th scope="row">Colesterol Máx</th>
-              <td>{{ exame.colesterol_max}}</td>
+              <td>{{ exame_referencia.colesterol_min}}</td>
+              <td>{{ exame_referencia.colesterol_max}}</td>
+            </tr>
+            <tr scope="row">
+              <th>VLDL</th>
+              <td>{{ exame_referencia.vldl_min }}</td>
+              <td>{{ exame_referencia.vldl_max }}</td>
             </tr>
           </tbody>
         </table>
         <!--Mensagem com observação de Idade-->
         <div class="mx-auto">
-          <p style="color: #00004d;  font-size: 14px;"> ** Tabela de ref. para pacientes com idade entre {{exame.idade_min}} a
-            {{exame.idade_max}}. </p>
+          <p style="color: #00004d;  font-size: 14px;"> ** Tabela de ref. para pacientes com idade entre {{exame_referencia.idade_min}} a
+            {{exame_referencia.idade_max}}. </p>
         </div>
-        {% endfor %}
+      
       </div>
     </section>
     <!--Novos Exames-->
@@ -60,7 +70,7 @@
             {% include 'partials/_alertas.html' %}
           </div>
           <!--Formuladrio para importação-->
-          <form class="formImportacao" action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
+          <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="paciente" value="{{ paciente.id }}">
             <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
@@ -148,7 +158,7 @@
 <script>
   
 var ctx = document.getElementById('chart').getContext('2d');
-{%for ref in exame_referencia %}
+
 var chart = new Chart(ctx, {
   type: 'line',
   data: {
@@ -174,7 +184,7 @@ var chart = new Chart(ctx, {
 
         borderColor: [
           {% for exame in exames_grafico %} 
-            {% if exame.colesterol >= ref.colesterol_max %}
+            {% if exame.colesterol >= exame_referencia.colesterol_max %}
           'rgba(255, 51, 0, .6)',
           {% else %}
           'rgba(255, 204, 102, .5)',
@@ -188,7 +198,7 @@ var chart = new Chart(ctx, {
         fill: false,
         borderColor: [
           {% for exame in exames_grafico %} 
-            {% if exame.glicose >= ref.glicose %}
+            {% if exame.glicose >= exame_referencia.glicose_max %}
           'rgba(255, 51, 0, .6)',
           {% else %}
           'rgba(42, 145, 171, .5)',
@@ -206,7 +216,7 @@ var chart = new Chart(ctx, {
         fill: false,
         borderColor: [
           {% for exame in exames_grafico %} 
-            {% if exame.hdl <= ref.hdl_min %}
+            {% if exame.hdl <= exame_referencia.hdl_min %}
           'rgba(255, 51, 0, .6)',
             {% else %}
           'rgba(142, 145, 71, .5)',
@@ -224,7 +234,7 @@ var chart = new Chart(ctx, {
         fill: false,
         borderColor: [
           {% for exame in exames_grafico %} 
-            {% if exame.ldl >= ref.ldl_max %}
+            {% if exame.ldl >= exame_referencia.ldl_max %}
           'rgba(255, 51, 0, .6)',
             {% else %}
           'rgba(42, 45, 71, .5)',
@@ -242,7 +252,7 @@ var chart = new Chart(ctx, {
         fill: false,
         borderColor: [
           {% for exame in exames_grafico %} 
-            {% if exame.ldl >= ref.triglicerides_max %}
+            {% if exame.ldl >= exame_referencia.triglicerides_max %}
           'rgba(255, 51, 0, .6)',
             {% else %}
           'rgba(42, 145, 71, .5)',
@@ -252,6 +262,24 @@ var chart = new Chart(ctx, {
         data: [
           {% for exame in exames_grafico %}
           '{{ exame.triglicerides }}',
+          {% endfor %}
+        ],
+      },
+      {
+        label: 'VLDL',
+        fill: false,
+        borderColor: [
+          {% for exame in exames_grafico %} 
+            {% if exame.vldl >= exame_referencia.vldl_max %}
+          'rgba(255, 51, 0, .6)',
+            {% else %}
+          'rgba(42, 145, 71, .5)',
+            {% endif %} 
+          {% endfor %}
+        ],
+        data: [
+          {% for exame in exames_grafico %}
+          '{{ exame.vldl }}',
           {% endfor %}
         ],
       },
@@ -277,6 +305,6 @@ var chart = new Chart(ctx, {
     }
   }
 }); 
-{% endfor %}
+
 </script>
 {% endblock %}
