@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'paciente',
     'exames',
     'consulta',
+    'tempus_dominus',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -144,3 +146,5 @@ MESSAGE_TAGS = {
     messages.INFO: 'primary',
  
 }
+
+TEMPUS_DOMINUS_LOCALIZE = True

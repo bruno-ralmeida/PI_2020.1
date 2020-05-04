@@ -5,6 +5,7 @@ from django.contrib import auth, messages
 from medico.models import Medico
 from atendente.models import Atendente
 from consulta.models import Consulta
+from consulta.forms import *
 from datetime import datetime, date
 
 def login(request):
@@ -39,6 +40,14 @@ def dashboard(request):
             lst_consultas = Consulta.objects.filter(medico=dados['usuario'])
             lst_consultas = separa_data_hr(lst_consultas)
             dados['consultas'] = lst_consultas
+        if dados['tipo'] == 2:
+            data = date.today()
+            form = cadConsulta()
+            lst_consultas = Consulta.objects.filter(data__date=data)
+            lst_consultas = separa_data_hr(lst_consultas)
+            dados['consultas'] = lst_consultas
+            dados['form'] = form
+
     return render(request, 'usuarios/index.html', dados)
 
 
