@@ -66,14 +66,14 @@
     <!--Estimativa -->
     <div class="col-lg-10 mx-auto container__estimativa">
       
-      <ul class="list-group">
+      <ul class="list-group estimativa">
         
         {% for dic in lst_estimativa %}  
           
           {% if dic.periodo == 0 %}
 
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <p> O <b> {{ dic.tipo_exame }} </b> está fora dos padrões de referência. </p>
+            <p> O exame de <b> {{ dic.tipo_exame }} </b> está fora dos padrões de referência. </p>
             <div class="spinner-grow text-danger" role="status"></div>
           </li>
            
