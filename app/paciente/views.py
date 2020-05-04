@@ -7,22 +7,25 @@ from usuario.views import get_dados
 from paciente.models import Paciente
 from exames.models import Exame_Resultado
 from datetime import date, datetime
+from django.db.models import Q
 
 
 @login_required(login_url='login')
 def listar(request):
     dados =  get_dados(request)
-    lst_pacientes = Paciente.objects.all()
-    
+    filtro = request.GET.get('filtro', '')
+    if filtro is not None:
+        lst_pacientes = Paciente.objects.filter(Q( nome__icontains = filtro) | Q(carteira_convenio__icontains = filtro))
+    else:        
+        lst_pacientes = Paciente.objects.all()    
     
     paginator = Paginator(lst_pacientes,5)  
     page = request.GET.get('page')
     pacientes_por_pagina = paginator.get_page(page)    
     dados['lst_pacientes'] = pacientes_por_pagina
     
-
-
     return render(request, 'paciente/lista_pacientes.html', dados)
+
 
 @login_required(login_url='login')
 def detalhe(request, paciente_id):
@@ -65,10 +68,34 @@ def atualiza_paciente(request):
         paciente.endereco = request.POST['endereco']
         paciente.end_num = request.POST['end_num']
         paciente.complemento = request.POST['complemento']
-        
+
+
+@login_required(login_url='login')
+def adicionar(request):
+    paciente = Paciente()
+    dados =  get_dados(request)
+    dados['paciente'] = paciente
+    return render(request, 'paciente/adiciona_paciente.html', dados)
+
+@login_required(login_url='login')
+def adiciona_paciente(request):
+    if request.method == 'POST':
+        paciente = Paciente()
+        paciente.nome = request.POST['nome']
+        paciente.sexo = request.POST['sexo']
+        paciente.data_nascimento = datetime.strptime(request.POST['data_nascimento'], '%d/%m/%Y').date()
+        paciente.carteira_convenio = request.POST['convenio']
+        paciente.cpf = request.POST['cpf']
+        paciente.rg = request.POST['rg']
+        paciente.email = request.POST['email']
+        paciente.telefone = request.POST['telefone']
+        paciente.celular = request.POST['celular']
+        paciente.endereco = request.POST['endereco']
+        paciente.end_num = request.POST['end_num']
+        paciente.complemento = request.POST['complemento']      
         #Liberar apenas para o médico
-        #paciente.peso = float(request.POST['peso'].replace(',','.')) 
-        #paciente.altura = float(request.POST['altura'].replace(',','.'))
+        paciente.peso = float(request.POST['peso'].replace(',','.')) 
+        paciente.altura = float(request.POST['altura'].replace(',','.'))
         
         
         paciente.save() #Em django para atualizar os dados utilizamos o método save()
