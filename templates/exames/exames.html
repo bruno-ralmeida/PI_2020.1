@@ -70,27 +70,35 @@
         
         {% for dic in lst_estimativa %}  
           
-          {% if dic.periodo > 0 %}
+          {% if dic.periodo == 0 %}
+
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p> O <b> {{ dic.tipo_exame }} </b> está fora dos padrões de referência. </p>
+            <div class="spinner-grow text-danger" role="status"></div>
+          </li>
+           
+          {% else %}
             {% if dic.periodo <= 365   %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame <b> {{ dic.tipo_exame }} </b> pode estar alterado. </p>
+              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de <b> {{ dic.tipo_exame }} </b> pode estar fora dos padrões de referência. </p>
               <div class="spinner-grow text-danger" role="status"></div>
             </li>
             {% endif %}
           
             {% if dic.periodo > 365 and dic.periodo < 730  %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame <b> {{ dic.tipo_exame }} </b> pode estar alterado. </p>
+              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar fora dos padrões de referência. </p>
               <div class="spinner-grow text-warning" role="status"></div>
             </li>
             {% endif %}
 
             {% if dic.periodo > 730 %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame <b> {{ dic.tipo_exame }} </b> pode estar alterado. </p>
+              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar fora dos padrões de referência. </p>
               <div class="spinner-grow text-info" role="status"></div>
             </li>
             {% endif %}
+          
           {% endif %}
         
         {% endfor %}
