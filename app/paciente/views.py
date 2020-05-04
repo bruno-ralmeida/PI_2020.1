@@ -72,8 +72,8 @@ def atualiza_paciente(request):
 
 @login_required(login_url='login')
 def adicionar(request):
-    paciente = Paciente()
     dados =  get_dados(request)
+    paciente = Paciente()
     dados['paciente'] = paciente
     return render(request, 'paciente/adiciona_paciente.html', dados)
 
