@@ -9,14 +9,19 @@
         
         <div class="col-10">   
             <!--Campo de busca de pacientes-->
+         <form id="formBuscar" action="{% url 'pacientes'%}">
+
             <div class="rowCustom mb-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Nome do Paciente ou Convenio">
+                    <input type="text" class="form-control" placeholder="Nome do Paciente ou Convenio" id="filtro" name="filtro"
+                    onkeypress="return runScript(event)">
+                
                     <div class="input-group-append">
-                        <button class="btn btnCustom " type="button"><i class="fas fa-search"></i></button>
+                        <button class="btn btnCustom " type="button" onclick="return buscaPaciente()"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
             </div>
+        </form>
             <!--Tabela de Paciente-->
             <table class="table table-sm table-bordered table-striped text-center mx-auto" id="pacientes">
                 <thead class="colorCustom">
@@ -89,6 +94,19 @@
         
     </section>
 </main>
+<script>
+function runScript(e) {
+    //See notes about 'which' and 'key'
+    if (e.keyCode == 13) {
+        buscaPaciente();
+    }
+}
+function buscaPaciente(){
+    /*var tb = document.getElementById("formBuscar");*/
+    document.forms["formBuscar"].submit();
+        return false;
+}
+</script>
 
 
 {% endblock %}
