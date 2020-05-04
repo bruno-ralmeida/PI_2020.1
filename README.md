@@ -8,8 +8,15 @@
 
 <code> pip install Django </code>
 
+Caso não encontre a biblioteca DateUtil, executar comando
+<code> pip install python-dateutil </code>
+
 *É necessário instalar o PDFMINER.
 <code> pip install pdfminer </code>
+
+E também a biblioteca Pillow
+<code> pip install Pillow </code>
+
 <p> - Abrir o projeto no terminal e inserir o seguinte comando: </p>
 <code> python manage.py runserver </code>
 
