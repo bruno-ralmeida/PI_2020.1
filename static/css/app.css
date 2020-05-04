@@ -402,20 +402,26 @@ header{
 
 /*GRAFICO*/
 
-.container__resultados{
+.container__exames, .container__resultados{
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top:  4.75rem !important;
 }
 
-.container__resultados__grafico{
+.container__resultados__grafico {
   width: 100% !important;
-  height: 40vh;
+  height: 50vh ;
+  padding: 0 1.75em;
+}
+.container__resultados__referencia > table{
+  margin: 0 .25em;
   
 }
-.container__resultados__referencia{
-  padding: 0 .725em;
+
+.container__estimativa{
+  margin: .75rem 0;
+  padding:  1.25rem ;
 }
 
 .formImportacao{
@@ -502,14 +508,17 @@ header{
     width: 100% !important;
   }
 
+   .container__exames{
+    flex-direction: column;
+
+  }
   .container__resultados{
     flex-direction: column;
-    width: 100vw;
-    padding: 0 !important;
+    
   }
 
-  .container__resultados__grafico{
-    width: 100vw !important;
+  .file{
+    width: 90%;
   }
   
 }

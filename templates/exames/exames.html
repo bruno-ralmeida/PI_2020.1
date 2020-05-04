@@ -2,13 +2,13 @@
 {% load static %}
 {% block content %}
 
-<main>
+<main id="container__exames">
   <section class="col-lg-10">
     <!--Gráficos e Tabela Referência-->
-    <section class="col-lg-10 mx-auto container__resultados mb-2" style="height: 55vh; ">
+    <section class="col-lg-10 mx-auto container__resultados mb-2">
       <!--Grafico Historico de exames-->
       <div class="container__resultados__grafico">
-        <canvas id="chart" style="width: 100%; height: 100%;"></canvas>
+        <canvas id="chart"></canvas>
       </div>
       <!--Tabela de referencia-->
       <div class="container__resultados__referencia">
@@ -64,9 +64,38 @@
     </section>
 
     <!--Estimativa -->
-    <section class="col-lg-10 mx-auto mb-3 text-center" style="height: 300px; background: rgb(189, 24, 180);">
-      <h3>Gráfico de previsão</h3>
-    </section>
+    <div class="col-lg-10 mx-auto container__estimativa">
+      
+      <ul class="list-group">
+        
+        {% for dic in lst_estimativa %}  
+          
+          {% if dic.periodo > 0 %}
+            {% if dic.periodo <= 365   %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame <b> {{ dic.tipo_exame }} </b> pode estar alterado. </p>
+              <div class="spinner-grow text-danger" role="status"></div>
+            </li>
+            {% endif %}
+          
+            {% if dic.periodo > 365 and dic.periodo < 730  %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame <b> {{ dic.tipo_exame }} </b> pode estar alterado. </p>
+              <div class="spinner-grow text-warning" role="status"></div>
+            </li>
+            {% endif %}
+
+            {% if dic.periodo > 730 %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame <b> {{ dic.tipo_exame }} </b> pode estar alterado. </p>
+              <div class="spinner-grow text-info" role="status"></div>
+            </li>
+            {% endif %}
+          {% endif %}
+        
+        {% endfor %}
+      </ul>
+    </div>
 
     <!--Novos Exames-->
     <section class="col-lg-10 mx-auto">      

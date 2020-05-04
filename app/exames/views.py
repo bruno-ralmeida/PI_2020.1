@@ -29,14 +29,17 @@ def detalhes(request, paciente_id):
     page = request.GET.get('page')
     exames_por_pagina = paginator.get_page(page)
 
-    estimativa(paciente)
-
-    print(paciente.id)
+    
+    
 
     dados['paciente'] = paciente
     dados['exames'] = exames_por_pagina
+    dados['lst_estimativa'] = estimativa(paciente)
     dados['exame_referencia'] = exame_referencia(paciente.idade)
     dados['exames_grafico'] = converte_grafico(exames_periodo(paciente))
+
+    print(dados['lst_estimativa'])
+
     return render(request, 'exames/exames.html', dados)
 
 @login_required(login_url='login')
@@ -198,19 +201,15 @@ def estimativa(paciente):
     var_colesterol = calculo_variacao(lst_colesterol)
     var_vldl = calculo_variacao(lst_vldl)
 
+    lst_dados = []
+    lst_dados.append(calculo_estimativa('glicose', ultimo_exame.glicose, exame_ref.glicose_min , exame_ref.glicose_max, periodo, var_glicose))
+    lst_dados.append(calculo_estimativa('ldl', ultimo_exame.ldl, exame_ref.ldl_min, exame_ref.ldl_max, periodo, var_ldl))
+    lst_dados.append(calculo_estimativa('hdl', ultimo_exame.hdl, exame_ref.hdl_min, exame_ref.hdl_min, periodo, var_hdl))
+    lst_dados.append(calculo_estimativa('triglicerides', ultimo_exame.triglicerides, exame_ref.triglicerides_min,exame_ref.triglicerides_max, periodo, var_triglicerides))
+    lst_dados.append(calculo_estimativa('colesterol', ultimo_exame.colesterol, exame_ref.colesterol_min, exame_ref.colesterol_max, periodo, var_colesterol))
+    lst_dados.append(calculo_estimativa('vldl', ultimo_exame.vldl, exame_ref.vldl_min ,exame_ref.vldl_max, periodo, var_vldl))
 
-    print(calculo_estimativa('glicose', ultimo_exame.glicose, exame_ref.glicose_min , exame_ref.glicose_max, periodo, var_glicose))
-    
-    print(calculo_estimativa('ldl', ultimo_exame.ldl, exame_ref.ldl_min, exame_ref.ldl_max, periodo, var_ldl))
-
-    print(calculo_estimativa('hdl', ultimo_exame.hdl, exame_ref.hdl_min, exame_ref.hdl_min, periodo, var_hdl))
-
-    print(calculo_estimativa('triglicerides', ultimo_exame.triglicerides, exame_ref.triglicerides_min,exame_ref.triglicerides_max, periodo, var_triglicerides))
-
-    print(calculo_estimativa('colesterol', ultimo_exame.colesterol, exame_ref.colesterol_min, exame_ref.colesterol_max, periodo, var_colesterol))
-
-    print(calculo_estimativa('vldl', ultimo_exame.vldl, exame_ref.vldl_min ,exame_ref.vldl_max, periodo, var_vldl))
-
+    return lst_dados
 
 def calculo_estimativa(tipo_exame, ultimo_exame, exame_ref_min ,exame_ref_max, periodo_ref, variacao):
     """
@@ -220,7 +219,6 @@ def calculo_estimativa(tipo_exame, ultimo_exame, exame_ref_min ,exame_ref_max, p
     """
     exame_result = ultimo_exame 
     calc_periodo = 0
-    print(f'ultimo exame: {ultimo_exame}')
     if(variacao < 0):
         while(ultimo_exame < exame_ref_max):
             if(exame_result <= exame_ref_max):
