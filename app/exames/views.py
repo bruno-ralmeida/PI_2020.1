@@ -29,7 +29,9 @@ def detalhes(request, paciente_id):
     page = request.GET.get('page')
     exames_por_pagina = paginator.get_page(page)
 
-    calcular_estimativa(paciente)
+    estimativa(paciente)
+
+    print(paciente.id)
 
     dados['paciente'] = paciente
     dados['exames'] = exames_por_pagina
@@ -166,8 +168,8 @@ def converte_grafico(lst_exames):
     return lst_exames
 
 #ESTIMATIVA 
-def calcular_estimativa(paciente):
-    ultimo_exame = Exame_Resultado.objects.filter(paciente=paciente).last()
+def estimativa(paciente):
+    ultimo_exame = Exame_Resultado.objects.filter(paciente=paciente).latest('data_exame')
     exame_ref = exame_referencia(paciente.idade)
     
     lst_glicose = []
@@ -175,6 +177,7 @@ def calcular_estimativa(paciente):
     lst_hdl = []
     lst_triglicerides = []
     lst_colesterol = []
+    lst_vldl = []
     lst_data = []
 
     for exame in exames_periodo(paciente):
@@ -184,29 +187,64 @@ def calcular_estimativa(paciente):
         lst_hdl.append(exame.hdl)
         lst_triglicerides.append((exame.triglicerides))
         lst_colesterol.append(exame.colesterol)
+        lst_vldl.append(exame.vldl)
 
-    variacao = calculo_variacao(lst_glicose)
     periodo = calculo_periodo_exames(lst_data)
 
-    exame_result = ultimo_exame.glicose 
-    calc_periodo = periodo
-    while(ultimo_exame.glicose < exame_ref.glicose_max):
-        
-        if( exame_result <= exame_ref.glicose_max ):
-            exame += abs(variacao)
-            calc_periodo += periodo
-           
-        else:
-            break
-        
-    print(f'Data ultimo exame: {ultimo_exame.data_exame}')
-    print(f'Nome Paciente: {ultimo_exame.paciente.nome}')
-    print(f'Variação: {variacao}')
-    print(f'Período: {periodo}')
-    print(f'Glicose ultimo exame: {ultimo_exame.glicose}')
-    print(f'Glicose simulação: {exame_result}')
-    print(f'Dias: {calc_periodo}')
+    var_glicose = calculo_variacao(lst_glicose)
+    var_ldl = calculo_variacao(lst_ldl)
+    var_hdl = calculo_variacao(lst_hdl)
+    var_triglicerides = calculo_variacao(lst_triglicerides)
+    var_colesterol = calculo_variacao(lst_colesterol)
+    var_vldl = calculo_variacao(lst_vldl)
 
+
+    print(calculo_estimativa('glicose', ultimo_exame.glicose, exame_ref.glicose_min , exame_ref.glicose_max, periodo, var_glicose))
+    
+    print(calculo_estimativa('ldl', ultimo_exame.ldl, exame_ref.ldl_min, exame_ref.ldl_max, periodo, var_ldl))
+
+    print(calculo_estimativa('hdl', ultimo_exame.hdl, exame_ref.hdl_min, exame_ref.hdl_min, periodo, var_hdl))
+
+    print(calculo_estimativa('triglicerides', ultimo_exame.triglicerides, exame_ref.triglicerides_min,exame_ref.triglicerides_max, periodo, var_triglicerides))
+
+    print(calculo_estimativa('colesterol', ultimo_exame.colesterol, exame_ref.colesterol_min, exame_ref.colesterol_max, periodo, var_colesterol))
+
+    print(calculo_estimativa('vldl', ultimo_exame.vldl, exame_ref.vldl_min ,exame_ref.vldl_max, periodo, var_vldl))
+
+
+def calculo_estimativa(tipo_exame, ultimo_exame, exame_ref_min ,exame_ref_max, periodo_ref, variacao):
+    """
+    Função para realizar o calculo da estimativa.
+    @Params tipo_exame, ultimo_exame, exame_ref_min,exame_ref_max, periodo_ref, variacao
+    @return dicionario com as informações do tipo de exame da simulação, o periodo para atigir o limite e valor limite no periodo.
+    """
+    exame_result = ultimo_exame 
+    calc_periodo = 0
+    print(f'ultimo exame: {ultimo_exame}')
+    if(variacao < 0):
+        while(ultimo_exame < exame_ref_max):
+            if(exame_result <= exame_ref_max):
+                exame_result += abs(variacao)
+                calc_periodo += periodo_ref
+            else:
+                break
+    if(variacao > 0):
+        
+        while(ultimo_exame > exame_ref_min):
+            if(exame_result >= exame_ref_min):
+                exame_result -= variacao
+                calc_periodo += periodo_ref
+            else:
+                break
+
+
+    resultado = {
+        'tipo_exame' : tipo_exame,
+        'periodo' : calc_periodo,
+        'resultado_simulação' : exame_result
+    }
+
+    return resultado
 
 def calculo_variacao(lst):
     

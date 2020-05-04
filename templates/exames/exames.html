@@ -5,10 +5,10 @@
 <main>
   <section class="col-lg-10">
     <!--Gráficos e Tabela Referência-->
-    <section class=" container__resultados">
+    <section class="col-lg-10 mx-auto container__resultados mb-2" style="height: 55vh; ">
       <!--Grafico Historico de exames-->
       <div class="container__resultados__grafico">
-        <canvas id="chart" style="width: 100%; height: 100%; padding: 0 .325rem;"></canvas>
+        <canvas id="chart" style="width: 100%; height: 100%;"></canvas>
       </div>
       <!--Tabela de referencia-->
       <div class="container__resultados__referencia">
@@ -22,32 +22,32 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row">Glicose Máx:</th>
+              <th scope="row">Glicose:</th>
               <td>{{ exame_referencia.glicose_min}}</td>
               <td>{{ exame_referencia.glicose_max}}</td>
             </tr>
             <tr>
-              <th scope="row">LDL Máx:</th>
+              <th scope="row">LDL:</th>
               <td>{{ exame_referencia.ldl_min}}</td>
               <td>{{ exame_referencia.ldl_max}}</td>
             </tr>
             <tr>
-              <th scope="row">HDL Min:</th>
+              <th scope="row">HDL:</th>
               <td>{{ exame_referencia.hdl_min}}</td>
               <td>{{ exame_referencia.hdl_max}}</td>
             </tr>
             <tr>
-              <th scope="row">Triglicerides Máx</th>
+              <th scope="row">Triglicerides:</th>
               <td>{{ exame_referencia.triglicerides_min}}</td>
               <td>{{ exame_referencia.triglicerides_max}}</td>
             </tr>
             <tr>
-              <th scope="row">Colesterol Máx</th>
+              <th scope="row">Colesterol:</th>
               <td>{{ exame_referencia.colesterol_min}}</td>
               <td>{{ exame_referencia.colesterol_max}}</td>
             </tr>
             <tr scope="row">
-              <th>VLDL</th>
+              <th>VLDL:</th>
               <td>{{ exame_referencia.vldl_min }}</td>
               <td>{{ exame_referencia.vldl_max }}</td>
             </tr>
@@ -60,7 +60,14 @@
         </div>
       
       </div>
+      
     </section>
+
+    <!--Estimativa -->
+    <section class="col-lg-10 mx-auto mb-3 text-center" style="height: 300px; background: rgb(189, 24, 180);">
+      <h3>Gráfico de previsão</h3>
+    </section>
+
     <!--Novos Exames-->
     <section class="col-lg-10 mx-auto">      
         <!--Importador de PDF-->
@@ -70,7 +77,7 @@
             {% include 'partials/_alertas.html' %}
           </div>
           <!--Formuladrio para importação-->
-          <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
+          <form class="formImportacao" action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="paciente" value="{{ paciente.id }}">
             <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">

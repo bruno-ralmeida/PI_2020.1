@@ -18,7 +18,7 @@ def listar(request):
         url = 'consulta/consultas_atendente.html'
             
     
-    paginator = Paginator(lst_consultas,3)  
+    paginator = Paginator(lst_consultas, 5)  
     page = request.GET.get('page')
     consulta_por_pagina = paginator.get_page(page)
     dados['consultas'] = consulta_por_pagina
