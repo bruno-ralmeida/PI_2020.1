@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'exames',
     'consulta',
     'tempus_dominus',
-    'widget_tweaks',
+    'widget_tweaks', #Tratar na vm
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

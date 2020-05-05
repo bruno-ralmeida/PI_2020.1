@@ -1,72 +1,74 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
-<div class="col-10">
+<section class="mx-auto">
+  
+  <div class="col-10">
+    {% include 'partials/_campanha.html' %}
     <table class="col-10 table table-sm table-bordered table-striped mx-auto text-center agenda" id="consultas">
-        <thead class="colorCustom">
-            <tr>
-                <th scope="col">Data</th>
-                <th scope="col">Horário</th>
-                <th scope="col">Paciente</th>
-                <th scope="col">Opções</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            {% for consulta in consultas %}
-            <tr>
+      <thead class="colorCustom">
+        <tr>
+          <th scope="col">Data</th>
+          <th scope="col">Horário</th>
+          <th scope="col">Paciente</th>
+          <th scope="col">Opções</th>
 
-                <th scope="row">{{ consulta.data }}</th>
-                <th scope="row">{{ consulta.hora }}</th>
-                <td>{{ consulta.paciente.nome }}</td>
-        
-                <td>    
-                    <a href="{% url 'det-exame' consulta.paciente.id  %}" class="btn btnCustom btn-sm btn-block btn-primary"> <i class="fas fa-hand-holding-medical"></i></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        </tr>
+      </thead>
+      <tbody>
+        {% for consulta in consultas %}
+        <tr>
+
+          <th scope="row">{{ consulta.data }}</th>
+          <th scope="row">{{ consulta.hora }}</th>
+          <td>{{ consulta.paciente.nome }}</td>
+
+          <td>
+            <a href="{% url 'det-exame' consulta.paciente.id  %}" class="btn btnCustom btn-sm btn-block btn-primary"> <i
+                class="fas fa-hand-holding-medical"></i></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-</div>
-<!--Paginação-->
-<div class="col-10">
+  </div>
+  <!--Paginação-->
+  <div class="col-10">
     <nav aria-label="Page navigation example">
-        {% if consultas.has_other_pages %}
-        <ul class="pagination justify-content-center">
-        
-            {% if consultas.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ consultas.previous_page_number }}#consultas" >&laquo;</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link">&laquo;</a>
-            </li>
-            {% endif %}
-            {% for pagina in consultas.paginator.page_range %}
-                {% if consultas.number == pagina %}
-                <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
-                {% else %}
-                <li class="page-item">
-                    <a href="?page={{ pagina }}#consultas" class="page-link">{{ pagina }}</a>
-                </li>
-                {% endif %}
-            {% endfor %}
-            {% if consultas.has_next %}
-                <li class="page-item">
-                    <a href="?page={{ consultas.next_page_number }}#consultas" class="page-link">&raquo;</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link">&raquo;</a>
-                </li>
-            {% endif %}
-        
-        </ul>
+      {% if consultas.has_other_pages %}
+      <ul class="pagination justify-content-center">
+
+        {% if consultas.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ consultas.previous_page_number }}#consultas">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link">&laquo;</a>
+        </li>
         {% endif %}
+        {% for pagina in consultas.paginator.page_range %}
+        {% if consultas.number == pagina %}
+        <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
+        {% else %}
+        <li class="page-item">
+          <a href="?page={{ pagina }}#consultas" class="page-link">{{ pagina }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% if consultas.has_next %}
+        <li class="page-item">
+          <a href="?page={{ consultas.next_page_number }}#consultas" class="page-link">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link">&raquo;</a>
+        </li>
+        {% endif %}
+
+      </ul>
+      {% endif %}
     </nav>
-</div>
-
+  </div>
+</section>
 {% endblock %}
-

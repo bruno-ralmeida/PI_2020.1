@@ -4,120 +4,123 @@
 
 
 <main>
+
+  <section class="col-10">
     {% include 'partials/_campanha.html' %}
-    
-    
-    <section class="container">
 
-        <div>
-            <a href="{% url 'adicionar' %}" class="btn btnCustom btn-sm"> Novo Paciente </i> </a>
+    <section class="col-10 mx-auto">
+      <div class="container__paciente mb-2">
+        <div class="container__paciente__novo">
+          <a href="{% url 'adicionar' %}" class="btn btnCustom btn-sm"> Novo Paciente </i> </a>
         </div>
-        
-        <div class="col-10">
+        <!--Campo de busca de pacientes-->
+        <div class="container__paciente__form">
+          <form class="formBuscarPaciente" id="formBuscar" action="{% url 'pacientes'%}">
 
-            <!--Campo de busca de pacientes-->
-            <form id="formBuscar" action="{% url 'pacientes'%}">
+            <input type="text" placeholder="Nome do Paciente ou Convenio" id="filtro" name="filtro"
+              onkeypress="return runScript(event)">
 
-                <div class="rowCustom mb-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Nome do Paciente ou Convenio" id="filtro"
-                            name="filtro" onkeypress="return runScript(event)">
-
-                        <div class="input-group-append">
-                            <button class="btn btnCustom " type="button" onclick="return buscaPaciente()"><i
-                                    class="fas fa-search"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <!--Tabela de Paciente-->
-            <table class="table table-sm table-bordered table-striped text-center mx-auto" id="pacientes">
-                <thead class="colorCustom">
-                    <tr>
-                        <th scope="col">Nome Completo</th>
-                        <th scope="col">Data de Nascimento</th>
-                        <th scope="col">Convenio</th>
-                        <th scope="col">CPF</th>
-                        <th scope="col">RG</th>
-                        <th scope="col">Opções</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for paciente in lst_pacientes %}
-                    <tr>
-                        <th scope="row">{{ paciente.nome }}</th>
-                        <td>{{ paciente.data_nascimento|date:"d/m/Y" }}</td>
-                        <td> {{ paciente.carteira_convenio }} </td>
-                        <td> {{ paciente.cpf }} </td>
-                        <td> {{ paciente.rg }} </td>
-
-                        <td>
-                            <a href="{% url 'det_paciente' paciente.id %}" class="btn btnCustom btn-sm"> <i
-                                    class="fas fa-laptop-medical"></i> </a>
-
-                            <a href="{% url 'paciente' paciente.id %}" class="btn btnCustom btn-sm"> <i
-                                    class="fas fa-pencil-alt"></i> </a>
-
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <button class="btn btnCustom " type="button" onclick="return buscaPaciente()"><i
+                class="fas fa-search"></i></button>
         </div>
-        <div class="col-10">
-            <nav aria-label="Page navigation example">
-                {% if lst_pacientes.has_other_pages %}
-                <ul class="pagination justify-content-center">
+      </div>
+      </div>
+      </form>
+      </div>
 
-                    {% if lst_pacientes.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ lst_pacientes.previous_page_number }}#pacientes">&laquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link">&laquo;</a>
-                    </li>
-                    {% endif %}
-                    {% for pagina in lst_pacientes.paginator.page_range %}
-                    {% if lst_pacientes.number == pagina %}
-                    <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
-                    {% else %}
-                    <li class="page-item">
-                        <a href="?page={{ pagina }}#pacientes" class="page-link">{{ pagina }}</a>
-                    </li>
-                    {% endif %}
-                    {% endfor %}
-                    {% if lst_pacientes.has_next %}
-                    <li class="page-item">
-                        <a href="?page={{ lst_pacientes.next_page_number }}#pacientes" class="page-link">&raquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link">&raquo;</a>
-                    </li>
-                    {% endif %}
+      <section class="mx-atuo">
+        <!--Tabela de Paciente-->
+        <div class="col-12 table-responsive">
+          <table class="table  table-sm table-bordered table-striped text-center" id="pacientes">
+            <thead class="colorCustom">
+              <tr>
+                <th scope="col">Nome Completo</th>
+                <th scope="col">Data de Nascimento</th>
+                <th scope="col">Convenio</th>
+                <th scope="col">CPF</th>
+                <th scope="col">RG</th>
+                <th scope="col">Opções</th>
 
-                </ul>
-                {% endif %}
-            </nav>
+              </tr>
+            </thead>
+            <tbody>
+              {% for paciente in lst_pacientes %}
+              <tr>
+                <th scope="row">{{ paciente.nome }}</th>
+                <td>{{ paciente.data_nascimento|date:"d/m/Y" }}</td>
+                <td> {{ paciente.carteira_convenio }} </td>
+                <td> {{ paciente.cpf }} </td>
+                <td> {{ paciente.rg }} </td>
+
+                <td>
+                  <a href="{% url 'det_paciente' paciente.id %}" class="btn btnCustom btn-sm"> <i
+                      class="fas fa-laptop-medical"></i> </a>
+
+                  <a href="{% url 'paciente' paciente.id %}" class="btn btnCustom btn-sm"> <i
+                      class="fas fa-pencil-alt"></i>
+                  </a>
+
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
+        <div class="col-12">
+          <nav aria-label="Page navigation example">
+            {% if lst_pacientes.has_other_pages %}
+            <ul class="pagination justify-content-center">
 
+              {% if lst_pacientes.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ lst_pacientes.previous_page_number }}#pacientes">&laquo;</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">&laquo;</a>
+              </li>
+              {% endif %}
+              {% for pagina in lst_pacientes.paginator.page_range %}
+              {% if lst_pacientes.number == pagina %}
+              <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
+              {% else %}
+              <li class="page-item">
+                <a href="?page={{ pagina }}#pacientes" class="page-link">{{ pagina }}</a>
+              </li>
+              {% endif %}
+              {% endfor %}
+              {% if lst_pacientes.has_next %}
+              <li class="page-item">
+                <a href="?page={{ lst_pacientes.next_page_number }}#pacientes" class="page-link">&raquo;</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">&raquo;</a>
+              </li>
+              {% endif %}
+
+            </ul>
+            {% endif %}
+          </nav>
+        </div>
+      </section>
     </section>
+  </section>
+
 </main>
 <script>
-    function runScript(e) {
-        //See notes about 'which' and 'key'
-        if (e.keyCode == 13) {
-            buscaPaciente();
-        }
+  function runScript(e) {
+    //See notes about 'which' and 'key'
+    if (e.keyCode == 13) {
+      buscaPaciente();
     }
+  }
 
-    function buscaPaciente() {
-        /*var tb = document.getElementById("formBuscar");*/
-        document.forms["formBuscar"].submit();
-        return false;
-    }
+  function buscaPaciente() {
+    /*var tb = document.getElementById("formBuscar");*/
+    document.forms["formBuscar"].submit();
+    return false;
+  }
 </script>
 
 

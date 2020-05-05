@@ -32,10 +32,7 @@ body{
   font-weight: bold;
 }
 
-.rowCustom {
-  float: right !important;
-  width: 300px !important;
-}
+
 
 .btnCustom{
   background: linear-gradient(150deg, #4b73a1, #214b7c, #203d5f) ;
@@ -71,7 +68,7 @@ body{
 .iptArquivo {
   display: none;
 }
-.file {
+.file, .filtro  {
   line-height: 30px;
   height: 30px;
   border: 1px solid rgb(255, 255, 255, .1);
@@ -409,6 +406,14 @@ header{
   margin-top:  4.75rem !important;
 }
 
+.container__paciente{
+  display: flex;
+  align-items: center;  
+  justify-content: space-between;
+}
+
+
+
 .container__resultados__grafico {
   width: 100% !important;
   height: 50vh ;
@@ -442,11 +447,32 @@ header{
   color: #102c4b;
   font-size: 14px;
 }
+.carousel_campanha{
+  width: 100%;
+}
+
+.container__paciente__form{
+  align-content: flex-end;
+  flex-grow: 6;
+}
+
+.container__paciente__form > form{
+  display: flex;
+  float: right;
+}
+
+.formBuscarPaciente > input{
+  width: 100% !important;
+}
 
 @media screen and (max-width:1100px){
 
   .pr-4{
     padding-right: 0 !important;
+  }
+
+  .p-5{
+    padding: 1rem !important;
   }
 
   .row {
@@ -532,5 +558,10 @@ header{
     width: 90%;
   }
   
+  .col-10 {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 

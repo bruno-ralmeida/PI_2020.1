@@ -32,15 +32,16 @@ def detalhe(request, paciente_id):
     paciente = get_object_or_404(Paciente, id=paciente_id)
     imc = calculo_imc(paciente.peso, paciente.altura)
     paciente.imc = imc
-    exames = get_list_or_404(Exame_Resultado, paciente=paciente)
     dados =  get_dados(request)
-    exames.reverse()
-    paginator = Paginator(exames,5)  
-    page = request.GET.get('page')
-    exames_por_pagina = paginator.get_page(page)    
+    exames = Exame_Resultado.objects.filter(paciente=paciente).order_by('data_exame').reverse()
+    
+    if(len(exames) > 0):
+        paginator = Paginator(exames,5)  
+        page = request.GET.get('page')
+        exames_por_pagina = paginator.get_page(page)    
+        dados['exames'] = exames_por_pagina
 
     dados['paciente'] = paciente
-    dados['exames'] = exames_por_pagina
     return render(request, 'paciente/det_paciente.html', dados)
 
 
@@ -68,6 +69,9 @@ def atualiza_paciente(request):
         paciente.endereco = request.POST['endereco']
         paciente.end_num = request.POST['end_num']
         paciente.complemento = request.POST['complemento']
+        paciente.save()
+
+    return redirect('pacientes')
 
 
 @login_required(login_url='login')
@@ -97,12 +101,9 @@ def adiciona_paciente(request):
         paciente.peso = float(request.POST['peso'].replace(',','.')) 
         paciente.altura = float(request.POST['altura'].replace(',','.'))
         
-        
-        paciente.save() #Em django para atualizar os dados utilizamos o método save()
+        paciente.save()
     return redirect('pacientes')
 
-def busca(request, paciente_nome):
-    pass
 #---------------------------------------------------------------
 # UTILS 
 #---------------------------------------------------------------

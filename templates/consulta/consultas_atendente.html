@@ -2,89 +2,91 @@
 {% load static %}
 {% block content %}
 {% load widget_tweaks %}
+<section class="mx-auto">
+    
+    <section class="col-10">
+        {% include 'partials/_campanha.html' %}
+        {{ form.media }}
+        <form class="col-10 mx-auto" action="#" method="post">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
 
-<section class="col-10">
-    {{ form.media }}
-    <form class="col-10 mx-auto" action="#" method="post">
-        {% csrf_token %}
-        {% for field in form.visible_fields %}
-        
 
-        <div class="form-group">
-            <label for="{{field.id_for_label}}">{{field.label}}</label>
-            {{field|add_class:'form-control'}}
-        </div>
+            <div class="form-group">
+                <label for="{{field.id_for_label}}">{{field.label}}</label>
+                {{field|add_class:'form-control'}}
+            </div>
 
-        
-        {% endfor %}
-        <input type="hidden" class="btn btn-success" style="float: right;">
-        
-    </form>
+            <input type="hidden" class="btn btn-success" style="float: right;">
+            {% endfor %}
+
+
+        </form>
+    </section>
+
+    <div class="col-10">
+        <table class="col-10 table table-sm table-bordered table-striped mx-auto text-center agenda" id="consultas">
+            <thead class="colorCustom">
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Horário</th>
+                    <th scope="col">Médico</th>
+                    <th scope="col">Paciente</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for consulta in consultas %}
+                <tr>
+
+                    <th scope="row">{{ consulta.data }}</th>
+                    <th scope="row">{{ consulta.hora }}</th>
+                    <td>{{ consulta.medico.nome }}</td>
+                    <td>{{ consulta.paciente.nome }}</td>
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!--Paginação-->
+    <div class="col-10">
+        <nav aria-label="Page navigation example">
+            {% if consultas.has_other_pages %}
+            <ul class="pagination justify-content-center">
+
+                {% if consultas.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ consultas.previous_page_number }}#consultas">&laquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for pagina in consultas.paginator.page_range %}
+                {% if consultas.number == pagina %}
+                <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
+                {% else %}
+                <li class="page-item">
+                    <a href="?page={{ pagina }}#consultas" class="page-link">{{ pagina }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if consultas.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ consultas.next_page_number }}#consultas" class="page-link">&raquo;</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">&raquo;</a>
+                </li>
+                {% endif %}
+
+            </ul>
+            {% endif %}
+        </nav>
+    </div>
 </section>
-
-<div class="col-10">
-    <table class="col-10 table table-sm table-bordered table-striped mx-auto text-center agenda" id="consultas">
-        <thead class="colorCustom">
-            <tr>
-                <th scope="col">Data</th>
-                <th scope="col">Horário</th>
-                <th scope="col">Médico</th>
-                <th scope="col">Paciente</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            {% for consulta in consultas %}
-            <tr>
-
-                <th scope="row">{{ consulta.data }}</th>
-                <th scope="row">{{ consulta.hora }}</th>
-                <td>{{ consulta.medico.nome }}</td>
-                <td>{{ consulta.paciente.nome }}</td>
-
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-<!--Paginação-->
-<div class="col-10">
-    <nav aria-label="Page navigation example">
-        {% if consultas.has_other_pages %}
-        <ul class="pagination justify-content-center">
-
-            {% if consultas.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ consultas.previous_page_number }}#consultas">&laquo;</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link">&laquo;</a>
-            </li>
-            {% endif %}
-            {% for pagina in consultas.paginator.page_range %}
-            {% if consultas.number == pagina %}
-            <li class="page-item active"> <a class="page-link">{{ pagina }}</a></li>
-            {% else %}
-            <li class="page-item">
-                <a href="?page={{ pagina }}#consultas" class="page-link">{{ pagina }}</a>
-            </li>
-            {% endif %}
-            {% endfor %}
-            {% if consultas.has_next %}
-            <li class="page-item">
-                <a href="?page={{ consultas.next_page_number }}#consultas" class="page-link">&raquo;</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link">&raquo;</a>
-            </li>
-            {% endif %}
-
-        </ul>
-        {% endif %}
-    </nav>
-</div>
-
 {% endblock %}

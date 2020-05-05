@@ -5,16 +5,19 @@
 
 <h3> Para iniciar o servidor do projeto: </h3>
 *É necessário instalar o Django.
-
 <code> pip install Django </code>
 
 Caso não encontre a biblioteca DateUtil, executar comando
 <code> pip install python-dateutil </code>
 
-*É necessário instalar o PDFMINER.
+**Dependências 
+PDFMINER.
 <code> pip install pdfminer </code>
-
-E também a biblioteca Pillow
+Django Tempus Dominus.
+<code> pip install django-tempus-dominus </code>
+Django Widget Tweaks
+<code> pip install django-widget-tweaks </code>
+Pillow
 <code> pip install Pillow </code>
 
 <p> - Abrir o projeto no terminal e inserir o seguinte comando: </p>

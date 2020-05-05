@@ -107,13 +107,13 @@
 
     <!--Novos Exames-->
     <section class="col-lg-10 mx-auto">      
-        <!--Importador de PDF-->
+        
         
           <!--Mensagem de Importação-->
           <div class="mx-auto">
             {% include 'partials/_alertas.html' %}
           </div>
-          
+          <!--Importador de PDF-->
           <div class="formImportacao">
             <!--Formuladrio para importação-->
             <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
@@ -134,6 +134,7 @@
           </div>
         {% include 'partials/_det_paciente.html' %}
     </section>
+  
   </section>
 </main>
 <!-- Modal Cadastro de exame-->
