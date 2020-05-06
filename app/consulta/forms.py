@@ -1,8 +1,5 @@
 from django import forms
 from tempus_dominus.widgets import DatePicker, TimePicker
-from datetime import datetime
-
-
 
 class cadConsulta(forms.Form):
 	medico = forms.ChoiceField(label='Médico')

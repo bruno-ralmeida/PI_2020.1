@@ -568,5 +568,11 @@ header{
     flex: 0 0 100%;
     max-width: 100%;
   }
+
+  .col-md-4{
+    -ms-flex: 0 0 50% !important;
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+  }
 }
 

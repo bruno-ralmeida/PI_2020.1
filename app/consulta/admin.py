@@ -1,5 +1,5 @@
 from django.contrib import admin
-from consulta.models import *
+from consulta.models import Consulta
 
 class lista_consulta(admin.ModelAdmin):
     list_display = ('id','medico', 'atendente', 'paciente')

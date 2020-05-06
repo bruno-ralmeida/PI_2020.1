@@ -1,7 +1,11 @@
+"""
+@author Bruno Almeida
+"""
 from django.db import models
 from paciente.models import Paciente
-# Create your models here.
+
 class Exame_Resultado(models.Model):
+    """Classe de resultado de exame."""
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     data_exame = models.DateField()
     glicose = models.FloatField(max_length=15)
@@ -14,6 +18,7 @@ class Exame_Resultado(models.Model):
 
 
 class Exame_Referencia(models.Model):
+    """Classe de referencia de exame."""
     glicose_min = models.IntegerField()
     glicose_max = models.IntegerField()
     ldl_min = models.IntegerField()
