@@ -6475,9 +6475,11 @@ a.close.disabled {
   vertical-align: text-bottom;
   background-color: currentColor;
   border-radius: 50%;
+  margin: 0 1em;
+  padding: 1em;
   opacity: 0;
-  -webkit-animation: spinner-grow .75s linear infinite;
-  animation: spinner-grow .75s linear infinite;
+  -webkit-animation: spinner-grow .9s linear infinite;
+  animation: spinner-grow .9s linear infinite;
 }
 
 .spinner-grow-sm {

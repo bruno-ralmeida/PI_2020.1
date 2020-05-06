@@ -11,8 +11,9 @@
           <th scope="col">Data</th>
           <th scope="col">Horário</th>
           <th scope="col">Paciente</th>
+          {% if tipo == 1 %}
           <th scope="col">Opções</th>
-
+          {% endif %}
         </tr>
       </thead>
       <tbody>
@@ -22,11 +23,12 @@
           <th scope="row">{{ consulta.data }}</th>
           <th scope="row">{{ consulta.hora }}</th>
           <td>{{ consulta.paciente.nome }}</td>
-
+          {% if tipo == 1 %}
           <td>
             <a href="{% url 'det-exame' consulta.paciente.id  %}" class="btn btnCustom btn-sm btn-block btn-primary"> <i
                 class="fas fa-hand-holding-medical"></i></a>
           </td>
+          {% endif %}
         </tr>
         {% endfor %}
       </tbody>
@@ -70,5 +72,6 @@
       {% endif %}
     </nav>
   </div>
+  
 </section>
 {% endblock %}

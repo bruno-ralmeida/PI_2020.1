@@ -11,11 +11,11 @@ def listar(request):
     if dados['tipo'] == 1:
         lst_consultas = Consulta.objects.filter(medico=dados['usuario']).reverse()
         lst_consultas = separa_data_hr(lst_consultas)
-        url = 'consulta/consultas_medico.html'
+        
     else:
         lst_consultas = Consulta.objects.order_by('medico').reverse()
         lst_consultas = separa_data_hr(lst_consultas)
-        url = 'consulta/consultas_atendente.html'
+        
             
     
     paginator = Paginator(lst_consultas, 5)  
@@ -23,5 +23,5 @@ def listar(request):
     consulta_por_pagina = paginator.get_page(page)
     dados['consultas'] = consulta_por_pagina
 
-    return render(request, url , dados)
+    return render(request, 'consulta/consultas.html' , dados)
     

@@ -54,6 +54,7 @@ def alterar(request, paciente_id):
 
 @login_required(login_url='login')
 def atualiza_paciente(request):
+    dados =  get_dados(request)
     if request.method == 'POST':
         paciente_id = request.POST['paciente_id']
         paciente = get_object_or_404(Paciente, id=paciente_id)
@@ -66,9 +67,13 @@ def atualiza_paciente(request):
         paciente.email = request.POST['email']
         paciente.telefone = request.POST['telefone']
         paciente.celular = request.POST['celular']
-        paciente.endereco = request.POST['endereco']
-        paciente.end_num = request.POST['end_num']
-        paciente.complemento = request.POST['complemento']
+        if dados['tipo'] == 1:
+            paciente.peso = float(request.POST['peso'].replace(',','.')) 
+            paciente.altura = float(request.POST['altura'].replace(',','.'))
+        if dados['tipo']  == 2:
+            paciente.endereco = request.POST['endereco']
+            paciente.end_num = request.POST['end_num']
+            paciente.complemento = request.POST['complemento']
         paciente.save()
 
     return redirect('pacientes')

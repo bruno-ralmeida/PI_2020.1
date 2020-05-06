@@ -12,7 +12,7 @@
       </div>
       <!--Tabela de referencia-->
       <div class="container__resultados__referencia">
-        
+
         <table class="table table-sm table-bordered table-striped text-center">
           <thead class="colorCustom">
             <tr>
@@ -55,86 +55,90 @@
         </table>
         <!--Mensagem com observação de Idade-->
         <div class="mx-auto">
-          <p style="color: #00004d;  font-size: 14px;"> ** Tabela de ref. para pacientes com idade entre {{exame_referencia.idade_min}} a
+          <p style="color: #00004d;  font-size: 14px;"> ** Tabela de ref. para pacientes com idade entre
+            {{exame_referencia.idade_min}} a
             {{exame_referencia.idade_max}}. </p>
         </div>
-      
+
       </div>
-      
+
     </section>
 
     <!--Estimativa -->
     <div class="col-lg-10 mx-auto container__estimativa">
-      
+
       <ul class="list-group estimativa">
-        
-        {% for dic in lst_estimativa %}  
-          
-          {% if dic.periodo == 0 %}
 
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <p> O exame de <b> {{ dic.tipo_exame }} </b> está fora dos padrões de referência. </p>
-            <div class="spinner-grow text-danger" role="status"></div>
-          </li>
-           
-          {% else %}
-            {% if dic.periodo <= 365   %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de <b> {{ dic.tipo_exame }} </b> pode estar fora dos padrões de referência. </p>
-              <div class="spinner-grow text-danger" role="status"></div>
-            </li>
-            {% endif %}
-          
-            {% if dic.periodo > 365 and dic.periodo < 730  %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar fora dos padrões de referência. </p>
-              <div class="spinner-grow text-warning" role="status"></div>
-            </li>
-            {% endif %}
+        {% for dic in lst_estimativa %}
 
-            {% if dic.periodo > 730 %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar fora dos padrões de referência. </p>
-              <div class="spinner-grow text-info" role="status"></div>
-            </li>
-            {% endif %}
-          
-          {% endif %}
-        
+        {% if dic.periodo == 0 %}
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <p> O exame de <b> {{ dic.tipo_exame }} </b> está fora dos padrões de referência. </p>
+          <div class="spinner-grow spinner-grow-sm text-danger" role="status"></div>
+        </li>
+
+        {% else %}
+        {% if dic.periodo <= 365   %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de <b> {{ dic.tipo_exame }} </b> pode estar
+            fora dos padrões de referência. </p>
+          <div class="spinner-grow spinner-grow-sm text-danger" role="status"></div>
+        </li>
+        {% endif %}
+
+        {% if dic.periodo > 365 and dic.periodo < 730  %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar fora
+            dos padrões de referência. </p>
+          <div class="spinner-grow spinner-grow-sm text-warning" role="status"></div>
+        </li>
+        {% endif %}
+
+        {% if dic.periodo > 730 %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar fora
+            dos padrões de referência. </p>
+          <div class="spinner-grow spinner-grow-sm text-info" role="status"></div>
+        </li>
+        {% endif %}
+
+        {% endif %}
+
         {% endfor %}
       </ul>
     </div>
 
     <!--Novos Exames-->
-    <section class="col-lg-10 mx-auto">      
-        
-        
-          <!--Mensagem de Importação-->
-          <div class="mx-auto">
-            {% include 'partials/_alertas.html' %}
-          </div>
-          <!--Importador de PDF-->
-          <div class="formImportacao">
-            <!--Formuladrio para importação-->
-            <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
-              {% csrf_token %}
-              <input type="hidden" name="paciente" value="{{ paciente.id }}">
-              <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
-              <input type="file" name="pdf" id="arquivo" class="iptArquivo" accept=".pdf" required="required">
-              <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
-              <button type="submit" class="btn btn-ipdf">Importar</button>
-            </form>
-          
-            <!-- Botão Cadastro de exame-->
-            
-              <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
-                Novo Exame
-              </button>
-            
-          </div>
-        {% include 'partials/_det_paciente.html' %}
+    <section class="col-lg-10 mx-auto">
+
+
+      <!--Mensagem de Importação-->
+      <div class="mx-auto">
+        {% include 'partials/_alertas.html' %}
+      </div>
+      <!--Importador de PDF-->
+      <div class="formImportacao">
+        <!--Formuladrio para importação-->
+        <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="paciente" value="{{ paciente.id }}">
+          <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
+          <input type="file" name="pdf" id="arquivo" class="iptArquivo" accept=".pdf" required="required">
+          <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
+          <button type="submit" class="btn btn-ipdf">Importar</button>
+        </form>
+
+        <!-- Botão Cadastro de exame-->
+
+        <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
+          Novo Exame
+        </button>
+
+      </div>
+      {% include 'partials/_det_paciente.html' %}
     </section>
-  
+
   </section>
 </main>
 <!-- Modal Cadastro de exame-->
@@ -204,155 +208,167 @@
 </script>
 <!--CartJs-->
 <script>
+ 
+  var lst_data = [  
+  {%for exame in exames_grafico %}
+    '{{ exame.data_exame }}',
+  {% endfor %}
+  ];
   
-var ctx = document.getElementById('chart').getContext('2d');
+  var lst_colesterol = [
+  {% for exame in exames_grafico %}
+    '{{ exame.colesterol }}',
+  {% endfor %}
+  ];
 
-var chart = new Chart(ctx, {
-  type: 'line',
-  data: {
+  var lst_glicose = [
+    {% for exame in exames_grafico %}
+    '{{ exame.glicose }}',
+    {% endfor %}
+  ];
+  
+  var lst_hdl = [
+    {% for exame in exames_grafico %}
+    '{{ exame.hdl }}',
+    {% endfor %}
+  ];
+  var lst_ldl =  [
+    {% for exame in exames_grafico %}
+    '{{ exame.ldl }}',
+    {% endfor %}
+  ];
+  
+  var lst_triglicerides =  [
+    {% for exame in exames_grafico %}
+    '{{ exame.triglicerides }}',
+    {% endfor %}
+  ];
+  
+  var lst_vldl = [
+    {% for exame in exames_grafico %}
+    '{{ exame.vldl }}',
+    {% endfor %}
+  ];
+
+  var ctx = document.getElementById('chart').getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'line',
+    data: {
 
 
-    labels: [
-      {% for exame in exames_grafico %}
-      '{{ exame.data_exame }}',
-      {% endfor %}
-    ],
+      labels: lst_data,
 
 
-    datasets: [{
-        label: 'Colesterol',
+      datasets: [{
+          label: 'Colesterol',
 
-        data: [
-          {% for exame in exames_grafico %}
-          '{{ exame.colesterol }}',
-          {% endfor %}
-        ],
+          data: lst_colesterol,
 
-        fill: false,
+          fill: false,
 
-        borderColor: [
-          {% for exame in exames_grafico %} 
-            {% if exame.colesterol >= exame_referencia.colesterol_max %}
-          'rgba(255, 51, 0, .6)',
-          {% else %}
-          'rgba(255, 204, 102, .5)',
-            {% endif %} 
-          {% endfor %}
-        ],
+          borderColor: [
+            {% for exame in exames_grafico %} 
+              {% if exame.colesterol >= exame_referencia.colesterol_max %}
+                'rgba(255, 51, 0, .6)',
+              {% else %}
+                'rgba(255, 204, 102, .5)',
+              {% endif %} 
+            {% endfor %}
+          ],
 
 
-      }, {
-        label: 'Glicose',
-        fill: false,
-        borderColor: [
-          {% for exame in exames_grafico %} 
-            {% if exame.glicose >= exame_referencia.glicose_max %}
-          'rgba(255, 51, 0, .6)',
-          {% else %}
-          'rgba(42, 145, 171, .5)',
-            {% endif %} 
-          {% endfor %}
-        ],
-        data: [
-          {% for exame in exames_grafico %}
-          '{{ exame.glicose }}',
-          {% endfor %}
-        ],
-      },
-      {
-        label: 'HDL',
-        fill: false,
-        borderColor: [
-          {% for exame in exames_grafico %} 
-            {% if exame.hdl <= exame_referencia.hdl_min %}
-          'rgba(255, 51, 0, .6)',
-            {% else %}
-          'rgba(142, 145, 71, .5)',
-            {% endif %} 
-          {% endfor %}
-        ],
-        data: [
-          {% for exame in exames_grafico %}
-          '{{ exame.hdl }}',
-          {% endfor %}
-        ],
-      },
-      {
-        label: 'LDL',
-        fill: false,
-        borderColor: [
-          {% for exame in exames_grafico %} 
-            {% if exame.ldl >= exame_referencia.ldl_max %}
-          'rgba(255, 51, 0, .6)',
-            {% else %}
-          'rgba(42, 45, 71, .5)',
-            {% endif %} 
-          {% endfor %}
-        ],
-        data: [
-          {% for exame in exames_grafico %}
-          '{{ exame.ldl }}',
-          {% endfor %}
-        ],
-      },
-      {
-        label: 'Triglicerides',
-        fill: false,
-        borderColor: [
-          {% for exame in exames_grafico %} 
-            {% if exame.ldl >= exame_referencia.triglicerides_max %}
-          'rgba(255, 51, 0, .6)',
-            {% else %}
-          'rgba(42, 145, 71, .5)',
-            {% endif %} 
-          {% endfor %}
-        ],
-        data: [
-          {% for exame in exames_grafico %}
-          '{{ exame.triglicerides }}',
-          {% endfor %}
-        ],
-      },
-      {
-        label: 'VLDL',
-        fill: false,
-        borderColor: [
-          {% for exame in exames_grafico %} 
-            {% if exame.vldl >= exame_referencia.vldl_max %}
-          'rgba(255, 51, 0, .6)',
-            {% else %}
-          'rgba(42, 145, 71, .5)',
-            {% endif %} 
-          {% endfor %}
-        ],
-        data: [
-          {% for exame in exames_grafico %}
-          '{{ exame.vldl }}',
-          {% endfor %}
-        ],
-      },
-    ]
-  },
-  options: {
-    maintainAspectRatio: false,
-
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: false
-        }
-      }]
+        }, {
+          label: 'Glicose',
+          fill: false,
+          borderColor: [
+            {% for exame in exames_grafico %} 
+              {% if exame.glicose >= exame_referencia.glicose_max %}
+                'rgba(255, 51, 0, .6)',
+              {% else %}
+                'rgba(42, 145, 171, .5)',
+              {% endif %} 
+            {% endfor %}
+          ],
+          data: lst_glicose,
+        },
+        {
+          label: 'HDL',
+          fill: false,
+          borderColor: [
+            {% for exame in exames_grafico %} 
+              {% if exame.hdl <= exame_referencia.hdl_min %}
+                'rgba(255, 51, 0, .6)',
+              {% else %}
+                'rgba(142, 145, 71, .5)',
+              {% endif %} 
+            {% endfor %}
+          ],
+          data: lst_hdl,
+        },
+        {
+          label: 'LDL',
+          fill: false,
+          borderColor: [
+            {% for exame in exames_grafico %} 
+              {% if exame.ldl >= exame_referencia.ldl_max %}
+                'rgba(255, 51, 0, .6)',
+              {% else %}
+                'rgba(42, 45, 211, .5)',
+              {% endif %} 
+            {% endfor %}
+          ],
+          data: lst_ldl,
+        },
+        {
+          label: 'Triglicerides',
+          fill: false,
+          borderColor: [
+            {% for exame in exames_grafico %} 
+              {% if exame.ldl >= exame_referencia.triglicerides_max %}
+                'rgba(255, 51, 0, .6)',
+              {% else %}
+                'rgba(42, 145, 71, .5)',
+              {% endif %} 
+            {% endfor %}
+          ],
+          data: lst_triglicerides, 
+        },
+        {
+          label: 'VLDL',
+          fill: false,
+          borderColor: [
+            {% for exame in exames_grafico %}
+              {% if exame.vldl >= exame_referencia.vldl_max %}
+                'rgba(255, 51, 0, .6)',
+              {% else %}
+                'rgba(42, 145, 71, .5)',
+              {% endif %}
+            {% endfor %}
+          ],
+          data: lst_vldl,
+        },
+      ]
     },
-    layout: {
-      padding: {
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0
+    options: {
+      maintainAspectRatio: false,
+
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+          }
+        }]
+      },
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        }
       }
     }
-  }
-}); 
+  });
 
 </script>
 {% endblock %}

@@ -365,13 +365,13 @@ header{
   z-index: 1030 !important;
 }
 
-.sidebar ul li{
+.sidebar ul li, a{
   list-style: none;
 }
 
-.sidebar ul li {
+.sidebar ul li{
   margin-top: 5px;
-  padding: 12px;
+  padding: .5em;
   text-decoration: none;
   color: rgb(255, 255, 255);
   width: 100%;
@@ -389,6 +389,7 @@ header{
   width: 90%;
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
+  
 }
 
 .sidebar a:hover{
@@ -396,6 +397,10 @@ header{
   
 }
 
+
+.dNone{
+  display: none;
+}
 
 /*GRAFICO*/
 

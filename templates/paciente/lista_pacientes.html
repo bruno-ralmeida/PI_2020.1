@@ -11,7 +11,7 @@
     <section class="col-10 mx-auto">
       <div class="container__paciente mb-2">
         <div class="container__paciente__novo">
-          <a href="{% url 'adicionar' %}" class="btn btnCustom btn-sm"> Novo Paciente </i> </a>
+          <a href="{% url 'adicionar' %}" class="btn btnCustom btn-sm"> Novo </i> </a>
         </div>
         <!--Campo de busca de pacientes-->
         <div class="container__paciente__form">
@@ -56,7 +56,7 @@
                   <a href="{% url 'det_paciente' paciente.id %}" class="btn btnCustom btn-sm"> <i
                       class="fas fa-laptop-medical"></i> </a>
 
-                  <a href="{% url 'paciente' paciente.id %}" class="btn btnCustom btn-sm"> <i
+                  <a href="{% url 'altera_paciente' paciente.id %}" class="btn btnCustom btn-sm"> <i
                       class="fas fa-pencil-alt"></i>
                   </a>
 
