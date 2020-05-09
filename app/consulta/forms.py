@@ -18,7 +18,7 @@ class CadConsulta(forms.ModelForm):
 				options={
 				'minDate': 'moment',
 				'daysOfWeekDisabled':[0, 6],
-				
+				'format':'L',
 				'ignoreReadonly': True,
 				},
 				attrs={

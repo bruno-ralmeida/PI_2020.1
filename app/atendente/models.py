@@ -12,3 +12,4 @@ class Atendente(models.Model):
     rg = models.CharField(max_length=20, unique=True)
     email = models.EmailField()
     foto = models.ImageField(upload_to=f'fotos/{time.time()}', blank=True)
+    ativo = models.BooleanField(default=True)
