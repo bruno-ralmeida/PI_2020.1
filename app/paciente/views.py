@@ -2,7 +2,7 @@
 @author Bruno Almeida, Ana
 """
 from datetime import date, datetime
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -149,3 +149,14 @@ def calculo_imc(peso, altura):
     else:
         resultado = 'Obesidade grau 3'
     return f'{imc:.2f} - {resultado}'
+
+def listar_paciente():
+    """Função para retornar um dicionário com id e nome de todos os pacientes para opções do formulario de consulta"""
+    lst_paciente = get_list_or_404(Paciente)
+    aux = {}
+    for paciente in lst_paciente:
+        aux[paciente.id] = paciente.nome
+
+    lst_op = aux.items()
+    
+    return lst_op

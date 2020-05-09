@@ -8,7 +8,8 @@ from paciente.models import Paciente
 
 class Consulta(models.Model):
     """Classe de modelo consulta."""
-    data = models.DateTimeField()
+    data = models.DateField()
+    hora = models.TimeField()
     medico = models.ForeignKey(Medico, on_delete=models.CASCADE)
     atendente = models.ForeignKey(Atendente, on_delete=models.CASCADE)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)

@@ -9,7 +9,7 @@ from django.contrib import auth, messages
 from medico.models import Medico
 from atendente.models import Atendente
 from consulta.models import Consulta
-from consulta.forms import cadConsulta
+
 
 
 def login(request):
@@ -42,17 +42,18 @@ def dashboard(request):
     """Função para o usuário de forma correta"""
     if request.user.is_authenticated:
         dados = get_dados(request)
+        data = date.today()
         if dados['tipo'] == 1:
-            lst_consultas = Consulta.objects.filter(medico=dados['usuario'])
-            lst_consultas = separa_data_hr(lst_consultas)
-            dados['consultas'] = lst_consultas
+            
+            lst_consultas = Consulta.objects.filter(medico=dados['usuario'], data=data)
+            
+            dados['consultas'] = lst_consultas = []
         if dados['tipo'] == 2:
-            data = date.today()
-            form = cadConsulta()
-            lst_consultas = Consulta.objects.filter(data__date=data)
-            lst_consultas = separa_data_hr(lst_consultas)
+            
+            
+            lst_consultas = Consulta.objects.filter(data=data)
             dados['consultas'] = lst_consultas
-            dados['form'] = form
+            
 
     return render(request, 'usuarios/index.html', dados)
 
@@ -86,13 +87,3 @@ def get_dados(request):
     """Pega as informações no contexto"""
     dados = {'usuario': get_usuario(request), 'tipo': verifica_usuario(request)}
     return dados
-
-def separa_data_hr(lst_consultas):
-    """Separando data e hora."""
-    for consulta in lst_consultas:
-        hora = datetime.strftime(consulta.data, '%H:%M')
-        data = datetime.strftime(consulta.data, '%d/%m/%Y')
-        consulta.data = data
-        consulta.hora = hora
-
-    return lst_consultas

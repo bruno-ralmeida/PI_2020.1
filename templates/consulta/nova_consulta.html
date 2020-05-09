@@ -1,22 +1,102 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block content %}
+<section class="col-10 mt-x">
+  {{ form.media }}
+  <div class="col-10 mx-auto">
+    <div class="row">
 
-{{ form.media }}
-<div class="col-10 mx-auto">
-  <form action="#" method="post">
-    {% csrf_token %}
-    {% for field in form.visible_fields %}
+      <div class="col-6">
+        <img src="{% static 'images/cuidados.jpg' %}" class="img-fluid mx-auto d-block mt-5 img-c19" alt="">
+      </div>
+      <div class="col-6">
+        
+        <input type="hidden" name="url" id="url_medico" value="{% url 'buscar_medico' %}">
+        <input type="hidden" name="url" id="url_paciente" value="{% url 'buscar_paciente' %}">
+        
+        {% include 'partials/_alertas.html' %}
+        <form id="form" class="formNovaConsulta" action="{% url 'minha_consulta' %}" method="POST">
+          {% csrf_token %}
+          {% for field in form.visible_fields %}
 
-    <div class="form-group">
-      <label for="{{field.id_for_label}}">{{field.label}}</label>
-      {{field}}
+          <div class="form-group">
+            <label for="{{field.id_for_label}}">{{field.label}}</label>
+            {{field|add_class:'form-control'}}
+          </div>
+          {% endfor %}
+          <input type="submit" value="Agendar" id="teste" class="btn btn-sm btn-success mb-5" style="float: right;">
+        </form>
+
+      </div>
     </div>
+  </div>
+
+</section>
+<script src="{% static 'js/utils/jquery.mask.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    var url_medico = $('#url_medico').val();
+    var url_paciente = $('#url_paciente').val();
+
+    $('#id_cpf').mask('999.999.999-99');
+
+    $('#id_cpf').on('input', function () {
+      var form = new FormData($('#form')[0]);
+      $.ajax({
+        type: "POST",
+        cache: false,
+        processData: false,
+        contentType: false,
+        url: url_paciente,
+        data: form,
+        success: function (data) {
+
+          console.log(data);
+          $("#id_paciente").html('<option value="" selected="selected">Selecione</option>')
+          data.forEach(paciente => {
+            let id = paciente["id"]
+            let nome = paciente['nome']
+            $("#id_paciente").append('<option value="' + id + '">' + nome + '</option>');
+          });
+        },
+      });
+    });
 
 
-    {% endfor %}
+    $('.dt_hr').on('input', function () {
+      now = new Date();
+      let hora_atual = now.getHours() + ':' + now.getMinutes();
+      let data_atual = now.getDate();
+      let data_aux = $('#id_data').val();
+      let hora_form = $('#id_hora').val();
+      let aux = data_aux.split('/');
+      let data_form = Number(aux[0]);
 
-  </form>
-  <input type="button" value="cadastrar" class="btn btn-success mb-5" style="float: right;">
-</div>
+      if (data_form == data_atual) {
+        if (hora_form < hora_atual) {
+          $('#id_hora').val(now.getHours() + ':00');
+        }
+      }
+      var form = new FormData($('#form')[0]);
+      $.ajax({
+        type: "POST",
+        cache: false,
+        processData: false,
+        contentType: false,
+        url: url_medico,
+        data: form,
+        success: function (data) {
+          $("#id_medico").html('<option value="" selected="selected">Selecione</option>')
+          data.forEach(medico => {
+            let id = medico["id"]
+            let nome = medico['nome']
+            $("#id_medico").append('<option value="' + id + '">' + nome + '</option>');
+          });
+        },
+      });
+    });
+  });
+</script>
+
 {% endblock%}

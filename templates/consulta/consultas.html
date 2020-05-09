@@ -1,39 +1,46 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<section class="mx-auto">
+<section class="container-fluid mx-auto">
   
   <div class="col-10">
     {% include 'partials/_campanha.html' %}
-    <a href="#" class="btn btnCustom btn-sm"> Novo </i> </a>
-    <table class="col-10 table table-sm table-bordered table-striped mx-auto text-center agenda" id="consultas">
-      <thead class="colorCustom">
-        <tr>
-          <th scope="col">Data</th>
-          <th scope="col">Horário</th>
-          <th scope="col">Paciente</th>
-          {% if tipo == 1 %}
-          <th scope="col">Opções</th>
-          {% endif %}
-        </tr>
-      </thead>
-      <tbody>
-        {% for consulta in consultas %}
-        <tr>
+    <div class="col-10 mx-auto">
+      {% if tipo == 2 %}
+      <div class="container__consultas">
+        <a href="{%url 'nova_consulta'%}" class="btn btnCustom btn-sm"> Agendar </i> </a>
+      </div>
+      {% endif %}
+      <table class="table table-sm table-bordered table-striped text-center mx-auto agenda" id="consultas">
+        <thead class="colorCustom">
+          <tr>
+            <th scope="col">Data</th>
+            <th scope="col">Horário</th>
+            <th scope="col">Paciente</th>
+            {% if tipo == 1 %}
+            <th scope="col">Opções</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for consulta in consultas %}
+          <tr>
 
-          <th scope="row">{{ consulta.data }}</th>
-          <th scope="row">{{ consulta.hora }}</th>
-          <td>{{ consulta.paciente.nome }}</td>
-          {% if tipo == 1 %}
-          <td>
-            <a href="{% url 'det-exame' consulta.paciente.id  %}" class="btn btnCustom btn-sm btn-block btn-primary"> <i
-                class="fas fa-hand-holding-medical"></i></a>
-          </td>
-          {% endif %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+            <th scope="row">{{ consulta.data }}</th>
+            <th scope="row">{{ consulta.hora }}</th>
+            <td>{{ consulta.paciente.nome }}</td>
+            {% if tipo == 1 %}
+            <td>
+              <a href="{% url 'det-exame' consulta.paciente.id  %}" class="btn btnCustom btn-sm btn-primary">
+                <i class="fas fa-hand-holding-medical"></i></a>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
   </div>
   <!--Paginação-->
   <div class="col-10">
@@ -73,6 +80,6 @@
       {% endif %}
     </nav>
   </div>
-  
+
 </section>
 {% endblock %}

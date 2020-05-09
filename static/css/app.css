@@ -338,7 +338,7 @@ header{
   transform: scale(1.1);
 }
 .agenda{
-  margin-top: 5rem !important;
+  margin-top: .25rem !important;
   margin-bottom: 1.5rem !important;
   
 }
@@ -397,10 +397,17 @@ header{
   
 }
 
-
 .dNone{
   display: none;
 }
+
+.container__consultas{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0.725em 0;
+}
+
 
 /*GRAFICO*/
 
@@ -575,4 +582,3 @@ header{
     max-width: 50% !important;
   }
 }
-
