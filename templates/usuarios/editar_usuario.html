@@ -46,19 +46,19 @@
                   </select>
                 </div>
                 <div class="col">
-                  <label for="data">Nascimento:</label>
-                  <input type="text" class="form-control" id="data" placeholder="dd/MM/YYYY" name="dt_nasc" required
+                  <label for="id_data_nasc">Nascimento:</label>
+                  <input type="text" class="form-control" id="id_data_nasc" placeholder="dd/MM/YYYY" name="dt_nasc" required
                     value="{{useredit.data_nascimento|date:'d/m/Y'}}">
                 </div>
               </div>
               <div class="form-row mt-y">
                 <div class="col mr-3">
-                  <label for="cpf">CPF:</label>
-                  <input type="text" name="cpf" id="cpf" class="form-control" value="{{useredit.cpf}}">
+                  <label for="id_cpf">CPF:</label>
+                  <input type="text" name="cpf" id="id_cpf" class="form-control" value="{{useredit.cpf}}">
                 </div>
                 <div class="col ml-3">
-                  <label for="rg">RG:</label>
-                  <input type="text" name="rg" id="rg" class="form-control" value="{{useredit.rg}}">
+                  <label for="id_rg">RG:</label>
+                  <input type="text" name="rg" id="id_rg" class="form-control" value="{{useredit.rg}}">
                 </div>
               </div>
               {% if request.user.id == useredit.usuario.id %}
@@ -73,7 +73,7 @@
                 </div>
               </div>
               {% endif %}
-              <button class="btn btnCustom btn-sm" type="submit">Salvar</button>
+              <input class="btn btn-success mt-2" type="submit" value="Salvar" style="float: right;">
             </div>
             
           </form>
@@ -81,5 +81,6 @@
       </div>
   </section>
 </main>
-
+<script src="{% static 'js/utils/jquery.mask.js' %}"></script>
+<script src="{% static 'js/validacoes.js' %}"></script>
 {% endblock %}

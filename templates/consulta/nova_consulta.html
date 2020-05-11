@@ -5,29 +5,49 @@
 <section class="col-10 mt-x">
   {{ form.media }}
   <div class="col-10 mx-auto">
-    <div class="row">
 
-      <div class="col-6">
-        <img src="{% static 'images/cuidados.jpg' %}" class="img-fluid mx-auto d-block mt-5 img-c19" alt="">
-      </div>
-      <div class="col-6">
+    <div class="col">
+      <input type="hidden" name="url" id="url_medico" value="{% url 'buscar_medico' %}">
+      <input type="hidden" name="url" id="url_paciente" value="{% url 'buscar_paciente' %}">
 
-        <input type="hidden" name="url" id="url_medico" value="{% url 'buscar_medico' %}">
-        <input type="hidden" name="url" id="url_paciente" value="{% url 'buscar_paciente' %}">
+      {% include 'partials/_alertas.html' %}
+      <div class="card mt-y">
+        <div class="info-section">
+          <h3> Marcar Consulta
+            <div class="border"></div>
+          </h3>
+          <form id="form" class="formNovaConsulta" action="{% url 'minha_consulta' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="row">
+                <div class="form-group col-4">
+                  <label for="cpf">CPF:</label>
+                  {{form.cpf|add_class:'form-control'}}
+                </div>
+                <div class="form-group col-8">
+                  <label for="paciente">Paciente:</label>
+                  {{form.paciente|add_class:'form-control'}}
+                </div>
+              </div>
 
-        {% include 'partials/_alertas.html' %}
-        <form id="form" class="formNovaConsulta" action="{% url 'minha_consulta' %}" method="POST">
-          {% csrf_token %}
-          {% for field in form.visible_fields %}
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="id_data">Data:</label>
+                  {{form.data|add_class:'form-control'}}
+                </div>
+                <div class="form-group col-6">
+                  <label for="id_hora">Horário:</label>
+                  {{form.hora|add_class:'form-control'}}
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="medicos">Médicos disponíveis:</label>
+                {{form.medico|add_class:'form-control'}}
+              </div>
 
-          <div class="form-group">
-            <label for="{{field.id_for_label}}">{{field.label}}</label>
-            {{field|add_class:'form-control'}}
-          </div>
-          {% endfor %}
-          <input type="submit" value="Agendar" id="teste" class="btn btn-sm btn-success mb-5" style="float: right;">
-        </form>
-
+              <input type="submit" value="Agendar" class="btn btn-success mb-5" style="float: right;">
+          </form>
+        </div>
       </div>
     </div>
   </div>

@@ -274,35 +274,45 @@ def calc_variacao(lst):
     """Função para realizar o calculo de variação de acordo com uma lista de resultados,
     o retorno será com nos ultimos 6 exames (- ==  ↑ //  + == ↓).
     """
-    lst_aux = []
-    max_ind = 0
-    if len(lst) < 6:
-        max_ind = len(lst)
+    if len(lst) > 0:
+        lst_aux = []
+        max_ind = 0
+        if len(lst) < 6:
+            max_ind = len(lst)
+        else:
+            max_ind = 6
+
+        for i in range(1, max_ind):
+            diferenca = (lst[i-1] - lst[i])
+            lst_aux.append(diferenca)
+
+        variacao = sum(lst_aux)/len(lst_aux)
     else:
-        max_ind = 6
-
-    for i in range(1, max_ind):
-        diferenca = (lst[i-1] - lst[i])
-        lst_aux.append(diferenca)
-
-    return sum(lst_aux)/len(lst_aux)
+        variacao = 0
+    return variacao
 
 def calc_periodo_exames(lst):
     """
     Função para realizar o cálculo de média do periodo entre os exames realizados.
     """
-    lst.reverse()
-    lst_aux = []
-    max_ind = 0
+    if len(lst) > 0:
+        lst.reverse()
+        lst_aux = []
+        max_ind = 0
+       
+        if len(lst) < 6: #Filtro de até 6 exames.
+            max_ind = len(lst)
+        else:
+            max_ind = 6
 
-    if len(lst) < 6: #Filtro de até 6 exames.
-        max_ind = len(lst)
+        for i in range(1, max_ind):
+            aux = (lst[i-1] - lst[i]) #Data ini / fim.
+            diferenca = int(aux.days)
+            lst_aux.append(diferenca)
+
+        valor_periodo = int(sum(lst_aux)/len(lst_aux))
+
     else:
-        max_ind = 6
+        valor_periodo = 0  
 
-    for i in range(1, max_ind):
-        aux = (lst[i-1] - lst[i]) #Data ini / fim.
-        diferenca = int(aux.days)
-        lst_aux.append(diferenca)
-
-    return int(sum(lst_aux)/len(lst_aux))
+    return valor_periodo

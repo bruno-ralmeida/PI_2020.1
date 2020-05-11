@@ -31,8 +31,8 @@
                   </select>
                 </div>
                 <div class="col">
-                  <label for="data">Nascimento:</label>
-                  <input type="text" class="form-control" id="data" placeholder="dd/MM/YYYY" name="dt_nasc"
+                  <label for="id_data_nasc">Nascimento:</label>
+                  <input type="text" class="form-control" id="id_data_nasc" placeholder="dd/MM/YYYY" name="dt_nasc"
                     required value="{{paciente.data_nascimento|date:'d/m/Y'}}">
                 </div>
                 <div class="col">
@@ -43,12 +43,12 @@
               </div>
               <div class="form-row mt-y">
                 <div class="col mr-3">
-                  <label for="cpf">CPF:</label>
-                  <input type="text" name="cpf" id="cpf" class="form-control" value="{{paciente.cpf}}">
+                  <label for="id_cpf">CPF:</label>
+                  <input type="text" name="cpf" id="id_cpf" class="form-control" value="{{paciente.cpf}}">
                 </div>
                 <div class="col ml-3">
-                  <label for="rg">RG:</label>
-                  <input type="text" name="rg" id="rg" class="form-control" value="{{paciente.rg}}">
+                  <label for="id_rg">RG:</label>
+                  <input type="text" name="rg" id="id_rg" class="form-control" value="{{paciente.rg}}">
                 </div>
               </div>
               {% if tipo == 1%}
@@ -76,13 +76,13 @@
               </div>
               <div class="form-row mt-y">
                 <div class="col">
-                  <label for="telefone">Telefone:</label>
-                  <input type="text" name="telefone" id="telefone" class="form-control" placeholder="(xx) xxxx-xxxx"
+                  <label for="id_tel">Telefone:</label>
+                  <input type="text" name="telefone" id="id_tel" class="form-control" placeholder="(xx) xxxx-xxxx"
                     required value="{{paciente.telefone}}">
                 </div>
                 <div class="col">
-                  <label for="celular">Celular:</label>
-                  <input type="text" name="celular" id="celular" class="form-control" placeholder="(xx) xxxxx-xxxx"
+                  <label for="id_cel">Celular:</label>
+                  <input type="text" name="celular" id="id_cel" class="form-control" placeholder="(xx) xxxxx-xxxx"
                     required value="{{paciente.celular}}">
                 </div>
               </div>
@@ -124,4 +124,6 @@
       </div>
   </section>
 </main>
+<script src="{% static 'js/utils/jquery.mask.js' %}"></script>
+<script src="{% static 'js/validacoes.js' %}"></script>
 {% endblock %}

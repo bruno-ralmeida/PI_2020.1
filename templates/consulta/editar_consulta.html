@@ -10,56 +10,63 @@
 
       <div class="container">
         {% include 'partials/_alertas.html' %}
-        <form id="form" class="formNovaConsulta" action="{% url 'salvar_alteracao' %}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="consulta" value="{{consulta.id}}">
-          <div class="row">
-            <div class="form-group col-8">
-              <label for="paciente">Paciente:</label>
-              <input class="form-control" type="text" name="paciente" id="paciente" value="{{consulta.paciente.nome}}"
-                placeholder="Paciente..." readonly>
-            </div>
-            <div class="form-group col-4">
-              <label for="cpf">CPF:</label>
-              <input class="form-control" type="text" name="cpf" id="cpf" value="{{consulta.paciente.cpf}}" readonly>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-6">
-              <label for="id_data">Data:</label>
-              <input type="hidden" id="data_fmt" value="{{consulta.data|date:'Y-m-d'}}">
-              <div class="input-group" id="div_id_data" data-target-input="nearest">
-                <input type="text" name="data" - readonly="readonly" class="form-control datetimepicker-input dt_hr"
-                  required="True" id="id_data" data-toggle="datetimepicker" data-target="#id_data">
-
-                <div class="input-group-append" data-target="#id_data" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        <div class="card mt-y">
+          <div class="info-section">
+            <h3> Remarcar Consulta
+              <div class="border"></div>
+            </h3>
+            <form id="form" class="formNovaConsulta" action="{% url 'salvar_alteracao' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="consulta" value="{{consulta.id}}">
+              <div class="row">
+                <div class="form-group col-8">
+                  <label for="paciente">Paciente:</label>
+                  <input class="form-control" type="text" name="paciente" id="paciente"
+                    value="{{consulta.paciente.nome}}" placeholder="Paciente..." readonly>
+                </div>
+                <div class="form-group col-4">
+                  <label for="cpf">CPF:</label>
+                  <input class="form-control" type="text" name="cpf" id="cpf" value="{{consulta.paciente.cpf}}"
+                    readonly>
                 </div>
               </div>
-            </div>
-            <div class="form-group col-6">
-              <label for="id_hora">Horário:</label>
-              <div class="input-group" id="div_id_hora" data-target-input="nearest">
-                <input type="text" name="hora" placeholder="{{consulta.hora}}" readonly="readonly"
-                  class="form-control datetimepicker-input dt_hr" required="True" id="id_hora"
-                  data-toggle="datetimepicker" data-target="#id_hora">
-                <div class="input-group-append" data-target="#id_hora" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="far fa-clock"></i></div>
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="id_data">Data:</label>
+                  <input type="hidden" id="data_fmt" value="{{consulta.data|date:'Y-m-d'}}">
+                  <div class="input-group" id="div_id_data" data-target-input="nearest">
+                    <input type="text" name="data" - readonly="readonly" class="form-control datetimepicker-input dt_hr"
+                      required="True" id="id_data" data-toggle="datetimepicker" data-target="#id_data">
+
+                    <div class="input-group-append" data-target="#id_data" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-6">
+                  <label for="id_hora">Horário:</label>
+                  <div class="input-group" id="div_id_hora" data-target-input="nearest">
+                    <input type="text" name="hora" placeholder="{{consulta.hora}}" readonly="readonly"
+                      class="form-control datetimepicker-input dt_hr" required="True" id="id_hora"
+                      data-toggle="datetimepicker" data-target="#id_hora">
+                    <div class="input-group-append" data-target="#id_hora" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="far fa-clock"></i></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+              <div class="form-group">
+                <label for="medicos">Médicos disponíveis:</label>
+                <select class="form-control" id="id_medico" name="medico">
+                  <option>Selecione...</option>
+                </select>
+              </div>
+              <input type="submit" value="Remarcar" class="btn btn-success mb-5" style="float: right;">
+
+
+            </form>
           </div>
-          <div class="form-group">
-            <label for="medicos">Médicos disponíveis:</label>
-            <select class="form-control" id="id_medico" name="medico">
-              <option>Selecione...</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-sm btn-success">Salvar</button>
-
-
-        </form>
-
+        </div>
       </div>
     </div>
   </div>
@@ -133,7 +140,7 @@
         }
       }
       var form = new FormData($('#form')[0]);
-    
+
       $.ajax({
         type: "POST",
         cache: false,

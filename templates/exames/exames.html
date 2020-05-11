@@ -55,9 +55,14 @@
         </table>
         <!--Mensagem com observação de Idade-->
         <div class="mx-auto">
-          <p style="color: #00004d;  font-size: 14px;"> ** Tabela de ref. para pacientes com idade entre
-            {{exame_referencia.idade_min}} a
-            {{exame_referencia.idade_max}}. </p>
+          <p style="color: #00004d;  font-size: 14px;">  Tabela de ref. para pacientes com idade entre
+            {{exame_referencia.idade_min}} à
+            {% if exame_referencia.idade_max  < 150 %}
+            {{exame_referencia.idade_max}}.
+            {% else %}
+              **
+            {% endif %}
+          </p>
         </div>
 
       </div>

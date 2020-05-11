@@ -3,6 +3,10 @@ $(document).ready(function () {
     var url_paciente = $('#url_paciente').val();
 
     $('#id_cpf').mask('999.999.999-99');
+    $('#id_rg').mask('99.9969.999-9');
+    $('#id_data_nasc').mask('99/99/9999');
+    $('#id_tel').mask('(11) 9999-9999');
+    $('#id_cel').mask('(11) 99999-99999');
 
     $('#id_cpf').on('input', function () {
       var form = new FormData($('#form')[0]);
