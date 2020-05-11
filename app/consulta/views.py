@@ -20,7 +20,7 @@ def listar(request):
     data = date.today()
 
     if dados['tipo'] == 1:
-        lst_consultas = Consulta.objects.filter(medico=dados['usuario'], data__gte=data)
+        lst_consultas = Consulta.objects.filter(medico=dados['usuario'], data__gte=data).order_by('data', 'hora')
     else:
         lst_consultas = Consulta.objects.filter(data__gte=data).order_by('data', 'hora')
 

@@ -27,7 +27,8 @@ def detalhes(request, paciente_id):
     paginator = Paginator(exames, 6)
     page = request.GET.get('page')
     exames_por_pagina = paginator.get_page(page)
-
+    print(paciente.id)
+    print(exames)
     dados['paciente'] = paciente
     dados['exames'] = exames_por_pagina
     dados['lst_estimativa'] = estimativa(paciente)
