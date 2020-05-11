@@ -1,8 +1,8 @@
 """
 @author Bruno Almeida
 """
-from datetime import datetime
-from django.shortcuts import render, redirect, get_object_or_404
+from datetime import datetime, date
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
@@ -17,11 +17,13 @@ from atendente.models import Atendente
 def listar(request):
     """Função para listar as consultas"""
     dados = get_dados(request)
+    data = date.today()
 
     if dados['tipo'] == 1:
-        lst_consultas = Consulta.objects.filter(medico=dados['usuario']).reverse()
+        lst_consultas = Consulta.objects.filter(medico=dados['usuario'], data__gte=data)
     else:
-        lst_consultas = Consulta.objects.order_by('medico').reverse()
+        lst_consultas = Consulta.objects.filter(data__gte=data).order_by('data', 'hora')
+
 
     paginator = Paginator(lst_consultas, 5)
     page = request.GET.get('page')
@@ -36,7 +38,7 @@ def nova_consulta(request):
     """
     dados = get_dados(request)
     dados['form'] = CadConsulta()
-
+    print(CadConsulta())
     return render(request, 'consulta/nova_consulta.html', dados)
 
 @csrf_exempt
@@ -61,6 +63,34 @@ def cadastro(request):
         messages.error(request, 'Desculpe, ocorreu um erro ao tentar cadastrar a consulta.')
 
     return redirect('nova_consulta')
+
+def editar(request, consulta_id):
+    dados = get_dados(request)
+    dados['form'] = CadConsulta()
+    try:
+        dados['consulta'] = get_object_or_404(Consulta, id=consulta_id)
+    except:
+        pass
+
+    return render(request, 'consulta/editar_consulta.html', dados)
+
+def salvar_alteracao(request):
+    consulta_id = None
+    try:
+
+        consulta = get_object_or_404(Consulta, id=request.POST['consulta'])
+        consulta.medico = get_object_or_404(Medico, id=request.POST['medico'])
+        consulta.atendente = get_object_or_404(Atendente, usuario=request.user)
+        data_hora = fmt_data_hora(request.POST['data'], request.POST['hora'])
+        consulta.data = data_hora['data']
+        consulta.hora = data_hora['hora']
+        consulta_id = consulta.id
+        consulta.save()
+        messages.success(request, 'Consulta remarcada com sucesso.')
+    except:
+        messages.error(request, 'Desculpe, ocorreu um erro ao tentar remarcar a consulta.')
+
+    return redirect(reverse('consulta-edit', kwargs={'consulta_id': consulta_id}))
 
 @csrf_exempt
 def buscar_cpf(request):

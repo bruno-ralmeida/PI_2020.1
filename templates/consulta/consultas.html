@@ -5,7 +5,9 @@
 
   <div class="col-10">
     {% include 'partials/_campanha.html' %}
+    
     <div class="col-10 mx-auto">
+      
       {% if tipo == 2 %}
       <div class="container__consultas">
         <a href="{%url 'nova_consulta'%}" class="btn btnCustom btn-sm"> Agendar </i> </a>
@@ -17,6 +19,7 @@
             <th scope="col">Data</th>
             <th scope="col">Horário</th>
             <th scope="col">Paciente</th>
+            <th scope="col">CPF</th>
             <th scope="col">Opções</th>
 
           </tr>
@@ -25,9 +28,10 @@
           {% for consulta in consultas %}
           <tr>
 
-            <th scope="row">{{ consulta.data }}</th>
+            <th scope="row">{{ consulta.data|date:'d/m/Y' }}</th>
             <th scope="row">{{ consulta.hora }}</th>
             <td>{{ consulta.paciente.nome }}</td>
+            <td>{{ consulta.paciente.cpf }}</td>
             {% if tipo == 1 %}
             <td>
               <a href="{% url 'det-exame' consulta.paciente.id  %}" class="btn btnCustom btn-sm btn-primary">
@@ -36,9 +40,8 @@
             {% endif %}
             {% if tipo == 2 %}
             <td>
-              <button type="button" class="btn btn-primary btn-sm btnCustom" data-toggle="modal" data-target="#modelId">
-                <i class="far fa-edit"></i>
-              </button>
+              <a href="{% url 'consulta-edit' consulta.id  %}" class="btn btnCustom btn-sm btn-primary">
+                <i class="far fa-edit"></i></a>
             </td>
             {% endif %}
           </tr>
@@ -87,36 +90,5 @@
     </nav>
   </div>
 
-  <!--Modal-->
-
-
-  <!-- Modal -->
-  <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Remarcar Consulta.</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="container">
-
-            <form action="" method="POST">{% csrf_token %}
-              
-              
-            </form>
-
-
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 {% endblock %}

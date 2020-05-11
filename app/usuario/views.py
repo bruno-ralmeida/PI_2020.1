@@ -1,15 +1,13 @@
 """
 @author Bruno Almeida
 """
-from datetime import datetime, date
+from datetime import date, datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from medico.models import Medico
 from atendente.models import Atendente
-from consulta.models import Consulta
-
 
 
 def login(request):
@@ -42,22 +40,81 @@ def dashboard(request):
     """Função para o usuário de forma correta"""
     if request.user.is_authenticated:
         dados = get_dados(request)
-        data = date.today()
-        if dados['tipo'] == 1:
-            
-            lst_consultas = Consulta.objects.filter(medico=dados['usuario'], data=data)
-            
-            dados['consultas'] = lst_consultas = []
-        if dados['tipo'] == 2:
-            
-            
-            lst_consultas = Consulta.objects.filter(data=data)
-            dados['consultas'] = lst_consultas
-            
 
     return render(request, 'usuarios/index.html', dados)
 
+@login_required(login_url='login')
+def usuarios(request):
+    dados = get_dados(request)
 
+    medicos = Medico.objects.all()
+    atendentes = Atendente.objects.all()
+    lst_usuarios = []
+
+    for user in medicos:
+        lst_usuarios.append(user)
+
+    for user in atendentes:
+        lst_usuarios.append(user)
+
+    print(lst_usuarios)
+
+    dados['lst_usuarios'] = lst_usuarios
+    return render(request, 'usuarios/listar_usuarios.html', dados)
+
+@login_required(login_url='login')
+def editar(request, id):
+    dados = get_dados(request)
+
+    dados['useredit'] = medico = atendente = None
+    usuario = get_object_or_404(User, id=id)
+
+    if Medico.objects.filter(usuario=usuario):
+        medico = get_object_or_404(Medico, usuario=usuario)
+        dados['useredit'] = medico
+        dados['usertipo'] = 1
+
+    if Atendente.objects.filter(usuario=usuario):
+        atendente = get_object_or_404(Atendente, usuario=usuario)
+        dados['useredit'] = atendente
+        dados['usertipo'] = 2
+
+    return render(request, 'usuarios/editar_usuario.html', dados)
+
+@login_required(login_url='login')
+def salvar_usuario(request):
+    dados = get_dados(request)
+    if request.method == 'POST':
+        usuario_id = request.POST['user_id']
+
+        usuario = get_object_or_404(User, id=usuario_id)
+        user_edit = None
+
+        if Medico.objects.filter(usuario=usuario):
+            user_edit = get_object_or_404(Medico, usuario=usuario)
+            user_edit.crm = request.POST['crm']
+            dados['usertipo'] = 1
+
+        if Atendente.objects.filter(usuario=usuario):
+            user_edit = get_object_or_404(Atendente, usuario=usuario)
+            dados['usertipo'] = 2
+
+        user_edit.nome = request.POST['nome']
+        user_edit.email = request.POST['email']
+        user_edit.sexo = request.POST['sexo']
+        user_edit.data_nascimento =  datetime.strptime(request.POST['dt_nasc'],'%d/%m/%Y').date()
+        user_edit.cpf = request.POST['cpf']
+        user_edit.rg = request.POST['rg']
+
+        if request.user.id == usuario.id:
+            usuario_senha = request.POST['senha']
+            usuario_csenha = request.POST['conf-senha']
+
+        dados['useredit'] = user_edit
+        user_edit.save()
+        
+
+    return render(request, 'usuarios/editar_usuario.html', dados)
 
 #---------------------------------------------------------------
 # UTILS

@@ -2,14 +2,15 @@
 <div class="sidebar">
     <div class="mb-2">
         <img src="{{ usuario.foto.url }}" class="img-fluid  mx-auto d-block" alt="">
-        
     </div>
     <ul>
-        
-        <a href="#"class="func_menu" ><li style="text-transform: capitalize;"> <i> {{ request.user}} </i><span class="dNone"> Dados Pessoais </span></li></a>
+        <a href="{% url 'edit-user' request.user.id %}"class="func_menu" ><li style="text-transform: capitalize;"> <i> {{ request.user}} </i><span class="dNone"> Dados Pessoais </span></li></a>
         <a href="{% url 'dashboard' %}" class="func_menu"> <li> <i class="fas fa-clinic-medical"></i> <span class="dNone"> Página principal </span></li></a>
-        <a href="{% url 'conusultas' %}" class="func_menu"> <li> <i class="fas fa-notes-medical"></i>  <span class="dNone"> Consultas </span> </li></a>
+        <a href="{% url 'consultas' %}" class="func_menu"> <li> <i class="fas fa-notes-medical"></i>  <span class="dNone"> Consultas </span> </li></a>
         <a href="{% url 'pacientes' %}" class="func_menu"> <li> <i class="fas fa-hospital-user"></i></i>  <span class="dNone">  Pacientes  </span></li></a>
+        {% if tipo == 2 %}
+        <a href="{% url 'usuarios' %}" class="func_menu"> <li> <i class="fas fa-users"></i></i>  <span class="dNone">  Usuários  </span></li></a>
+        {% endif %}
         {% if user.username == 'bruno' %}
         <a href="{% url 'admin:index' %}" target="_blank" class="func_menu"><li> <i class="fas fa-user-shield"></i>  <span class="dNone"> Django Admin </span> </li></a>
         {% endif %}
@@ -22,12 +23,10 @@
 
 <script>
     $(".func_menu").mouseenter(function(){        
-    
        $(this).find('i').addClass("dNone");
        $(this).find('svg').addClass("dNone");
        $(this).find('path').addClass("dNone");
        $(this).find('span').removeClass("dNone");
-
     });
     $(".sidebar ul li").mouseleave(function(){       
         $(".func_menu").find('i').removeClass("dNone");
@@ -35,6 +34,5 @@
         $(".func_menu").find('path').removeClass("dNone");
         $(".func_menu").find('span').addClass("dNone");    
     });
-
 
 </script>

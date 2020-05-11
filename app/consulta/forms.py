@@ -1,14 +1,12 @@
 from django import forms
 from tempus_dominus.widgets import DatePicker, TimePicker
 from consulta.models import Consulta
-from medico.views import listar_medico
-from paciente.views import listar_paciente
+
 
 class CadConsulta(forms.ModelForm):
 	medico = forms.ChoiceField(label='Médicos disponíveis: ',)
 	paciente = forms.ChoiceField(label='Paciente: ',)
 	cpf = forms.CharField(label='CPF: ')
-	
 	class Meta:
 		model = Consulta
 		fields = ['cpf', 'paciente', 'data', 'hora', 'medico']

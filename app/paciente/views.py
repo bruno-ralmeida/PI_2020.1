@@ -111,8 +111,8 @@ def adiciona_paciente(request):
         paciente.endereco = request.POST['endereco']
         paciente.end_num = request.POST['end_num']
         paciente.complemento = request.POST['complemento']
-        paciente.peso = float(request.POST['peso'].replace(',', '.'))
-        paciente.altura = float(request.POST['altura'].replace(',', '.'))
+        paciente.peso = 0
+        paciente.altura = 0
 
         paciente.save()
     return redirect('pacientes')
@@ -134,20 +134,24 @@ def calculo_imc(peso, altura):
     @return (PESO*2) / ALTURA e status do peso.
     Função para realizar o calulo de IMC
     """
-    imc = peso / (altura*2)
-    resultado = ''
-    if imc < 18.5:
-        resultado = 'Abaixo do peso'
-    elif imc >= 18.5 and imc < 24.90:
-        resultado = 'Peso Normal'
-    elif imc >= 25 and imc < 29.90:
-        resultado = 'Sobrepeso'
-    elif imc >= 30 and imc < 34.90:
-        resultado = 'Obesidade grau 1'
-    elif imc >= 35 and imc < 39.90:
-        resultado = 'Obesidade grau 2'
-    else:
-        resultado = 'Obesidade grau 3'
+    try:
+        imc = peso / (altura*2)
+        resultado = ''
+        if imc < 18.5:
+            resultado = 'Abaixo do peso'
+        elif imc >= 18.5 and imc < 24.90:
+            resultado = 'Peso Normal'
+        elif imc >= 25 and imc < 29.90:
+            resultado = 'Sobrepeso'
+        elif imc >= 30 and imc < 34.90:
+            resultado = 'Obesidade grau 1'
+        elif imc >= 35 and imc < 39.90:
+            resultado = 'Obesidade grau 2'
+        else:
+            resultado = 'Obesidade grau 3'
+    except ZeroDivisionError: 
+            imc = 0
+            resultado = 'Atualize os dados do paciente.'
     return f'{imc:.2f} - {resultado}'
 
 def listar_paciente():

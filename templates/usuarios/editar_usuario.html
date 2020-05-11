@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main>
+  <section class="container-fluid ">
+    <div class="container">
+      <div class="col-lg-10 mt-x">
+        <div class="card">
+
+          <form action="{% url 'salvar-usario' %}" enctype="multipart/form-data" method="POST"  class="mt-y p-2">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{useredit.usuario.id}}">
+            <!--Dados Pessoais-->
+            <div class="info-section">
+              <h3> Dados Pessoais
+                <div class="border"></div>
+              </h3>
+              <div class="form-goup mt-y">
+                <label for="nome">Nome Completo:</label>
+                <input type="text" class="form-control" id="nome" name="nome" required
+                  value="{{useredit.nome}}">
+              </div>
+              <div class="form-row mt-y">
+                <div class="col">
+                  <label for="data">E-mail: </label>
+                  <input type="text" class="form-control" id="email" name="email" required value="{{useredit.email }}">
+                </div>
+
+                <div class="col">
+                  <label for="crm">CRM:</label>
+                  {% if usertipo == 1 %}
+                  <input type="text" class="form-control" id="crm" name="crm" required value="{{ useredit.crm }}">
+                  {% else %}
+                  <input type="text" class="form-control" id="crm" readonly>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="form-row mt-y">
+                <div class="col">
+                  <label for="sexo">Sexo:</label>
+                  <select class="form-control" id="sexo" name="sexo" required>
+                    <option value="M" {% if useredit.sexo == "M" %}selected="selected" {% endif %}>
+                      Masculino</option>
+                    <option value="F" {% if useredit.sexo == "F" %}selected="selected" {% endif %}>
+                      Feminino</option>
+                  </select>
+                </div>
+                <div class="col">
+                  <label for="data">Nascimento:</label>
+                  <input type="text" class="form-control" id="data" placeholder="dd/MM/YYYY" name="dt_nasc" required
+                    value="{{useredit.data_nascimento|date:'d/m/Y'}}">
+                </div>
+              </div>
+              <div class="form-row mt-y">
+                <div class="col mr-3">
+                  <label for="cpf">CPF:</label>
+                  <input type="text" name="cpf" id="cpf" class="form-control" value="{{useredit.cpf}}">
+                </div>
+                <div class="col ml-3">
+                  <label for="rg">RG:</label>
+                  <input type="text" name="rg" id="rg" class="form-control" value="{{useredit.rg}}">
+                </div>
+              </div>
+              {% if request.user.id == useredit.usuario.id %}
+              <div class="form-row mt-y">
+                <div class="col mr-3">
+                  <label for="senha">Senha:</label>
+                  <input type="password" name="senha" id="senha" class="form-control">
+                </div>
+                <div class="col ml-3">
+                  <label for="conf-senha">Confirmar senha:</label>
+                  <input type="password" name="conf-senha" id="conf-senha" class="form-control">
+                </div>
+              </div>
+              {% endif %}
+              <button class="btn btnCustom btn-sm" type="submit">Salvar</button>
+            </div>
+            
+          </form>
+        </div>
+      </div>
+  </section>
+</main>
+
+{% endblock %}
