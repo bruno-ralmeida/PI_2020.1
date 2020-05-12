@@ -38,7 +38,7 @@ def nova_consulta(request):
     """
     dados = get_dados(request)
     dados['form'] = CadConsulta()
-    print(CadConsulta())
+    
     return render(request, 'consulta/nova_consulta.html', dados)
 
 @csrf_exempt
@@ -102,7 +102,6 @@ def buscar_cpf(request):
     else:
         lst_pacientes = Paciente.objects.all()
 
-    print(lst_pacientes)
     lst_dados = [
         dict(id=obj.id, nome=obj.nome)
         for obj in lst_pacientes

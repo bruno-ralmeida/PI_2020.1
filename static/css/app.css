@@ -9,7 +9,9 @@
 .color-theme_logo-emp-4-hsla { color: hsla(128, 54, 48, 1); }
 .color-theme_logo-emp-5-hsla { color: hsla(0, 0, 94, 1); }
 
-
+.container-fluid{
+  padding-right: 3em!important;
+}
 
 body{
   background-attachment: fixed;
@@ -87,7 +89,8 @@ input:invalid:focus {
   font-size: 15px;
   padding: 5px;
   vertical-align: middle;
-  width: 250px;
+  max-width: 250px;
+  width: 100%;
 }
 
 .btn-ipdf {
@@ -191,6 +194,9 @@ p{
   color: #778beb;
 }
 
+.formAlteraPaciente > input{
+  
+}
 /*LOGIN*/
 
 .body-login{
@@ -487,6 +493,10 @@ header{
 }
 
 @media screen and (max-width:1100px){
+  
+  .container-fluid{
+    padding-right: 0 !important;
+  }
 
   .pr-4{
     padding-right: 0 !important;

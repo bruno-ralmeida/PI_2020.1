@@ -27,8 +27,6 @@ def detalhes(request, paciente_id):
     paginator = Paginator(exames, 6)
     page = request.GET.get('page')
     exames_por_pagina = paginator.get_page(page)
-    print(paciente.id)
-    print(exames)
     dados['paciente'] = paciente
     dados['exames'] = exames_por_pagina
     dados['lst_estimativa'] = estimativa(paciente)
@@ -112,8 +110,8 @@ def salvar_pdf(request, exame_id):
         data_exame = dado_aux[21].strip()
 
         if cpf != exame.paciente.cpf:
-            messages.warning(request, 'Verifique o exame importado! O CPF está divergente do'+
-                             f'nosso cadastro. PDF {cpf} Cadastro: {exame.paciente.cpf}')
+            messages.warning(request, f'Exame não importado! Verifique o exame importado. O CPF está divergente da '+
+                             f'nossa base de dados. \nPDF {cpf} \nCadastro: {exame.paciente.cpf}')
             exame.delete()
         else:
             exame.data_exame = datetime.strptime(data_exame, "%d/%m/%Y")

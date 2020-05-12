@@ -14,22 +14,13 @@
             <!--Dados Pessoais-->
 
             <div class="form-row mt-y">
-              <div class="col-5">
+              <div class="col-8">
                 <label for="nome">Nome Completo:</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
               </div>
               <div class="col-4">
-                <div class="input-group mt-y p-1">
 
-                  <input type="file" name="foto" id="arquivo" class="iptArquivo"
-                    accept="image/jpeg, image/png, image/jpg">
-                  <input type="text" name="file" id="file" class="file" placeholder="selecione o arquivo..."
-                    readonly="readonly" style="border: 1px solid rgba(0, 0, 0, 0.308);">
-                  <input type="button" class="btn btn-sm btn-secondary" id="btn-ifoto" value="Selecionar">
-                </div>
-              </div>
-              <div class="col-2 p-4">
-                <div class="form-check form-check-inline">
+                <div class="form-check form-check-inline mt-y">
                   <input class="form-check-input" type="radio" name="tipo" id="atendente" value="2" checked>
                   <label class="form-check-label" for="atendente">Atendente</label>
                 </div>
@@ -40,7 +31,21 @@
               </div>
 
             </div>
-            <div class="form-row">
+            <div class="form-row mt-y">
+              <div class="col">
+                <div class="input-group mt-y">
+                  <div style="display: flex; align-content: space-around;">
+                    <input type="file" name="foto" id="arquivo" class="iptArquivo"
+                      accept="image/jpeg, image/png, image/jpg">
+                    <input type="text" name="file" id="file" class="file" placeholder="selecione a foto de perfil..."
+                      readonly="readonly" style="border: 1px solid rgba(0, 0, 0, 0.308);">
+                    <input type="button" class="btn btn-sm btn-secondary" id="btn-ifoto" value="Selecionar">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-row mt-y">
               <div class="col">
                 <label for="data">E-mail: </label>
                 <input type="text" class="form-control" id="email" name="email" required>
@@ -63,7 +68,7 @@
               </div>
               <div class="col">
                 <label for="id_data_nasc">Nascimento:</label>
-                <input type="text" class="form-control" id="id_data_nasc" placeholder="dd/MM/YYYY" name="dt_nasc"
+                <input type="text" class="form-control" id="id_data_nasc" placeholder="dd/mm/aaaa" name="dt_nasc"
                   required>
               </div>
             </div>
@@ -77,6 +82,7 @@
                 <input type="text" name="rg" id="id_rg" class="form-control" required>
               </div>
             </div>
+
             <input class="btn btn-success mt-2" type="submit" value="Salvar" style="float: right;">
 
           </form>
