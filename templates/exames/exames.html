@@ -2,148 +2,149 @@
 {% load static %}
 {% block content %}
 
-<main id="container__exames">
-  <section class="col-lg-10">
-    <!--Gráficos e Tabela Referência-->
-    <section class="col-lg-10 mx-auto container__resultados mb-2">
-      <!--Grafico Historico de exames-->
-      <div class="container__resultados__grafico">
-        <canvas id="chart"></canvas>
-      </div>
-      <!--Tabela de referencia-->
-      <div class="container__resultados__referencia">
 
-        <table class="table table-sm table-bordered table-striped text-center">
-          <thead class="colorCustom">
-            <tr>
-              <th scope="col">Exame</th>
-              <th scope="col" colspan="2">Valor Ref.</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Glicose:</th>
-              <td>{{ exame_referencia.glicose_min}}</td>
-              <td>{{ exame_referencia.glicose_max}}</td>
-            </tr>
-            <tr>
-              <th scope="row">LDL:</th>
-              <td>{{ exame_referencia.ldl_min}}</td>
-              <td>{{ exame_referencia.ldl_max}}</td>
-            </tr>
-            <tr>
-              <th scope="row">HDL:</th>
-              <td>{{ exame_referencia.hdl_min}}</td>
-              <td>{{ exame_referencia.hdl_max}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Triglicerides:</th>
-              <td>{{ exame_referencia.triglicerides_min}}</td>
-              <td>{{ exame_referencia.triglicerides_max}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Colesterol:</th>
-              <td>{{ exame_referencia.colesterol_min}}</td>
-              <td>{{ exame_referencia.colesterol_max}}</td>
-            </tr>
-            <tr scope="row">
-              <th>VLDL:</th>
-              <td>{{ exame_referencia.vldl_min }}</td>
-              <td>{{ exame_referencia.vldl_max }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <!--Mensagem com observação de Idade-->
-        <div class="mx-auto">
-          <p style="color: #00004d;  font-size: 14px;">  Tabela de ref. para pacientes com idade entre
-            {{exame_referencia.idade_min}} à
-            {% if exame_referencia.idade_max  < 150 %}
-            {{exame_referencia.idade_max}}.
-            {% else %}
+<main class="container-fluid" style="background: rgba(255, 255, 255, 0.5);">
+  <section class="mx-auto">
+    <section class="col-10 mt-x">
+      <!--Gráficos e Tabela Referência-->
+      <section class="container__resultados">
+        <!--Grafico Historico de exames-->
+        <div class="container__resultados__grafico">
+          <canvas id="chart"></canvas>
+        </div>
+        <!--Tabela de referencia-->
+        <div class="container__resultados__referencia">
+
+          <table class="table table-sm table-bordered table-striped text-center">
+            <thead class="colorCustom">
+              <tr>
+                <th scope="col">Exame</th>
+                <th scope="col" colspan="2">Valor Ref.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Glicose:</th>
+                <td>{{ exame_referencia.glicose_min}}</td>
+                <td>{{ exame_referencia.glicose_max}}</td>
+              </tr>
+              <tr>
+                <th scope="row">LDL:</th>
+                <td>{{ exame_referencia.ldl_min}}</td>
+                <td>{{ exame_referencia.ldl_max}}</td>
+              </tr>
+              <tr>
+                <th scope="row">HDL:</th>
+                <td>{{ exame_referencia.hdl_min}}</td>
+                <td>{{ exame_referencia.hdl_max}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Triglicerides:</th>
+                <td>{{ exame_referencia.triglicerides_min}}</td>
+                <td>{{ exame_referencia.triglicerides_max}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Colesterol:</th>
+                <td>{{ exame_referencia.colesterol_min}}</td>
+                <td>{{ exame_referencia.colesterol_max}}</td>
+              </tr>
+              <tr scope="row">
+                <th>VLDL:</th>
+                <td>{{ exame_referencia.vldl_min }}</td>
+                <td>{{ exame_referencia.vldl_max }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <!--Mensagem com observação de Idade-->
+          <div class="mx-auto">
+            <p style="color: #00004d;  font-size: 14px;"> Tabela de ref. para pacientes com idade entre
+              {{exame_referencia.idade_min}} à
+              {% if exame_referencia.idade_max  < 150 %}
+              {{exame_referencia.idade_max}}.
+              {% else %}
               **
-            {% endif %}
-          </p>
+              {% endif %}
+            </p>
+          </div>
+
         </div>
 
+      </section>
+
+      <!--Estimativa -->
+      <div class="container__estimativa">
+
+        <ul class="list-group estimativa">
+
+          {% for dic in lst_estimativa %}
+
+          {% if dic.periodo == 0 %}
+
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p> O exame de <b> {{ dic.tipo_exame }} </b> está fora dos padrões de referência. </p>
+            <div class="spinner-grow spinner-grow-sm text-danger" role="status"></div>
+          </li>
+
+          {% else %}
+          {% if dic.periodo <= 365   %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de <b> {{ dic.tipo_exame }} </b> pode estar
+              fora dos padrões de referência. </p>
+            <div class="spinner-grow spinner-grow-sm text-danger" role="status"></div>
+          </li>
+          {% endif %}
+
+          {% if dic.periodo > 365 and dic.periodo < 730  %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar
+              fora
+              dos padrões de referência. </p>
+            <div class="spinner-grow spinner-grow-sm text-warning" role="status"></div>
+          </li>
+          {% endif %}
+
+          {% if dic.periodo > 730 %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar
+              fora
+              dos padrões de referência. </p>
+            <div class="spinner-grow spinner-grow-sm text-info" role="status"></div>
+          </li>
+          {% endif %}
+
+          {% endif %}
+
+          {% endfor %}
+        </ul>
       </div>
 
+      <!--Novos Exames-->
+      
+        <!--Mensagem de Importação-->
+        <div class="mx-auto">
+          {% include 'partials/_alertas.html' %}
+        </div>
+        <!--Importador de PDF-->
+        <div class="formImportacao">
+          <!--Formuladrio para importação-->
+          <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="paciente" value="{{ paciente.id }}">
+            <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
+            <input type="file" name="pdf" id="arquivo" class="iptArquivo" accept=".pdf" required="required">
+            <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
+            <button type="submit" class="btn btn-ipdf">Importar</button>
+          </form>
+
+          <!-- Botão Cadastro de exame-->
+
+          <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
+            Novo Exame
+          </button>
+
+        </div>
+        {% include 'partials/_det_paciente.html' %}
     </section>
-
-    <!--Estimativa -->
-    <div class="col-lg-10 mx-auto container__estimativa">
-
-      <ul class="list-group estimativa">
-
-        {% for dic in lst_estimativa %}
-
-        {% if dic.periodo == 0 %}
-
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <p> O exame de <b> {{ dic.tipo_exame }} </b> está fora dos padrões de referência. </p>
-          <div class="spinner-grow spinner-grow-sm text-danger" role="status"></div>
-        </li>
-
-        {% else %}
-        {% if dic.periodo <= 365   %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de <b> {{ dic.tipo_exame }} </b> pode estar
-            fora dos padrões de referência. </p>
-          <div class="spinner-grow spinner-grow-sm text-danger" role="status"></div>
-        </li>
-        {% endif %}
-
-        {% if dic.periodo > 365 and dic.periodo < 730  %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar fora
-            dos padrões de referência. </p>
-          <div class="spinner-grow spinner-grow-sm text-warning" role="status"></div>
-        </li>
-        {% endif %}
-
-        {% if dic.periodo > 730 %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <p> Em aproximadamente <b> {{ dic.periodo }} </b> dias o exame de<b> {{ dic.tipo_exame }} </b> pode estar fora
-            dos padrões de referência. </p>
-          <div class="spinner-grow spinner-grow-sm text-info" role="status"></div>
-        </li>
-        {% endif %}
-
-        {% endif %}
-
-        {% endfor %}
-      </ul>
-    </div>
-
-    <!--Novos Exames-->
-    <section class="col-lg-10 mx-auto">
-
-
-      <!--Mensagem de Importação-->
-      <div class="mx-auto">
-        {% include 'partials/_alertas.html' %}
-      </div>
-      <!--Importador de PDF-->
-      <div class="formImportacao">
-        <!--Formuladrio para importação-->
-        <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          <input type="hidden" name="paciente" value="{{ paciente.id }}">
-          <input type="button" class="btn btn-sm btn-secondary" id="btn-ipdf" value="Selecionar">
-          <input type="file" name="pdf" id="arquivo" class="iptArquivo" accept=".pdf" required="required">
-          <input type="text" name="file" id="file" class="file" placeholder="Arquivo" readonly="readonly">
-          <button type="submit" class="btn btn-ipdf">Importar</button>
-        </form>
-
-        <!-- Botão Cadastro de exame-->
-
-        <button type="button" class="btn btn-sm btnCustom ml-5" data-toggle="modal" data-target="#Cadastro">
-          Novo Exame
-        </button>
-
-      </div>
-      {% include 'partials/_det_paciente.html' %}
-    </section>
-
   </section>
 </main>
 <!-- Modal Cadastro de exame-->
@@ -163,32 +164,37 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="data">Data</label>
-              <input type="date" class="form-control" id="data" name="data" required="required">
+              <input type="date" class="form-control" id="data" name="data" required>
             </div>
 
             <div class="form-group col-md-6">
               <label for="glicose">Glicose</label>
-              <input type="number" class="form-control" id="glicose" name="glicose" required="required">
+              <input type="number" class="form-control" id="glicose" name="glicose" min=0 step="0.01" required>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="ldl">LDL</label>
-              <input type="number" class="form-control" id="ldl" name="ldl" required="required">
+              <label for="ldl">LDL:</label>
+              <input type="number" class="form-control" id="ldl" name="ldl" min=0 step="0.01" required>
             </div>
             <div class="form-group col-md-6">
-              <label for="hdl">HDL</label>
-              <input type="number" class="form-control" id="hdl" name="hdl">
+              <label for="hdl">HDL:</label>
+              <input type="number" class="form-control" id="hdl" name="hdl" min=0 step="0.01" required>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="triglicerides">Triglicerides</label>
-              <input type="number" class="form-control" id="triglicerides" name="triglicerides" required="required">
+              <label for="triglicerides">Triglicerides:</label>
+              <input type="number" class="form-control" id="triglicerides" name="triglicerides" min=0 step="0.01"
+                required>
             </div>
             <div class="form-group col-md-6">
-              <label for="colesterol">Colesterol </label>
-              <input type="number" class="form-control" id="colesterol" name="colesterol" required="required">
+              <label for="colesterol">Colesterol: </label>
+              <input type="number" class="form-control" id="colesterol" name="colesterol" min=0 step="0.01" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="vldl">VLDL: </label>
+              <input type="number" class="form-control" id="vldl" name="vldl" min=0 step="0.01" required>
             </div>
           </div>
           <div class="modal-footer">

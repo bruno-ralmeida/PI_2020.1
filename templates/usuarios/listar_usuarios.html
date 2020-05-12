@@ -2,33 +2,46 @@
 {% load static %}
 {% block content %}
 
-<main class="col-10">
-
+<main class="container-fluid">
+  <section class="mx-auto">
     <section class="col-10 mt-x">
-
-        <table class="table table-sm table-bordered table-striped text-center">
+      <div class="info-section">
+        <h3 style="margin: 0.725em 0 !important; "> Usuários
+          <div class="border"></div>
+        </h3>
+        <div class="mx-auto">
+          {% include 'partials/_alertas.html' %}
+        </div>
+        <div class="container__consultas">
+          <a href="{%url 'cadastrar'%}" class="btn btnCustom btn-sm"> Novo </i> </a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered table-striped text-center ">
             <thead class="colorCustom">
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">CPF</th>
-                    <th scope="col">Opções</th>
-                </tr>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Opções</th>
+              </tr>
             </thead>
             <tbody>
-                {% for user in lst_usuarios %}
-                <tr>
-                    <th scope="row">{{ user.usuario.id }}</th>
-                    <td>{{ user.nome }}</td>
-                    <td>{{ user.cpf }}</td>
-                    <td><a href="{% url 'edit-user' user.usuario.id %}"  class="btn btnCustom btn-sm"><i class="fas fa-user-edit"></i></a></td>
-                </tr>
-                {% endfor %}
+              {% for user in lst_usuarios %}
+              <tr>
+                <th scope="row">{{ user.usuario.id }}</th>
+                <td>{{ user.nome }}</td>
+                <td id="id_cpf">{{ user.cpf }}</td>
+                <td><a href="{% url 'edit-user' user.usuario.id %}" class="btn btnCustom btn-sm"><i
+                      class="fas fa-user-edit"></i></a></td>
+              </tr>
+              {% endfor %}
             </tbody>
-        </table>
-
+          </table>
+        </div>
+      </div>
     </section>
-
+  </section>
 </main>
-
+<script src="{% static 'js/utils/jquery.mask.js' %}"></script>
+<script src="{% static 'js/validacoes.js' %}"></script>
 {% endblock %}

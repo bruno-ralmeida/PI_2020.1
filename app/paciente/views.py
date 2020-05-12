@@ -75,8 +75,8 @@ def atualiza_paciente(request):
         paciente.telefone = request.POST['telefone']
         paciente.celular = request.POST['celular']
         if dados['tipo'] == 1:
-            paciente.peso = float(request.POST['peso'].replace(',', '.'))
-            paciente.altura = float(request.POST['altura'].replace(',', '.'))
+            paciente.peso = request.POST['peso']
+            paciente.altura = request.POST['altura']
         if dados['tipo'] == 2:
             paciente.endereco = request.POST['endereco']
             paciente.end_num = request.POST['end_num']

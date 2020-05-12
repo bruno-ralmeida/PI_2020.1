@@ -33,29 +33,25 @@ def detalhes(request, paciente_id):
     dados['exames'] = exames_por_pagina
     dados['lst_estimativa'] = estimativa(paciente)
     dados['exame_referencia'] = exame_referencia(paciente.idade)
-    dados['exames_grafico'] = converte_grafico(exames_periodo(paciente))
+    dados['exames_grafico'] = converte_grafico(exames)
 
     return render(request, 'exames/exames.html', dados)
 
 @login_required(login_url='login')
 def cad_exame(request):
     """Função para cadastro de exames"""
-    if request.method == 'POST':
-        paciente_id = request.POST['paciente']
-        data = request.POST['data']
-        glicose = request.POST['glicose']
-        ldl = request.POST['ldl']
-        hdl = request.POST['hdl']
-        triglicerides = request.POST['triglicerides']
-        colesterol = request.POST['colesterol']
-
-    paciente = get_object_or_404(Paciente, id=paciente_id)
-    messages.success(request, 'Dados cadastrados com sucesso.')
-
-    exame = Exame_Resultado.objects.create(paciente=paciente, data_exame=data, glicose=glicose,
-                                           ldl=ldl, hdl=hdl, triglicerides=triglicerides,
-                                           colesterol=colesterol, pdf=None)
-    exame.save()
+    try:
+        if request.method == 'POST':
+            paciente_id = request.POST['paciente']
+            paciente = get_object_or_404(Paciente, id=paciente_id)
+            exame = Exame_Resultado.objects.create(paciente=paciente, data_exame=request.POST['data'],
+                                                   glicose=request.POST['glicose'], ldl=request.POST['ldl'],
+                                                   hdl=request.POST['hdl'], triglicerides=request.POST['triglicerides'],
+                                                   colesterol=request.POST['colesterol'], vldl=request.POST['vldl'], pdf=None)
+            exame.save()
+            messages.success(request, 'Dados cadastrados com sucesso.')
+    except:
+        messages.error(request, 'Erro ao cadastrar exame.')
 
     return redirect(reverse('det-exame', kwargs={'paciente_id': paciente_id}))
 
@@ -170,13 +166,19 @@ def converte_grafico(lst_exames):
     Função para conversão dos valores do grafico
     """
     for exame in lst_exames:
-        exame.glicose = int(exame.glicose)
-        exame.ldl = int(exame.ldl)
-        exame.hdl = int(exame.hdl)
-        exame.triglicerides = int(exame.triglicerides)
-        exame.colesterol = int(exame.colesterol)
+        exame.glicose = f'{exame.glicose:.2f}'
+        exame.ldl = f'{exame.ldl:.2f}'
+        exame.hdl = f'{exame.hdl:.2f}'
+        exame.triglicerides = f'{exame.triglicerides:.2f}'
+        exame.colesterol = f'{exame.colesterol:.2f}'
 
-    return lst_exames
+    lst_fmt = []
+    for i, exame in enumerate(lst_exames):
+        if i < 6:
+            lst_fmt.append(exame)
+    lst_fmt.reverse()
+
+    return lst_fmt
 
 #ESTIMATIVA
 def estimativa(paciente):
@@ -300,7 +302,7 @@ def calc_periodo_exames(lst):
         lst.reverse()
         lst_aux = []
         max_ind = 0
-       
+
         if len(lst) < 6: #Filtro de até 6 exames.
             max_ind = len(lst)
         else:
@@ -314,6 +316,6 @@ def calc_periodo_exames(lst):
         valor_periodo = int(sum(lst_aux)/len(lst_aux))
 
     else:
-        valor_periodo = 0  
+        valor_periodo = 0
 
     return valor_periodo

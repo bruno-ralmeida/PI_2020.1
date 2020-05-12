@@ -1,105 +1,114 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main>
-    <section class="container-fluid ">
-        <div class="container">
-            <div class="col-lg-10 mt-x">
-                <div class="card">
-    
-                    <form action="{% url 'adiciona_paciente'%}" enctype="multipart/form-data" method="post" id="pacienteform" class="mt-y p-2">
-                    {% csrf_token %}
-                        <input type="hidden" name="paciente_id" value="{{paciente.id}}">
-                        <!--Dados Pessoais-->
-                        <div class="info-section">
-                            <h3> Dados Pessoais
-                                <div class="border"></div>
-                            </h3>
-                            <div class="form-goup mt-y">
-                                <label for="nome">Nome Completo:</label>
-                                <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" required value="{{paciente.nome}}">
-                            </div>
-                            <div class="form-row mt-y">
-                                <div class="col">
-                                    <label for="sexo">Sexo:</label>
-                                    <select class="form-control" id="sexo" name="sexo" required>
-                                        <option value="M" {% if paciente.sexo == "M" %}selected="selected"{% endif %}>Masculino</option>
-                                        <option value="F" {% if paciente.sexo == "F" %}selected="selected"{% endif %}>Feminino</option>
-                                    </select>
-                                </div>
-                               
-                                <div class="col">
-                                    <label for="id_data_nasc">Data de Nascimento</label>
-                                    <input type="text" class="form-control" id="id_data_nasc" placeholder="dd/MM/YYYY" name="dt_nasc" required value="{{paciente.data_nascimento|date:'d/m/Y'}}">
-                                </div>
-                                <div class="col">
-                                    <label for="convenio">Convenio</label>
-                                    <input type="text" class="form-control" id="convenio" placeholder="xx.xxx.xxx-xx" name="convenio" required value="{{paciente.carteira_convenio}}">
-                                </div>
-                            </div>
-                            <div class="form-row mt-y">
-                                <div class="col mr-3">
-                                    <label for="id_cpf">CPF:</label>
-                                    <input type="text" name="cpf" id="id_cpf" class="form-control" value="{{paciente.cpf}}" maxlength="14" required>
-                                </div>
-                                <div class="col ml-3">
-                                    <label for="id_rg">RG:</label>
-                                    <input type="text" name="rg" id="id_rg" class="form-control" value="{{paciente.rg}}">
-                                </div>
-                            </div>
-                        </div>
-                        <!--Contato-->
-                        <div class="info-section">
-                            <h3> Contato
-                                <div class="border"></div>
-                            </h3>
-                            <div class="form-group">
-                                <label for="email">E-mail:</label>
-                                <input type="email" name="email" id="email" class="form-control" placeholder="name@example.com" required value="{{ paciente.email}}">
-                            </div>
-                            <div class="form-row mt-y">
-                                <div class="col">
-                                    <label for="id_tel">Telefone:</label>
-                                    <input type="text" name="telefone" id="id_tel" class="form-control" placeholder="(xx) xxxx-xxxx" required value="{{paciente.telefone}}">
-                                </div>
-                                <div class="col">
-                                    <label for="id_cel">Celular:</label>
-                                    <input type="text" name="celular" id="id_cel" class="form-control" placeholder="(xx) xxxxx-xxxx" required value="{{paciente.celular}}">
-                                </div>
-                            </div>
-                        </div>
-                        <!--Endereço-->
-                        <div class="info-section">
-                            <h3> Endereço
-                                <div class="border"></div>
-                            </h3>
-                            <div class="form-row">
-                                <div class="col-md-6 mb-3">
-                                  <label for="endereco">Logradouro</label>
-                                  <input type="text" class="form-control" id="endereco" placeholder="Av/Rua" required name="endereco" value="{{ paciente.endereco }}">
-                                  
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                  <label for="numero">Número</label>
-                                  <input type="number" class="form-control" id="numero" placeholder="Número" required name="end_num" value="{{ paciente.end_num }}">
-                            
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                  <label for="complemento">Complemento</label>
-                                  <input type="text" class="form-control" id="complemento" placeholder="complemento" name="complemento" value="{{ paciente.complemento }}">
-                                  
-                                </div>
-                            </div>
-                        </div>
-                        <!--Adicionar campos para o Médico-->
-                        <div class="mr-4" style="float: right;">
-                            <button class="btn btn-success" type="submit">Salvar</button>
-                        </div>
-                    </form>
-            </div>
-        </div>
-    </section>
+<main class="container-fluid">
+  <section class="mx-auto">
+    <section class="col-10 mt-x">
+      <div class="card">
 
+        <form action="{% url 'adiciona_paciente'%}" enctype="multipart/form-data" method="post" id="pacienteform"
+          class="mt-y p-2">
+          {% csrf_token %}
+          <input type="hidden" name="paciente_id" value="{{paciente.id}}">
+          <!--Dados Pessoais-->
+          <div class="info-section">
+            <h3> Dados Pessoais
+              <div class="border"></div>
+            </h3>
+            <div class="form-goup mt-y">
+              <label for="nome">Nome Completo:</label>
+              <input type="text" class="form-control" id="nome" placeholder="Nome" name="nome" required
+                value="{{paciente.nome}}">
+            </div>
+            <div class="form-row mt-y">
+              <div class="col">
+                <label for="sexo">Sexo:</label>
+                <select class="form-control" id="sexo" name="sexo" required>
+                  <option value="M" {% if paciente.sexo == "M" %}selected="selected" {% endif %}>Masculino</option>
+                  <option value="F" {% if paciente.sexo == "F" %}selected="selected" {% endif %}>Feminino</option>
+                </select>
+              </div>
+
+              <div class="col">
+                <label for="id_data_nasc">Data de Nascimento</label>
+                <input type="text" class="form-control" id="id_data_nasc" placeholder="dd/MM/YYYY" name="dt_nasc"
+                  required value="{{paciente.data_nascimento|date:'d/m/Y'}}">
+              </div>
+              <div class="col">
+                <label for="convenio">Convenio</label>
+                <input type="text" class="form-control" id="convenio" placeholder="xx.xxx.xxx-xx" name="convenio"
+                  required value="{{paciente.carteira_convenio}}">
+              </div>
+            </div>
+            <div class="form-row mt-y">
+              <div class="col mr-3">
+                <label for="id_cpf">CPF:</label>
+                <input type="text" name="cpf" id="id_cpf" class="form-control" value="{{paciente.cpf}}" maxlength="14"
+                  required>
+              </div>
+              <div class="col ml-3">
+                <label for="id_rg">RG:</label>
+                <input type="text" name="rg" id="id_rg" class="form-control" value="{{paciente.rg}}">
+              </div>
+            </div>
+          </div>
+          <!--Contato-->
+          <div class="info-section">
+            <h3> Contato
+              <div class="border"></div>
+            </h3>
+            <div class="form-group">
+              <label for="email">E-mail:</label>
+              <input type="email" name="email" id="email" class="form-control" placeholder="name@example.com" required
+                value="{{ paciente.email}}">
+            </div>
+            <div class="form-row mt-y">
+              <div class="col">
+                <label for="id_tel">Telefone:</label>
+                <input type="text" name="telefone" id="id_tel" class="form-control" placeholder="(xx) xxxx-xxxx"
+                  required value="{{paciente.telefone}}">
+              </div>
+              <div class="col">
+                <label for="id_cel">Celular:</label>
+                <input type="text" name="celular" id="id_cel" class="form-control" placeholder="(xx) xxxxx-xxxx"
+                  required value="{{paciente.celular}}">
+              </div>
+            </div>
+          </div>
+          <!--Endereço-->
+          <div class="info-section">
+            <h3> Endereço
+              <div class="border"></div>
+            </h3>
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label for="endereco">Logradouro</label>
+                <input type="text" class="form-control" id="endereco" placeholder="Av/Rua" required name="endereco"
+                  value="{{ paciente.endereco }}">
+
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="numero">Número</label>
+                <input type="number" class="form-control" id="numero" placeholder="Número" required name="end_num"
+                  value="{{ paciente.end_num }}">
+
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="complemento">Complemento</label>
+                <input type="text" class="form-control" id="complemento" placeholder="complemento" name="complemento"
+                  value="{{ paciente.complemento }}">
+
+              </div>
+            </div>
+          </div>
+          <!--Adicionar campos para o Médico-->
+          <div class="mr-4" style="float: right;">
+            <button class="btn btn-success" type="submit">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </section>
 </main>
 <script src="{% static 'js/utils/jquery.mask.js' %}"></script>
 <script src="{% static 'js/validacoes.js' %}"></script>

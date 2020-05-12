@@ -1,7 +1,7 @@
 """
 @author Bruno Almeida
 """
-from datetime import date, datetime
+from datetime import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -57,17 +57,52 @@ def usuarios(request):
     for user in atendentes:
         lst_usuarios.append(user)
 
-    print(lst_usuarios)
 
     dados['lst_usuarios'] = lst_usuarios
     return render(request, 'usuarios/listar_usuarios.html', dados)
 
 @login_required(login_url='login')
-def editar(request, id):
+def cadastrar(request):
+    dados = get_dados(request)
+    return render(request, 'usuarios/novo_usuario.html', dados)
+
+@login_required(login_url='login')
+def criar(request):
+    try:
+        if request.method == 'POST':
+            user = User.objects.create_user(username=request.POST['email'], password='trocarsenha123')
+            user.save()
+            tipo = int(request.POST['tipo'])
+            nome = request.POST['nome']
+            email = request.POST['email']
+            sexo = request.POST['sexo']
+            data_nascimento = datetime.strptime(request.POST['dt_nasc'],'%d/%m/%Y').date()
+            cpf = request.POST['cpf']
+            rg = request.POST['rg']
+            foto = request.FILES.get('foto', None)
+
+            if  tipo == 1: #Médico
+                crm = request.POST['crm']
+                Medico.objects.create(usuario=user, nome=nome, sexo=sexo, data_nascimento=data_nascimento,
+                                    crm=crm, cpf=cpf, rg=rg, email=email, foto=foto)
+                messages.success(request,'Usuário cadastrado com sucesso!')
+            elif tipo == 2: #Atendente
+                Atendente.objects.create(usuario=user, nome=nome, sexo=sexo, data_nascimento=data_nascimento,
+                                        cpf=cpf, rg=rg, email=email, foto=foto)
+                messages.success(request,'Usuário cadastrado com sucesso!')
+            else:
+                user.delete()
+                
+    except:
+        messages.error(request, 'Erro! Verifique os dados inseridos')
+    return redirect('usuarios')
+
+@login_required(login_url='login')
+def editar(request, id_user):
     dados = get_dados(request)
 
     dados['useredit'] = medico = atendente = None
-    usuario = get_object_or_404(User, id=id)
+    usuario = get_object_or_404(User, id=id_user)
 
     if Medico.objects.filter(usuario=usuario):
         medico = get_object_or_404(Medico, usuario=usuario)
@@ -102,7 +137,7 @@ def salvar_usuario(request):
         user_edit.nome = request.POST['nome']
         user_edit.email = request.POST['email']
         user_edit.sexo = request.POST['sexo']
-        user_edit.data_nascimento =  datetime.strptime(request.POST['dt_nasc'],'%d/%m/%Y').date()
+        user_edit.data_nascimento = datetime.strptime(request.POST['dt_nasc'],'%d/%m/%Y').date()
         user_edit.cpf = request.POST['cpf']
         user_edit.rg = request.POST['rg']
 

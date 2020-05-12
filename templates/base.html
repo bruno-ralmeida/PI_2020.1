@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{% static 'css/utils/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/utils/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/utils/all.min.css' %}">
-    
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <link rel=" icon" href="{% static 'images/icon/favicon.ico' %}">
     
@@ -19,13 +18,12 @@
     <script src="{% static 'js/utils/bootstrap.js' %}"></script>
     <script src="{% static 'js/utils/Chart.js' %}"></script>
     <script src="{% static 'js/utils/all.min.js' %}"></script>
-
+    <script src="{% static 'js/app.js' %}"></script> 
+    
     {% include 'partials/_menu.html' %}
     {% include 'partials/_sidebar.html' %}
-    {% block content %}{% endblock %}
-    
-    <script src="{% static 'js/app.js' %}"></script>
-
-    
+    <div class="info-section">
+    {% block content %}{% endblock %}    
+    </div>
 </body>
 </html>

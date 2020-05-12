@@ -1,84 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main>
-  <section class="container-fluid ">
-    <div class="container">
-      <div class="col-lg-10 mt-x">
-        <div class="card">
+<main class="container-fluid">
+  <section class="mx-auto">
+    <section class="col-10 mt-x">
+      <div class="card">
+        <div class="info-section">
+          <h3> Alterar
+            <div class="border"></div>
+          </h3>
 
-          <form action="{% url 'salvar-usario' %}" enctype="multipart/form-data" method="POST"  class="mt-y p-2">
+
+          <form action="{% url 'salvar-usario' %}" enctype="multipart/form-data" method="POST" class="mt-y pr-5 pl-5">
             {% csrf_token %}
             <input type="hidden" name="user_id" value="{{useredit.usuario.id}}">
             <!--Dados Pessoais-->
-            <div class="info-section">
-              <h3> Dados Pessoais
-                <div class="border"></div>
-              </h3>
-              <div class="form-goup mt-y">
-                <label for="nome">Nome Completo:</label>
-                <input type="text" class="form-control" id="nome" name="nome" required
-                  value="{{useredit.nome}}">
-              </div>
-              <div class="form-row mt-y">
-                <div class="col">
-                  <label for="data">E-mail: </label>
-                  <input type="text" class="form-control" id="email" name="email" required value="{{useredit.email }}">
-                </div>
 
-                <div class="col">
-                  <label for="crm">CRM:</label>
-                  {% if usertipo == 1 %}
-                  <input type="text" class="form-control" id="crm" name="crm" required value="{{ useredit.crm }}">
-                  {% else %}
-                  <input type="text" class="form-control" id="crm" readonly>
-                  {% endif %}
-                </div>
-              </div>
-              <div class="form-row mt-y">
-                <div class="col">
-                  <label for="sexo">Sexo:</label>
-                  <select class="form-control" id="sexo" name="sexo" required>
-                    <option value="M" {% if useredit.sexo == "M" %}selected="selected" {% endif %}>
-                      Masculino</option>
-                    <option value="F" {% if useredit.sexo == "F" %}selected="selected" {% endif %}>
-                      Feminino</option>
-                  </select>
-                </div>
-                <div class="col">
-                  <label for="id_data_nasc">Nascimento:</label>
-                  <input type="text" class="form-control" id="id_data_nasc" placeholder="dd/MM/YYYY" name="dt_nasc" required
-                    value="{{useredit.data_nascimento|date:'d/m/Y'}}">
-                </div>
-              </div>
-              <div class="form-row mt-y">
-                <div class="col mr-3">
-                  <label for="id_cpf">CPF:</label>
-                  <input type="text" name="cpf" id="id_cpf" class="form-control" value="{{useredit.cpf}}">
-                </div>
-                <div class="col ml-3">
-                  <label for="id_rg">RG:</label>
-                  <input type="text" name="rg" id="id_rg" class="form-control" value="{{useredit.rg}}">
-                </div>
-              </div>
-              {% if request.user.id == useredit.usuario.id %}
-              <div class="form-row mt-y">
-                <div class="col mr-3">
-                  <label for="senha">Senha:</label>
-                  <input type="password" name="senha" id="senha" class="form-control">
-                </div>
-                <div class="col ml-3">
-                  <label for="conf-senha">Confirmar senha:</label>
-                  <input type="password" name="conf-senha" id="conf-senha" class="form-control">
-                </div>
-              </div>
-              {% endif %}
-              <input class="btn btn-success mt-2" type="submit" value="Salvar" style="float: right;">
+            <div class="form-goup mt-y">
+              <label for="nome">Nome Completo:</label>
+              <input type="text" class="form-control" id="nome" name="nome" required value="{{useredit.nome}}">
             </div>
-            
+            <div class="form-row mt-y">
+              <div class="col">
+                <label for="data">E-mail: </label>
+                <input type="text" class="form-control" id="email" name="email" required value="{{useredit.email }}">
+              </div>
+
+              <div class="col">
+                <label for="crm">CRM:</label>
+                {% if usertipo == 1 %}
+                <input type="text" class="form-control" id="crm" name="crm" required value="{{ useredit.crm }}">
+                {% else %}
+                <input type="text" class="form-control" id="crm" readonly>
+                {% endif %}
+              </div>
+            </div>
+            <div class="form-row mt-y">
+              <div class="col">
+                <label for="sexo">Sexo:</label>
+                <select class="form-control" id="sexo" name="sexo" required>
+                  <option value="M" {% if useredit.sexo == "M" %}selected="selected" {% endif %}>
+                    Masculino</option>
+                  <option value="F" {% if useredit.sexo == "F" %}selected="selected" {% endif %}>
+                    Feminino</option>
+                </select>
+              </div>
+              <div class="col">
+                <label for="id_data_nasc">Nascimento:</label>
+                <input type="text" class="form-control" id="id_data_nasc" placeholder="dd/MM/YYYY" name="dt_nasc"
+                  required value="{{useredit.data_nascimento|date:'d/m/Y'}}">
+              </div>
+            </div>
+            <div class="form-row mt-y">
+              <div class="col mr-3">
+                <label for="id_cpf">CPF:</label>
+                <input type="text" name="cpf" id="id_cpf" class="form-control" value="{{useredit.cpf}}">
+              </div>
+              <div class="col ml-3">
+                <label for="id_rg">RG:</label>
+                <input type="text" name="rg" id="id_rg" class="form-control" value="{{useredit.rg}}">
+              </div>
+            </div>
+            {% if request.user.id == useredit.usuario.id %}
+            <div class="form-row mt-y">
+              <div class="col mr-3">
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" id="senha" class="form-control">
+              </div>
+              <div class="col ml-3">
+                <label for="conf-senha">Confirmar senha:</label>
+                <input type="password" name="conf-senha" id="conf-senha" class="form-control">
+              </div>
+            </div>
+            {% endif %}
+            <input class="btn btn-success mt-2" type="submit" value="Salvar" style="float: right;">
+
           </form>
         </div>
       </div>
+      </div>
+    </section>
   </section>
 </main>
 <script src="{% static 'js/utils/jquery.mask.js' %}"></script>

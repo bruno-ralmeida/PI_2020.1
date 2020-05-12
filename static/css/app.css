@@ -18,6 +18,16 @@ body{
   
 }
 
+input {
+  border: 2px solid currentcolor;
+}
+input:invalid {
+  border: 1px solid rgba(255, 0, 0, 0.219);
+}
+input:invalid:focus {
+  background-image: linear-gradient(rgba(255, 192, 203, 0.541));
+}
+
 .mt-x {
   margin-top: 5rem !important;
 }
@@ -129,19 +139,19 @@ body{
 .info-section{
   color: #333;
   background-color: #ffff;
-  padding: 0% 3% 0% 3%;  
+  padding: .725em 0;
 }
 
 .info-section > h3{
-  margin: 4% 0% 2% 0%;  
+  margin: .75em 1em;
   font-weight: 800;
   text-transform: capitalize;
 }
 
 
 .info {
-  
   font-weight: 600; 
+  padding: 0.75em 3.25em;
 }
 
 
@@ -429,7 +439,7 @@ header{
 .container__resultados__grafico {
   width: 100% !important;
   height: 50vh ;
-  padding: 0 1.75em;
+  
 }
 .container__resultados__referencia > table{
   margin: 0 .25em;
@@ -437,8 +447,7 @@ header{
 }
 
 .container__estimativa{
-  margin: .75rem 0;
-  padding:  1.25rem ;
+  margin: 1rem 0;
 }
 
 .formImportacao{
@@ -446,12 +455,12 @@ header{
   flex-direction: column;
   align-items: flex-end;
   float: right;
-  margin: 0 0 1.5rem 0 ;
+  margin: 1em 0;
 }
 
 .formImportacao > form{
   display: flex;
-  margin-bottom: .75rem;
+  margin-bottom: 1rem;
 }
 
 .estimativa p > b{

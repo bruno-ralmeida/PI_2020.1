@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<section class="container-fluid mx-auto">
-  <section class="col-10">
-    <div class="col-12 mx-auto">
+<main class="container-fluid">
+  <section class="mx-auto">
+    <section class="col-10">
       {% include 'partials/_campanha.html' %}
-
-      <div class="col-10 mx-auto">
-
+      <div class="info-section">
+        <h3 style="margin: 0.725em 0 !important; "> Consultas
+          <div class="border"></div>
+        </h3>
         {% if tipo == 2 %}
         <div class="container__consultas">
           <a href="{%url 'nova_consulta'%}" class="btn btnCustom btn-sm"> Agendar </i> </a>
         </div>
         {% endif %}
-        <div class="table-responsive">
+        <section class="table-responsive">
 
           <table class="table table-sm table-bordered table-striped text-center mx-auto agenda" id="consultas">
             <thead class="colorCustom">
@@ -23,13 +24,11 @@
                 <th scope="col">Paciente</th>
                 <th scope="col">CPF</th>
                 <th scope="col">Opções</th>
-
               </tr>
             </thead>
             <tbody>
               {% for consulta in consultas %}
               <tr>
-
                 <th scope="row">{{ consulta.data|date:'d/m/Y' }}</th>
                 <th scope="row">{{ consulta.hora }}</th>
                 <td>{{ consulta.paciente.nome }}</td>
@@ -50,12 +49,13 @@
               {% endfor %}
             </tbody>
           </table>
+          
+        </section>
+        <section class="mx-auto">
           <!--Paginação-->
-
           <nav aria-label="Page navigation example">
             {% if consultas.has_other_pages %}
             <ul class="pagination justify-content-center">
-
               {% if consultas.has_previous %}
               <li class="page-item">
                 <a class="page-link" href="?page={{ consultas.previous_page_number }}#consultas">&laquo;</a>
@@ -83,16 +83,12 @@
                 <a class="page-link">&raquo;</a>
               </li>
               {% endif %}
-
             </ul>
             {% endif %}
           </nav>
-
-        </div>
+        </section>
       </div>
-
-    </div>
-
+    </section>
   </section>
-</section>
+</main>
 {% endblock %}

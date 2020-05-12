@@ -181,7 +181,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Exame realizado em {{ exame.data_exame }}</h5>
+        <h5 class="modal-title">Exame realizado em {{ exame.data_exame|date:'d/m/Y' }}</h5>
+        <h5 class="modal-title">Paciente: {{ exame.paciente.nome }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
