@@ -1,13 +1,10 @@
+  
 {
-    "python.pythonPath": "C:\\Users\\Bruno Rocha\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
-    "python.linting.pylintArgs": [
-        "--load-plugins=pylint_django"
-    ],
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_django"],
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
-    "liveServer.settings.port": 5501,
     "python.formatting.provider": "autopep8",
-    "python.linting.pylamaEnabled": false,
-    "python.linting.banditEnabled": false
+    "python.pythonPath": "C:\\Program Files (x86)\\Python38-32\\python.exe",
+    "python.linting.flake8Enabled": false
    ,
 }
