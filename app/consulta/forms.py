@@ -4,9 +4,9 @@ from consulta.models import Consulta
 
 
 class CadConsulta(forms.ModelForm):
-	medico = forms.ChoiceField(label='Médicos disponíveis: ',)
-	paciente = forms.ChoiceField(label='Paciente: ',)
-	cpf = forms.CharField(label='CPF: ')
+	medico = forms.ChoiceField(label='Médicos disponíveis: ', required=True)
+	paciente = forms.ChoiceField(label='Paciente: ', required=True)
+	cpf = forms.CharField(label='CPF: ', required=True)
 	class Meta:
 		model = Consulta
 		fields = ['cpf', 'paciente', 'data', 'hora', 'medico']

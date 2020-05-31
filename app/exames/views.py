@@ -97,10 +97,8 @@ def salvar_pdf(request, exame_id):
     regex_syntax = r'\D'
 
     try:
-        #nome = dado_aux[1].strip()
-        #data_nasc = dado_aux[3].strip()
+       
         cpf = dado_aux[5].strip()
-        #convenio = dado_aux[7].strip()
         glicose = int(re.sub(regex_syntax, '', dado_aux[9]))
         ldl = int(re.sub(regex_syntax, '', dado_aux[11]))
         hdl = int(re.sub(regex_syntax, '', dado_aux[13]))

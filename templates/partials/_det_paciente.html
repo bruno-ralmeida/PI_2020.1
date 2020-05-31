@@ -182,7 +182,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Exame realizado em {{ exame.data_exame|date:'d/m/Y' }}</h5>
-        <h5 class="modal-title">Paciente: {{ exame.paciente.nome }}</h5>
+        <!-- <h5 class="modal-title">Paciente: {{ exame.paciente.nome }}</h5> -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -224,9 +224,9 @@
       </div>
       <div class="modal-footer">
         <!--Colocar o redirecionamento para o PDF {{ exame.pdf }}-->
-        <button type="button" class="btn btn-secondary btn-modal" data-dismiss="modal"> <i
+        <!-- <button type="button" class="btn btn-secondary btn-modal" data-dismiss="modal"> <i
             class="far fa-file-pdf"></i></i>
-          Exportar PDF</button>
+          Exportar PDF</button> -->
         <button type="button" class="btn btn-modal att" data-dismiss="modal"> Fechar</button>
       </div>
     </div>
