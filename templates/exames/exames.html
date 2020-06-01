@@ -9,7 +9,7 @@
       <!--Gráficos e Tabela Referência-->
       <section class="container__resultados">
         <!--Grafico Historico de exames-->
-        <div class="container__resultados__grafico">
+        <div class="container__resultados__grafico d-print-none">
           <canvas id="chart"></canvas>
         </div>
         <!--Tabela de referencia-->
@@ -125,7 +125,7 @@
           {% include 'partials/_alertas.html' %}
         </div>
         <!--Importador de PDF-->
-        <div class="formImportacao">
+        <div class="formImportacao d-print-none">
           <!--Formuladrio para importação-->
           <form action="{% url 'importar'%}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}

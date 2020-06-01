@@ -4,7 +4,7 @@
 {% block content %}
 {% if tipo == 1 %}
 <section id="exames">
-  <div class="card">
+  <div class="card d-print-none">
     <div class="info-section pr-3 pl-3">
       <h3> Histórico de exames <div class="border mb-5"></div>
       </h3>
@@ -163,11 +163,11 @@
       </li>
     </ul>
     {% endif %}
-    <ul class="list-group list-group-flush info mt-3" style="float: right;">
+    <ul class="list-group list-group-flush info mt-3 d-print-none" style="float: right;">
       <li>
         <a href="{% url 'altera_paciente' paciente.id %}" type="button" class="btn btn-secondary"
           style="color: #fff;">Alterar</a>
-        <button class="btn btn-info">Imprimir</button>
+        <button class="btn btn-info " onclick="window.print()">Imprimir</button>
       </li>
 
     </ul>
